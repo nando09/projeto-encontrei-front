@@ -28,6 +28,8 @@ import ServicePlans from '@/Pages/Admin/Cadaster/ServicePlans'
 // CLIENT
 import HomeClient from '@/Pages/Client/HomeClient'
 import EditData from '@/Pages/Client/EditData'
+import Products from '@/Pages/Client/Products'
+import AccessReport from '@/Pages/Client/AccessReport'
 
 
 
@@ -126,6 +128,16 @@ export default new Router({
           path: 'meus-dados',
           name: 'Editar Dados Cadastrais',
           component: EditData
+        },
+        {
+          path: 'produtos',
+          name: 'Produtos',
+          component: Products
+        },
+        {
+          path: 'relatorio',
+          name: 'Relatorio de Acessos',
+          component: AccessReport
         }
       ]}
   ]

@@ -5,7 +5,7 @@
 
       <div class="content">
         <TopMenu/>
-        <HomeClientContent/>
+        <ProductsContent/>
       </div>
 
       <Footer/>
@@ -17,13 +17,13 @@
 
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
-    import HomeClientContent from "@/components/contents/Client/HomeClientContent";
+    import ProductsContent from "@/components/contents/Client/ProductsContent";
     import SidebarClient from "@/components/Client/SidebarClient";
 
     export default {
-        name: 'HomeClient',
+        name: 'Products',
         components:{
-            HomeClientContent,
+            ProductsContent,
             SidebarClient,
             TopMenu,
             Footer

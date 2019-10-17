@@ -1,6 +1,10 @@
 <template>
   <div class="col-md-12">
-    <div class="card">
+
+
+    <PageTitle home="Encontrei" category="Parceiros" sub-category="Dados Cadastrais" titulo="Dados Cadastrais"/>
+
+    <div class="card mb-5">
       <div class="card-body">
 
 
@@ -89,7 +93,6 @@
                   <input v-model="fantasyName" type="text" class="form-control"
                          data-toggle="input-mask"
                          data-mask-format="00.000.000/0000-00">
-                  <span class="help-block"><small>Após verificação de sua conta na limkr, você não poderá mais alterar o CNPJ.</small></span>
                 </div>
               </div>
 

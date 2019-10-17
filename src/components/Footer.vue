@@ -8,9 +8,9 @@
         </div>
         <div class="col-md-6">
           <div class="text-md-right footer-links d-none d-md-block">
-            <a href="limkr-afiliado-termo.html">Termos de Uso</a>
-            <a href="limkr-afiliado-politica.html">Politicas de Privacidade</a>
-            <a href="limkr-afiliado-contato.html">Contato</a>
+            <a href="">Termos de Uso</a>
+            <a href="">Politicas de Privacidade</a>
+            <a href="">Contato</a>
           </div>
         </div>
       </div>

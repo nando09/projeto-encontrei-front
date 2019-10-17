@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Sidebar title="Área do Usuário"/>
+    <SidebarClient title="Área do Usuário"/>
     <div class="content-page">
 
       <div class="content">
@@ -15,21 +15,26 @@
 </template>
 <script>
 
-    import Sidebar from '@/components/sidebar/Sidebar'
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
     import EditDataContent from "@/components/contents/Client/EditDataContent";
+    import SidebarClient from "@/components/Client/SidebarClient";
 
     export default {
         name: 'EditData',
         components:{
             EditDataContent,
-            Sidebar,
+            SidebarClient,
             TopMenu,
             Footer
         },
         created() {
-
+            let usuarioAux = sessionStorage.getItem('usuario')
+            if (usuarioAux) {
+                this.usuario = JSON.parse(usuarioAux)
+            } else {
+                this.$router.push('/login');
+            }
         }
     }
 </script>

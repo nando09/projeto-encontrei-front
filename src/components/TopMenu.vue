@@ -4,7 +4,7 @@
 
       <li class="dropdown notification-list topbar-dropdown">
         <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown"
-           href="limkr-afiliado-dashboard.html" role="button"
+           href="" role="button"
            aria-haspopup="false" aria-expanded="false">
           <i class="dripicons-meter"></i> <span
           class="align-middle">Dashboard</span> <i class="mdi mdi-chevron-down"></i>
@@ -12,7 +12,7 @@
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu">
 
           <!-- item-->
-          <a href="limkr-afiliado-loja.html" class="dropdown-item notify-item">
+          <a href="" class="dropdown-item notify-item">
             <i class="dripicons-store"></i>
             <span class="align-middle">Loja</span>
           </a>

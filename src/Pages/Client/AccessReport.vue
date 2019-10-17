@@ -5,7 +5,7 @@
 
       <div class="content">
         <TopMenu/>
-        <HomeClientContent/>
+        <AccessReportContent/>
       </div>
 
       <Footer/>
@@ -17,13 +17,13 @@
 
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
-    import HomeClientContent from "@/components/contents/Client/HomeClientContent";
+    import AccessReportContent from "@/components/contents/Client/AccessReportContent";
     import SidebarClient from "@/components/Client/SidebarClient";
 
     export default {
-        name: 'HomeClient',
+        name: 'AccessReport',
         components:{
-            HomeClientContent,
+            AccessReportContent,
             SidebarClient,
             TopMenu,
             Footer

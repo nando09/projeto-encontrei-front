@@ -1,10 +1,9 @@
 <template>
-  <!-- Footer Start -->
   <!-- Start Content-->
   <div class="container-fluid">
 
     <!-- start page title -->
-    <PageTitle home="Encontrei" category="Home" sub-category="Painel" titulo="Dashboard"/>
+    <PageTitle home="Encontrei" category="Parceiros" sub-category="Dashboard" titulo="Dashboard"/>
     <!-- end page title -->
     <div class="container-fluid" style="background-color: #fff; margin-bottom: 20px">
       <div class="row">
@@ -287,14 +286,6 @@
             </div> <!-- end card body-->
         </div> <!-- end card -->
       </div><!-- end col-->
-
-
-
-
-
-
-
-
     </div>
   </div> <!-- container -->
 </template>
@@ -306,7 +297,7 @@
     import AreaSplineArea from '@/components/charts/AreaSplineArea';
 
     export default {
-        name: 'IndexContent',
+        name: 'HomeClientContent',
         props: [],
         data () {
             return {
