@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper">
-    <Sidebar title="Administração"/>
+    <Sidebar title="Área do Usuário"/>
     <div class="content-page">
 
       <div class="content">
         <TopMenu/>
-        <ProfileTradeServicesContent/>
+        <EditDataContent/>
 
       </div>
       <Footer/>
@@ -18,17 +18,19 @@
     import Sidebar from '@/components/sidebar/Sidebar'
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
-    import ProfileTradeServicesContent from "@/components/Contents/Cadaster/ProfileTradeServicesContent";
+    import EditDataContent from "@/components/contents/Client/EditDataContent";
 
     export default {
-        name: 'ProfileTradeServices',
+        name: 'EditData',
         components:{
-            ProfileTradeServicesContent,
+            EditDataContent,
             Sidebar,
             TopMenu,
             Footer
         },
+        created() {
 
+        }
     }
 </script>
 

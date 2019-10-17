@@ -5,7 +5,7 @@
 
       <div class="content">
         <TopMenu/>
-        <AccessProductsServicesContent/>
+        <ShopkeeperProviderContent/>
 
       </div>
       <Footer/>
@@ -18,16 +18,24 @@
     import Sidebar from '@/components/sidebar/Sidebar'
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
-    import AccessProductsServicesContent from "@/components/Contents/Report/AccessProductsServicesContent";
+    import ShopkeeperProviderContent from "@/components/Contents/Cadaster/ShopkeeperProviderContent";
 
     export default {
-        name: 'AccessProductsServices',
+        name: 'ShopkeeperProvider',
         components:{
-            AccessProductsServicesContent,
+            ShopkeeperProviderContent,
             Sidebar,
             TopMenu,
             Footer
         },
+        created() {
+            let usuarioAux = sessionStorage.getItem('usuario')
+            if (usuarioAux) {
+                this.usuario = JSON.parse(usuarioAux)
+            } else {
+                this.$router.push('/login');
+            }
+        }
 
     }
 </script>

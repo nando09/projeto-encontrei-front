@@ -16,7 +16,7 @@
           <p class="text-muted mb-4">Crie sua conta em 1 minuto.</p>
 
           <!-- form -->
-          <form action="#">
+<!--          <form action="#">-->
             <div class="form-group">
               <label for="fullname">Nome Completo</label>
               <input v-model="name" class="form-control" type="text" id="fullname" placeholder="" required>
@@ -73,7 +73,7 @@
                 </ul>
             </div>
             -->
-          </form>
+<!--          </form>-->
           <!-- end form-->
 
           <!-- Footer-->
@@ -90,7 +90,7 @@
     <!-- Auth fluid right content -->
     <div class="auth-fluid-right text-center">
       <div class="auth-user-testimonial">
-        <h2 class="mb-3">limkr</h2>
+        <h2 class="mb-3">Encontrei</h2>
         <p class="lead"><i class="mdi mdi-format-quote-open"></i> Sistema de Gestão <i
           class="mdi mdi-format-quote-close"></i>
         </p>

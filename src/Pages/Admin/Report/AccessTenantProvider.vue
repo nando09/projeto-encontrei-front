@@ -5,7 +5,7 @@
 
       <div class="content">
         <TopMenu/>
-        <HomeContent/>
+        <AccessTenantProviderContent/>
 
       </div>
       <Footer/>
@@ -18,19 +18,25 @@
     import Sidebar from '@/components/sidebar/Sidebar'
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
-    import HomeContent from "@/components/contents/HomeContent";
+    import AccessTenantProviderContent from "@/components/Contents/Report/AccessTenantProviderContent";
 
     export default {
-        name: 'Home',
+        name: 'AccessTenantProvider',
         components:{
-            HomeContent,
+            AccessTenantProviderContent,
             Sidebar,
             TopMenu,
             Footer
         },
         created() {
-
+            let usuarioAux = sessionStorage.getItem('usuario')
+            if (usuarioAux) {
+                this.usuario = JSON.parse(usuarioAux)
+            } else {
+                this.$router.push('/login');
+            }
         }
+
     }
 </script>
 

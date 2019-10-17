@@ -138,19 +138,31 @@
           </div>
 
           <!-- item-->
-          <TopMenuLink link="afiliado-dados-cadastro" text="Dados Cadastrais" icon="mdi mdi-account-circle mr-1"/>
+          <router-link to="/afiliado-dados-cadastro" class="dropdown-item notify-item">
+            <i class="mdi mdi-account-circle mr-1"></i>
+            <span class="align-middle">Dados Cadastrais</span>
+          </router-link>
+
+          <router-link to="/afiliado-saque" class="dropdown-item notify-item">
+            <i class="mdi mdi-account-edit mr-1"></i>
+            <span class="align-middle">Saque</span>
+          </router-link>
+
+          <router-link to="/" class="dropdown-item notify-item">
+            <i class="mdi mdi-lifebuoy mr-1"></i>
+            <span class="align-middle">Cartão Pré-pago</span>
+          </router-link>
+
+          <router-link to="/lock-screen" class="dropdown-item notify-item">
+            <i class="mdi mdi-lock-outline mr-1"></i>
+            <span class="align-middle">Bloquear Tela</span>
+          </router-link>
 
           <!-- item-->
-          <TopMenuLink link="afiliado-saque" text="Saque" icon="mdi mdi-account-edit mr-1"/>
-
-          <!-- item-->
-          <TopMenuLink link="/" text="Cartão Pré-pago" icon="mdi mdi-lifebuoy mr-1"/>
-
-          <!-- item-->
-          <TopMenuLink link="lock-screen" text="Bloquear Tela" icon="mdi mdi-lock-outline mr-1"/>
-
-          <!-- item-->
-          <TopMenuLink link="logout" text="Sair" icon="mdi mdi-logout mr-1"/>
+          <button v-on:click="logout"class="dropdown-item notify-item">
+            <i class="mdi mdi-logout mr-1"></i>
+            <span>Sair</span>
+          </button>
 
         </div>
       </li>
@@ -182,11 +194,13 @@
     export default {
         name: 'TopMenu',
         props: [],
-        components: {
-            TopMenuLink
+        data() {
+            return {}
         },
-        data () {
-            return {
+        methods: {
+            logout() {
+                sessionStorage.clear()
+                this.$router.push('/logout')
             }
         }
     }

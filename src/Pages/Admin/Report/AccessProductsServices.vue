@@ -5,7 +5,7 @@
 
       <div class="content">
         <TopMenu/>
-        <ServicePlansContent/>
+        <AccessProductsServicesContent/>
 
       </div>
       <Footer/>
@@ -18,16 +18,24 @@
     import Sidebar from '@/components/sidebar/Sidebar'
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
-    import ServicePlansContent from "@/components/Contents/Cadaster/ServicePlansContent";
+    import AccessProductsServicesContent from "@/components/Contents/Report/AccessProductsServicesContent";
 
     export default {
-        name: 'ServicePlans',
+        name: 'AccessProductsServices',
         components:{
-            ServicePlansContent,
+            AccessProductsServicesContent,
             Sidebar,
             TopMenu,
             Footer
         },
+        created() {
+            let usuarioAux = sessionStorage.getItem('usuario')
+            if (usuarioAux) {
+                this.usuario = JSON.parse(usuarioAux)
+            } else {
+                this.$router.push('/login');
+            }
+        }
 
     }
 </script>

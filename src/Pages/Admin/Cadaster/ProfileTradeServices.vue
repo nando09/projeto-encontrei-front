@@ -5,7 +5,7 @@
 
       <div class="content">
         <TopMenu/>
-        <AccessTenantProviderContent/>
+        <ProfileTradeServicesContent/>
 
       </div>
       <Footer/>
@@ -18,16 +18,24 @@
     import Sidebar from '@/components/sidebar/Sidebar'
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
-    import AccessTenantProviderContent from "@/components/Contents/Report/AccessTenantProviderContent";
+    import ProfileTradeServicesContent from "@/components/Contents/Cadaster/ProfileTradeServicesContent";
 
     export default {
-        name: 'AccessTenantProvider',
+        name: 'ProfileTradeServices',
         components:{
-            AccessTenantProviderContent,
+            ProfileTradeServicesContent,
             Sidebar,
             TopMenu,
             Footer
         },
+        created() {
+            let usuarioAux = sessionStorage.getItem('usuario')
+            if (usuarioAux) {
+                this.usuario = JSON.parse(usuarioAux)
+            } else {
+                this.$router.push('/login');
+            }
+        }
 
     }
 </script>

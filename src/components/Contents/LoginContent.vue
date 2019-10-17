@@ -17,7 +17,7 @@
           <p class="text-muted mb-4">Insira seu email e senha para acessar sua área de negócios</p>
 
           <!-- form -->
-          <form action="#">
+<!--          <form action="#">-->
             <div class="form-group">
               <label for="emailaddress">Email</label>
               <input v-model="email" class="form-control" type="email" id="emailaddress" required=""
@@ -38,7 +38,7 @@
               </div>
             </div>
             <div class="form-group mb-0 text-center">
-              <button class="btn btn-primary btn-block" v-on:click="login()"><i class="mdi mdi-login"></i> Entrar
+              <button class="btn btn-primary btn-block" v-on:click="login"><i class="mdi mdi-login"></i> Entrar
               </button>
             </div>
             <!-- social
@@ -64,7 +64,7 @@
                 </ul>
             </div>
             -->
-          </form>
+<!--          </form>-->
           <!-- end form-->
 
           <!-- Footer-->

@@ -5,7 +5,7 @@
 
       <div class="content">
         <TopMenu/>
-        <ProductContent/>
+        <HomeContent/>
 
       </div>
       <Footer/>
@@ -18,17 +18,24 @@
     import Sidebar from '@/components/sidebar/Sidebar'
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
-    import ProductContent from "@/components/Contents/Report/ProductContent";
+    import HomeContent from "@/components/contents/HomeContent";
 
     export default {
-        name: 'Product',
+        name: 'Home',
         components:{
-            ProductContent,
+            HomeContent,
             Sidebar,
             TopMenu,
             Footer
         },
-
+        created() {
+            let usuarioAux = sessionStorage.getItem('usuario')
+            if (usuarioAux) {
+                this.usuario = JSON.parse(usuarioAux)
+            } else {
+                this.$router.push('/login');
+            }
+        }
     }
 </script>
 
