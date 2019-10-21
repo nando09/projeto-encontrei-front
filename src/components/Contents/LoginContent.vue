@@ -122,7 +122,7 @@
                         if (response.data.token) {
                             console.log('login com succeso')
                             sessionStorage.setItem('usuario', JSON.stringify(response.data))
-                            this.$router.push('/');
+                            this.$router.push('/home');
                         } else if (response.data.status === false) {
                             console.log('dados invalidos')
                             alert('Login inválido!')
@@ -141,7 +141,7 @@
                     });
             },
             formCadaster(){
-                this.$router.push('/cadastro')
+                this.$router.push('/cadastro-usuario')
             }
         }
 

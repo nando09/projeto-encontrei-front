@@ -9,7 +9,7 @@
     import CadasterContent from "@/components/contents/CadasterContent"
 
     export default {
-        name: 'Cadastro',
+        name: 'CadasterAdmin',
         data () {
             return {
 

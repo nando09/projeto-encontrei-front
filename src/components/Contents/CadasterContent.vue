@@ -18,13 +18,12 @@
           <!-- form -->
 <!--          <form action="#">-->
             <div class="form-group">
-              <label for="fullname">Nome Completo</label>
+              <label for="fullname" required>Nome Completo</label>
               <input v-model="name" class="form-control" type="text" id="fullname" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="emailaddress">Email</label>
-              <input v-model="email" class="form-control" type="email" id="emailaddress" required
-                     placeholder="">
+              <input v-model="email" class="form-control" type="email" id="emailaddress" placeholder="" required>
             </div>
             <div class="form-group">
               <label for="password">Senha</label>
@@ -39,7 +38,7 @@
             </div>
             <div class="form-group">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="checkbox-signup">
+                <input type="checkbox" class="custom-control-input" id="checkbox-signup" required>
                 <label class="custom-control-label" for="checkbox-signup">Eu lí <a
                   href="javascript: void(0);" class="text-muted"> e concordo com termos e politicas do
                   site.</a></label>
@@ -50,31 +49,7 @@
                 Cadastre-se
               </button>
             </div>
-            <!-- social
-            <div class="text-center mt-4">
-                <p class="text-muted font-16">Sign up using</p>
-                <ul class="social-list list-inline mt-3">
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i
-                                class="mdi mdi-facebook"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i
-                                class="mdi mdi-google"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-info text-info"><i
-                                class="mdi mdi-twitter"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i
-                                class="mdi mdi-github-circle"></i></a>
-                    </li>
-                </ul>
-            </div>
-            -->
-<!--          </form>-->
-          <!-- end form-->
+
 
           <!-- Footer-->
           <footer class="footer footer-alt">
@@ -123,7 +98,6 @@
             Link
         },
         methods: {
-
             register() {
                 let data = {
                     name: this.name,
@@ -131,31 +105,32 @@
                     password: this.password,
                     password_confirmation: this.password_confirmation
                 }
-                axios.post('http://localhost:8000/api/register', {
-                    name: this.name,
-                    email: this.email,
-                    password: this.password,
-                    password_confirmation: this.password_confirmation
+                axios.post('http://localhost:8000/api/register', data,{
                 }).then(response => {
 
-                    console.log(response)
+                    console.log(response);
                     if (response.data.token) {
-                        alert('Cadastrado com sucesso!')
+                        alert('Cadastrado com sucesso!');
                         this.$router.push('/login')
-
-                    } else if (response.data) {
-                        if (response.data.name) {
-                            this.name_error = JSON.stringify(response.data.name).replace(/[\[\]/'"]+/g, '')
+                    } else {
+                        console.log("erros de validação");
+                        let erros = '';
+                        for (let erro of Object.values(response.data)) {
+                            erros += erro + "\n";
                         }
-                        if (response.data.email) {
-                            this.email_error = JSON.stringify(response.data.email).replace(/[\[\]/'"]+/g, '')
-                        }
-                        if (response.data.password) {
-                            this.password_error = JSON.stringify(response.data.password).replace(/[\[\]/'"]+/g, '')
-                        }
+                        alert(erros);
                     }
 
-                    this.postloading = false
+                    // if (response.data.name) {
+                    //     this.name_error = JSON.stringify(response.data.name).replace(/[\[\]/'"]+/g, '');
+                    // }
+                    // if (response.data.email) {
+                    //     this.email_error = JSON.stringify(response.data.email).replace(/[\[\]/'"]+/g, '')
+                    // }
+                    // if (response.data.password) {
+                    //     this.password_error = JSON.stringify(response.data.password).replace(/[\[\]/'"]+/g, '')
+                    // }
+                    // this.postloading = false
                 })
 
                 // .catch(e => {

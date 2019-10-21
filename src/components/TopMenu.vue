@@ -18,7 +18,7 @@
           </a>
 
           <!-- item-->
-          <a href="limkr-afiliado-convert-page.html" class="dropdown-item notify-item">
+          <a href="" class="dropdown-item notify-item">
             <i class="dripicons-article"></i>
             <span class="align-middle">Convert Pages</span>
           </a>
@@ -127,7 +127,7 @@
               <img src="/static/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
           </span>
           <span>
-              <span class="account-user-name">%nomeAfiliado%</span>
+              <span class="account-user-name">{{ nomeUsuario }}</span>
               <span class="account-position">%Status%</span>
           </span>
         </a>
@@ -138,20 +138,10 @@
           </div>
 
           <!-- item-->
-          <router-link to="/afiliado-dados-cadastro" class="dropdown-item notify-item">
-            <i class="mdi mdi-account-circle mr-1"></i>
-            <span class="align-middle">Dados Cadastrais</span>
-          </router-link>
-
-          <router-link to="/afiliado-saque" class="dropdown-item notify-item">
-            <i class="mdi mdi-account-edit mr-1"></i>
-            <span class="align-middle">Saque</span>
-          </router-link>
-
-          <router-link to="/" class="dropdown-item notify-item">
-            <i class="mdi mdi-lifebuoy mr-1"></i>
-            <span class="align-middle">Cartão Pré-pago</span>
-          </router-link>
+<!--          <router-link to="/afiliado-dados-cadastro" class="dropdown-item notify-item">-->
+<!--            <i class="mdi mdi-account-circle mr-1"></i>-->
+<!--            <span class="align-middle">Dados Cadastrais</span>-->
+<!--          </router-link>-->
 
           <router-link to="/lock-screen" class="dropdown-item notify-item">
             <i class="mdi mdi-lock-outline mr-1"></i>
@@ -159,7 +149,7 @@
           </router-link>
 
           <!-- item-->
-          <button v-on:click="logout"class="dropdown-item notify-item">
+          <button v-on:click="logout" class="dropdown-item notify-item">
             <i class="mdi mdi-logout mr-1"></i>
             <span>Sair</span>
           </button>
@@ -189,19 +179,42 @@
 </template>
 
 <script>
+
+    import axios from 'axios'
     import TopMenuLink from '@/components/TopMenuLink'
 
     export default {
         name: 'TopMenu',
         props: [],
         data() {
-            return {}
+            return {
+                nomeUsuario: '',
+                usuario: JSON.parse(sessionStorage.getItem('usuario')),
+            }
+        },
+        created(){
+            let usuarioAux = sessionStorage.getItem('usuario');
+            if(usuarioAux){
+                this.usuario = JSON.parse(usuarioAux);
+            }
+            axios.get('http://localhost:8000/api/users/'+this.usuario.id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: "Bearer " + this.usuario.token
+                }
+            })
+
+            .then(response => {
+                console.log(response.data)
+                this.nomeUsuario = response.data.name
+            })
+
         },
         methods: {
             logout() {
-                sessionStorage.clear()
+                sessionStorage.clear();
                 this.$router.push('/logout')
-            }
+            },
         }
     }
 </script>

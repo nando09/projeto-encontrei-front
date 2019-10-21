@@ -6,6 +6,7 @@ import ForgotPassword from '@/Pages/ForgotPassword'
 import LockScreen from '@/Pages/LockScreen'
 import Login from '@/Pages/Login'
 import Cadaster from '@/Pages/Cadaster'
+import CadasterAdmin from '@/Pages/CadasterAdmin'
 import Logout from '@/Pages/Logout'
 
 // ADMIN
@@ -39,7 +40,7 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'Home',
       component: Home
     },
@@ -49,9 +50,14 @@ export default new Router({
       component: Login
     },
     {
-      path: '/cadastro',
-      name: 'Cadaster',
+      path: '/cadastro-usuario',
+      name: 'User Cadaster',
       component: Cadaster
+    },
+    {
+      path: '/cadastro-admin',
+      name: 'Admin Cadaster',
+      component: CadasterAdmin
     },
     {
       path: '/logout',
