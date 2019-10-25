@@ -8,7 +8,7 @@
 
           <sidebar-item icon="dripicons-meter" link="/" text="DASHBOARD" style="font-size: 1rem !important;"/>
 
-          <sidebar-collapse icon="dripicons-cart" title="CADASTRO" >
+          <sidebar-collapse icon="dripicons-view-list-large" title="CADASTRO" >
 
             <sidebar-collapse link="/cadastro/lojista-prestador" icon="dripicons-cart" title="Lojista/Prestador de Serviços" >
 

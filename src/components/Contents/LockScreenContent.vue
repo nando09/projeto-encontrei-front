@@ -8,7 +8,7 @@
           <!-- Logo -->
           <div class="auth-brand text-center text-lg-left">
             <a href="/">
-              <span><img src="/static/images/logo.png" alt="" height="18"></span>
+              <span><img src="/static/images/logo-light.jpg" alt="" height="150"></span>
             </a>
           </div>
 
@@ -16,55 +16,34 @@
           <div class="text-center w-75 m-auto">
             <img src="/static/images/users/avatar-1.jpg" height="88" alt="user-image"
                  class="rounded-circle shadow">
-            <h4 class="text-dark-50 text-center mt-3 font-weight-bold">Olá ! %nomeAfiliado% </h4>
+            <h4 class="text-dark-50 text-center mt-3 font-weight-bold">Olá, <span class="account-user-name">{{ nomeUsuario }}</span> </h4>
             <p class="text-muted mb-4">Insira sua senha de acesso.</p>
           </div>
 
           <!-- form -->
-          <form action="#">
+<!--          <form action="#">-->
             <div class="form-group mb-3">
               <label for="password">Senha</label>
-              <input class="form-control" type="password" required="" id="password"
+              <input v-model="password" class="form-control" type="password" required="" id="password"
                      placeholder="sua senha">
             </div>
             <div class="form-group mb-0 text-center">
-              <a href="limkr-login.html">
-                <button class="btn btn-primary btn-block" type="submit"><i class="mdi mdi-login"></i> Entrar
+              <div>
+                <button class="btn btn-primary btn-block" v-on:click="login" type="submit"><i class="mdi mdi-login"></i> Entrar
                 </button>
-              </a>
+              </div>
             </div>
-            <!-- social
-            <div class="text-center mt-4">
-                <p class="text-muted font-16">Authentication in with</p>
-                <ul class="social-list list-inline mt-3">
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i
-                                class="mdi mdi-facebook"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i
-                                class="mdi mdi-google"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-info text-info"><i
-                                class="mdi mdi-twitter"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i
-                                class="mdi mdi-github-circle"></i></a>
-                    </li>
-                </ul>
-            </div>
-            -->
-          </form>
+<!--          </form>-->
           <!-- end form-->
 
           <!-- Footer-->
           <footer class="footer footer-alt">
 
-            <p class="text-muted">Não é você? volte ao <Link link="/login" classe="text-muted ml-1" text="Entrar"/></p>
+            <p class="text-muted">Não é você? volte ao
+              <button v-on:click="logout" class="btn btn-primary ml-1" text="Login">Login
+              </button>
+            </p>
 
-<!--            <p class="text-muted">Não é você? volte ao <a href="limkr-login.html" class="text-muted ml-1"><b>Entrar</b></a></p>-->
           </footer>
 
         </div> <!-- end .card-body -->
@@ -90,7 +69,9 @@
 </template>
 
 <script>
+
     import Link from '@/components/Link'
+    import axios from 'axios';
 
 
     export default {
@@ -98,13 +79,64 @@
         props: [],
         data () {
             return {
-
+                usuario: JSON.parse(sessionStorage.getItem('usuario')),
+                nomeUsuario: '',
+                password: '',
             }
         },
         components:{
             Link
+        },
+        created(){
+            let usuarioAux = sessionStorage.getItem('usuario');
+            if(usuarioAux){
+                this.usuario = JSON.parse(usuarioAux);
+            }
+            axios.get('http://localhost:8000/api/users/'+this.usuario.id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: "Bearer " + this.usuario.token
+                }
+            })
+                .then(response => {
+                    console.log(response.data)
+                    this.nomeUsuario = response.data.name
+                })
+        },
+        methods: {
+            login() {
+                axios.post('http://localhost:8000/api/login', {
+                    email: this.usuario.email,
+                    password: this.password,
+                })
+                    .then(response => {
+                        console.log(response)
+                        if (response.data.token) {
+                            console.log('login com succeso')
+                            sessionStorage.setItem('usuario', JSON.stringify(response.data))
+                            this.$router.push('/');
+                        } else if (response.data.status === false) {
+                            console.log('dados invalidos')
+                            alert('Login inválido!')
+                        } else {
+                            console.log('validação')
+                            let erros = ''
+                            for (let erro of Object.values(response.data)) {
+                                erros += erro + " "
+                            }
+                            alert(erros)
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        alert('servidor fora de área')
+                    });
+            },
+            logout() {
+                sessionStorage.clear();
+                this.$router.push('/login')
+            },
         }
-
     }
 </script>
 

@@ -2,29 +2,29 @@
   <div class="navbar-custom">
     <ul class="list-unstyled topbar-right-menu float-right mb-0">
 
-      <li class="dropdown notification-list topbar-dropdown">
-        <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown"
-           href="" role="button"
-           aria-haspopup="false" aria-expanded="false">
-          <i class="dripicons-meter"></i> <span
-          class="align-middle">Dashboard</span> <i class="mdi mdi-chevron-down"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu">
+<!--      <li class="dropdown notification-list topbar-dropdown">-->
+<!--        <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown"-->
+<!--           href="" role="button"-->
+<!--           aria-haspopup="false" aria-expanded="false">-->
+<!--          <i class="dripicons-meter"></i> <span-->
+<!--          class="align-middle">Dashboard</span> <i class="mdi mdi-chevron-down"></i>-->
+<!--        </a>-->
+<!--        <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu">-->
 
-          <!-- item-->
-          <a href="" class="dropdown-item notify-item">
-            <i class="dripicons-store"></i>
-            <span class="align-middle">Loja</span>
-          </a>
+<!--          &lt;!&ndash; item&ndash;&gt;-->
+<!--          <a href="" class="dropdown-item notify-item">-->
+<!--            <i class="dripicons-store"></i>-->
+<!--            <span class="align-middle">Loja</span>-->
+<!--          </a>-->
 
-          <!-- item-->
-          <a href="" class="dropdown-item notify-item">
-            <i class="dripicons-article"></i>
-            <span class="align-middle">Convert Pages</span>
-          </a>
+<!--          &lt;!&ndash; item&ndash;&gt;-->
+<!--          <a href="" class="dropdown-item notify-item">-->
+<!--            <i class="dripicons-article"></i>-->
+<!--            <span class="align-middle">Convert Pages</span>-->
+<!--          </a>-->
 
-        </div>
-      </li>
+<!--        </div>-->
+<!--      </li>-->
 
       <li class="dropdown notification-list">
         <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button"
@@ -143,7 +143,7 @@
 <!--            <span class="align-middle">Dados Cadastrais</span>-->
 <!--          </router-link>-->
 
-          <router-link to="/lock-screen" class="dropdown-item notify-item">
+          <router-link to="/bloquear-tela" class="dropdown-item notify-item">
             <i class="mdi mdi-lock-outline mr-1"></i>
             <span class="align-middle">Bloquear Tela</span>
           </router-link>
@@ -203,12 +203,10 @@
                     Authorization: "Bearer " + this.usuario.token
                 }
             })
-
             .then(response => {
                 console.log(response.data)
                 this.nomeUsuario = response.data.name
             })
-
         },
         methods: {
             logout() {

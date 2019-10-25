@@ -7,7 +7,7 @@
           <!-- Logo -->
           <div class="auth-brand text-center text-lg-left">
             <a href="/">
-              <span><img src="/static/images/logo.png" alt="" height="18"></span>
+              <span><img src="/static/images/logo-light.jpg" alt="" height="50"></span>
             </a>
           </div>
 
@@ -53,7 +53,7 @@
 
           <!-- Footer-->
           <footer class="footer footer-alt">
-            <p class="text-muted">Já possui conta?  <Link link="/login" classe="text-muted ml-1" text="Entrar"/></p>
+            <p class="text-muted">Já possui conta?  <Link link="/login" class="btn btn-primary ml-1" text="Entrar"/></p>
 <!--            <p class="text-muted">Já possui conta? <a href="limkr-login.html" class="text-muted ml-1"><b>Entrar</b></a></p>-->
           </footer>
 

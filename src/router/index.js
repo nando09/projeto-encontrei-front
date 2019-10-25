@@ -40,7 +40,7 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'Home',
       component: Home
     },
@@ -126,7 +126,7 @@ export default new Router({
         name: 'client',
         component: EmptyViewRouter,
         children:[{
-          path: 'home',
+          path: '/',
           name: 'Home Cliente',
           component: HomeClient
         },

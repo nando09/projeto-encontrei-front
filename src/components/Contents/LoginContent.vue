@@ -8,7 +8,7 @@
           <!-- Logo -->
           <div class="auth-brand text-center text-lg-left">
             <a href="/">
-              <span><img src="/static/images/logo.png" alt="" height="18"></span>
+              <span><img style="margin-bottom: 0px" src="/static/images/logo-light.jpg" alt="" height="150"></span>
             </a>
           </div>
 
@@ -122,7 +122,7 @@
                         if (response.data.token) {
                             console.log('login com succeso')
                             sessionStorage.setItem('usuario', JSON.stringify(response.data))
-                            this.$router.push('/home');
+                            this.$router.push('/');
                         } else if (response.data.status === false) {
                             console.log('dados invalidos')
                             alert('Login inválido!')

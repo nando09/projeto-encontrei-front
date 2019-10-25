@@ -6,7 +6,7 @@
         <sidebar-logo logo="/static/images/logo-light.png" heigth="120"/>
         <sidebar-vue sectionName="Parceiros">
 
-          <sidebar-item icon="dripicons-meter" link="/client/home" text="DASHBOARD" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-meter" link="/client/" text="DASHBOARD" style="font-size: 1rem !important;"/>
           <sidebar-item icon="dripicons-stack" link="/client/meus-dados" text="DADOS CADASTRAIS" style="font-size: 1rem !important;"/>
           <sidebar-item icon="dripicons-view-list" link="/client/produtos" text="PRODUTOS" style="font-size: 1rem !important;"/>
           <sidebar-item icon="dripicons-user-id" link="/client/relatorio" text="RELATÓRIO PERFIL" style="font-size: 1rem !important;"/>
