@@ -2,7 +2,7 @@
   <div class="container-fluid">
 
     <!-- start page title -->
-    <PageTitle home="Início" category="Cadastro" sub-category="Lojista/Prestador" titulo="Cadastro de Lojista/Prestador"/>
+    <PageTitle home="Início" category="Cadastro" sub-category="Anunciante/Prestador" titulo="Cadastro de Anunciante/Prestador"/>
     <!-- end page title -->
 
     <ShopkeeperProviderForm/>
