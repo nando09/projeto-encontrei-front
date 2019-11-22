@@ -29,7 +29,7 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="inputCity">Cidade</label>
-                  <input type="text" class="form-control" id="inputCity">
+                  <input type="text" class="form-control" id="inputCity" placeholder="Cidade">
                 </div>
                 <div class="form-group col-md-4">
                   <label for="inputState">Estado</label>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group col-md-2">
                   <label for="inputZip">CEP</label>
-                  <input type="text" class="form-control" id="inputZip">
+                  <input type="text" class="form-control" id="inputZip" placeholder="CEP">
                 </div>
               </div>
               <div class="form-group">
