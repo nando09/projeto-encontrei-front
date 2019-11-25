@@ -19,13 +19,13 @@
             <sidebar-item link="/cadastro/planos-servico" text="Planos de Serviço"/>
           </sidebar-collapse>
 
-<!--          <sidebar-collapse icon="dripicons-clipboard" title="RELATÓRIOS" >-->
-<!--            <sidebar-item link="/relatorio/usuario" text="Usuário"/>-->
-<!--            <sidebar-item link="/relatorio/parceiro" text="Lojista"/>-->
-<!--            <sidebar-item link="/relatorio/produto" text="Produto"/>-->
-<!--            <sidebar-item link="/relatorio/acesso-lojista-prestador" text="Acesso a lojista/prestador"/>-->
-<!--            <sidebar-item link="/relatorio/acesso-produto-servico" text="Acesso a produtos/serviços"/>-->
-<!--          </sidebar-collapse>-->
+          <sidebar-collapse icon="dripicons-clipboard" title="RELATÓRIOS" >
+            <sidebar-item link="/relatorio/usuario" text="Usuário"/>
+            <sidebar-item link="/relatorio/parceiro" text="Lojista"/>
+            <sidebar-item link="/relatorio/produto" text="Produto"/>
+            <sidebar-item link="/relatorio/acesso-lojista-prestador" text="Acesso a lojista/prestador"/>
+            <sidebar-item link="/relatorio/acesso-produto-servico" text="Acesso a produtos/serviços"/>
+          </sidebar-collapse>
 
 <!--          <sidebar-item icon="dripicons-article" link="" text="CONVERT PAGES"/>-->
 
