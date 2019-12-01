@@ -108,8 +108,8 @@
                     password: this.password,
                     password_confirmation: this.password_confirmation
                 }
-                // axios.post('https://localhost:8000/api/register', data,{
-                axios.post('https://service.encontrei.online/api/register', data,{
+                axios.post('http://localhost:8000/api/register', data,{
+                // axios.post('https://service.encontrei.online/api/register', data,{
                 }).then(response => {
 
                     console.log(response);

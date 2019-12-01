@@ -116,8 +116,8 @@
         components: {},
         methods: {
             login() {
-                // axios.post('https://localhost:8000/api/login', {
-                axios.post('https://service.encontrei.online/api/login', {
+                axios.post('http://localhost:8000/api/login', {
+                // axios.post('https://service.encontrei.online/api/login', {
                     email: this.email,
                     password: this.password,
                 })

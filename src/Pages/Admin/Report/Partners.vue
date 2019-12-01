@@ -186,8 +186,8 @@
             },
 
             getLojista(){
-                // axios.get('https://localhost:8000/api/prestador', {
-                axios.get('https://service.encontrei.online/api/prestador', {
+                axios.get('http://localhost:8000/api/prestador', {
+                // axios.get('https://service.encontrei.online/api/prestador', {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: "Bearer " + this.user.token
@@ -204,8 +204,8 @@
             },
 
             myProvider(ctx) {
-                // axios.get('https://localhost:8000/api/prestador', {
-                axios.get('https://service.encontrei.online/api/prestador', {
+                axios.get('http://localhost:8000/api/prestador', {
+                // axios.get('https://service.encontrei.online/api/prestador', {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: "Bearer " + this.user.token

@@ -1,146 +1,216 @@
 <template>
-  <div class="wrapper">
-    <Sidebar title="Administração"/>
-    <div class="content-page">
+	<div class="wrapper">
+		<Sidebar title="Administração"/>
+		<div class="content-page">
 
-      <div class="content">
-        <TopMenu/>
-        <div class="container-fluid">
+			<div class="content">
+				<TopMenu/>
+				<div class="container-fluid">
 
-          <!-- start page title -->
-          <PageTitle home="Início" category="Cadastro" sub-category="Produtos/Serviços" titulo="Cadastro de Produtos/Serviços"/>
-          <!-- end page title -->
+					<!-- start page title -->
+					<PageTitle home="Início" category="Cadastro" sub-category="Produtos/Serviços" titulo="Cadastro de Produtos/Serviços"/>
+					<!-- end page title -->
 
-          <div class="row">
-            <div class="col-xl-12">
-              <div class="card">
-                <div class="card-body">
+					<div class="row">
+						<div class="col-xl-12">
+							<div class="card">
+								<div class="card-body">
 
-                  <h4 class="header-title mb-3">Novo Produto</h4>
+									<h4 class="header-title mb-3">Novo Produto</h4>
 
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label>Nome do Produto:</label>
-                        <input type="text" class="form-control" required/>
-                      </div>
-                    </div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Nome do Produto:</label>
+												<input v-model='nome' type="text" class="form-control" required/>
+											</div>
+										</div>
 
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label>Valor:</label>
-                        <input type="text" class="form-control" required/>
-                      </div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Valor:</label>
+												<input v-model='preco' type="text" class="form-control" required/>
+											</div>
 
-                    </div>
+										</div>
 
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Foto</label>
-                        <input type="file" class="form-control" required/>
-                      </div>
-                    </div>
+										<div class="col-md-12">
+											<div class="form-group">
+												<label>Foto</label>
+												<input type="file" class="form-control" required/>
+											</div>
+										</div>
 
-                    <div class="row col-md-12 justify-content-center">
-                      <button class="btn btn-primary">Cadastrar</button>
-                    </div>
+										<div class="row col-md-12 justify-content-center">
+											<button @click="cadastraProduto()" class="btn btn-primary">Cadastrar</button>
+										</div>
 
-                  </div>
-                  <!-- end row-->
-                </div> <!-- end card-body-->
-              </div> <!-- end card-->
-            </div> <!-- end col -->
-          </div>
+									</div>
+									<!-- end row-->
+								</div> <!-- end card-body-->
+							</div> <!-- end card-->
+						</div> <!-- end col -->
+					</div>
+					<div class="table-responsive-sm">
+						<table class="table table-centered mb-0">
+							<thead>
+								<tr>
+									<th width="30%">Nome</th>
+									<th width="30%">Preço</th>
+									<th width="30%">Image</th>
+									<th>Ação</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in items">
+									<td>{{ item.nome }}</td>
+									<td>{{ item.preco }}</td>
+									<td>{{ item.image }}</td>
+									<td>
 
-        </div> <!-- container -->
+										<b-button id="show-btn" @click="showModal">Open Modal</b-button>
+										<b-button id="toggle-btn" @click="toggleModal">Toggle Modal</b-button>
 
-      </div>
-      <Footer/>
+										<b-modal ref="my-modal" hide-footer title="Using Component Methods">
+											<div class="d-block text-center">
+												<h3>Hello From My Modal!</h3>
+											</div>
+											<b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
+											<b-button class="mt-2" variant="outline-warning" block @click="toggleModal">Toggle Me</b-button>
+										</b-modal>
 
-    </div>
-  </div>
+<!-- 										<button class="btn btn-sm btn-info mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">
+											<i class="dripicons-document-edit"></i>
+										</button>
+										<button @click="deleteProduto(item.id)" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir">
+											<i class="dripicons-cross"></i>
+										</button> -->
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div> <!-- container -->
+
+			</div>
+			<Footer/>
+
+		</div>
+	</div>
 </template>
 <script>
 
-    import Sidebar from '@/components/sidebar/Sidebar'
-    import TopMenu from '@/components/TopMenu'
-    import Footer from '@/components/Footer'
-    import axios from 'axios';
-    import PageTitle from "@/components/PageTitle";
+		import Sidebar from '@/components/sidebar/Sidebar'
+		import TopMenu from '@/components/TopMenu'
+		import Footer from '@/components/Footer'
+		import axios from 'axios';
+		import PageTitle from "@/components/PageTitle";
 
-    export default {
-        name: 'ProductsService',
-        components:{
-            Sidebar,
-            TopMenu,
-            Footer,
-            PageTitle
-        },
-        data () {
-            return {
-                user					:	JSON.parse(sessionStorage.getItem('usuario')),
-                nome					:	'',
-                descricao				:	'',
-                formato					:	'',
-                tipo_de_cobranca		:	'',
-                tipo_de_precificacao	:	'',
-                preco					:	'',
-                disponivel				:	'',
-                quantidade_max			:	'',
-                garantia				:	'',
-                email					:	'',
-                categoria				:	'',
-                confirmar_dados			:	'',
-                gratis					:	'',
-            }
-        },
-        created() {
-            let usuarioAux = sessionStorage.getItem('usuario')
-            if (usuarioAux) {
-                this.usuario = JSON.parse(usuarioAux)
-            } else {
-                this.$router.push('/login');
-            }
-        },
-        methods: {
-            cadastraProduto(){
-                let data = {
-                    nome					:	this.nome,
-                    descricao				:	this.descricao,
-                    formato					:	this.formato,
-                    tipo_de_cobranca		:	this.tipo_de_cobranca,
-                    tipo_de_precificacao	:	this.tipo_de_precificacao,
-                    preco					:	this.preco,
-                    disponivel				:	this.disponivel,
-                    quantidade_max			:	this.quantidade_max,
-                    garantia				:	this.garantia,
-                    email					:	this.email,
-                    categoria				:	this.categoria,
-                    confirmar_dados			:	(this.confirmar_dados == "") ? '0' : '1',
-                    gratis					:	(this.gratis == "") ? '0' : '1',
-                };
+		export default {
+			name: 'ProductsService',
+			components:{
+				Sidebar,
+				TopMenu,
+				Footer,
+				PageTitle
+			},
+			data () {
+				return {
+					user					:	JSON.parse(sessionStorage.getItem('usuario')),
+					nome					:	'',
+					preco					:	'',
+					items					:	[],
+				}
+			},
+			created() {
+				let usuarioAux = sessionStorage.getItem('usuario')
+				if (usuarioAux) {
+					this.usuario = JSON.parse(usuarioAux);
+					this.getProduto();
+				} else {
+					this.$router.push('/login');
+				}
+			},
+			methods: {
+				cadastraProduto(){
+					let data = {
+						nome	:	this.nome,
+						preco	:	this.preco,
+					};
 
-                console.log(data);
+					// console.log(data);
 
-                // axios.post('https://localhost:8000/api/produto', data, {
-                axios.post('https://service.encontrei.online/api/produto', data, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + this.user.token
-                    }
-                })
-                    .then(response => {
-                        console.log(response.data);
-                        alert(response.data.nome + " cadastrado com sucesso!");
-                        this.responsavel = response.data;
-                    })
-                    .catch(e => {
-                        console.log(e);
-                        alert('servidor fora de área')
-                    });
-            }
-        }
-    };
+					axios.post('http://localhost:8000/api/produto', data, {
+					// axios.post('https://service.encontrei.online/api/produto', data, {
+						headers: {
+								'Content-Type': 'application/json',
+								Authorization: "Bearer " + this.user.token
+						}
+					})
+					.then(response => {
+						// console.log(response.data);
+						alert(response.data.nome + " cadastrado com sucesso!");
+						this.responsavel = response.data;
+						this.getProduto();
+						this.nome	=	'';
+						this.preco	=	'';
+					})
+					.catch(e => {
+							// console.log(e);
+							alert('servidor fora de área')
+					});
+				},
+
+				deleteProduto(id){
+					axios.delete('http://localhost:8000/api/produto/' + id, {
+					// axios.post('https://service.encontrei.online/api/produto', data, {
+						headers: {
+								'Content-Type': 'application/json',
+								Authorization: "Bearer " + this.user.token
+						}
+					})
+					.then(response => {
+						// console.log(response.data);
+						this.getProduto();
+					})
+					.catch(e => {
+						// console.log(e);
+						alert('servidor fora de área')
+					});
+				},
+
+				getProduto(){
+					axios.get('http://localhost:8000/api/produto', {
+					// axios.post('https://service.encontrei.online/api/produto', data, {
+						headers: {
+								'Content-Type': 'application/json',
+								Authorization: "Bearer " + this.user.token
+						}
+					})
+					.then(response => {
+						// console.log(response.data);
+						this.items = response.data;
+					})
+					.catch(e => {
+						// console.log(e);
+						alert('servidor fora de área')
+					});
+				},
+
+				showModal() {
+					this.$refs['my-modal'].show()
+				},
+				hideModal() {
+					this.$refs['my-modal'].hide()
+				},
+				toggleModal() {
+					// We pass the ID of the button that we want to return focus to
+					// when the modal has hidden
+					this.$refs['my-modal'].toggle('#toggle-btn')
+				}
+			}
+		};
 </script>
 
 <style>
