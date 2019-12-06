@@ -24,6 +24,7 @@ import ShopkeeperProvider from '@/Pages/Admin/Cadaster/ShopkeeperProvider'
 import ProductsService from '@/Pages/Admin/Cadaster/ProductsService'
 import ProfileTradeServices from '@/Pages/Admin/Cadaster/ProfileTradeServices'
 import ServicePlans from '@/Pages/Admin/Cadaster/ServicePlans'
+import Usuario from '@/Pages/Admin/Cadaster/Usuario'
 
 
 // CLIENT
@@ -74,6 +75,10 @@ export default new Router({
       name: 'Tela de Bloqueio',
       component: LockScreen
     },
+    {
+      path: '/dados-usuario',
+      component: Usuario
+    },
       {
           path: '/relatorio',
           name: 'Relatório',
@@ -119,7 +124,6 @@ export default new Router({
             path: 'planos-servico',
             component: ServicePlans
           }
-
       ]},
       {
         path: '/client',

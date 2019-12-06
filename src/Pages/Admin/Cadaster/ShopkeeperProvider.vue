@@ -20,45 +20,81 @@
 
 									<!-- <form> -->
 									<div class="form-row">
-										<div class="form-group col-md-6">
-											<label for="inputEmail4">Nome</label>
-											<input v-model="nome" type="text" class="form-control" id="inputEmail4" placeholder="Nome">
+										<div class="col-md-5">
+											<label for="nomefantasia">Nome Fantasia*</label>
+											<input v-model="nomefantasia" type="text" class="form-control mb-3" id="nomefantasia" placeholder="Nome Fantasia">
 										</div>
-										<div class="form-group col-md-6">
-											<label for="inputPassword4">Email</label>
-											<input v-model="email" type="email" class="form-control" id="inputPassword4" placeholder="Email">
+										<div class="col-md-5">
+											<label for="email">Email*</label>
+											<input v-model="email" type="email" class="form-control mb-3" id="email" placeholder="Email">
 										</div>
+
+                    <div class="col-md-2">
+                      <label for="cep">CEP</label>
+                      <input v-model="cep" type="text" class="form-control mb-3" id="cep" placeholder="CEP">
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="endereco">Endereço</label>
+                      <input v-model="endereco" type="text" class="form-control mb-3" id="endereco" placeholder="Endereço">
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="bairro">Bairro</label>
+                      <input v-model="bairro" type="text" class="form-control mb-3" id="bairro" placeholder="Bairro">
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="cidade">Cidade</label>
+                      <input v-model="cidade" type="text" class="form-control mb-3" id="cidade" placeholder="Cidade">
+                    </div>
+
+                    <div class="col-md-2">
+                      <label for="estado">Estado</label>
+                      <select v-model="estado" id="estado" class="form-control mb-3">
+                        <option selected>Selecionar...</option>
+                        <option value="SP">SP</option>
+                        <option value="MG">MG</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RS">RS</option>
+                        <option value="PE">PE</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-3">
+                      <label for="telefone">Telefone*</label>
+                      <input v-model="telefone" type="text" class="form-control mb-3" id="telefone" placeholder="Telefone">
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="site">Site*</label>
+                      <input v-model="site" type="text" class="form-control mb-3" id="site" placeholder="Site">
+                    </div>
+
+                    <div class="col-md-3">
+                      <label for="whatsapp">WhatsApp</label>
+                      <input v-model="whatsapp" type="text" class="form-control mb-3" id="whatsapp" placeholder="WhatsApp">
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="facebook">Facebook</label>
+                      <input v-model="facebook" type="text" class="form-control mb-3" id="facebook" placeholder="Facebook">
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="instagram">Instagram</label>
+                      <input v-model="instagram" type="text" class="form-control mb-3" id="instagram" placeholder="Instagram">
+                    </div>
+
+                    <div class="col-md-4">
+                      <label for="descricao">Descrição do Negócio*</label>
+                      <input v-model="descricao" type="text" class="form-control mb-3" id="descricao" placeholder="Descrição do Negócio">
+                    </div>
 									</div>
-									<div class="form-group">
-										<label for="inputAddress">Endereço</label>
-										<input v-model="endereco" type="text" class="form-control" id="inputAddress" placeholder="Endereço">
-									</div>
-<!--                  <div class="form-group">-->
-<!--                    <label for="inputAddress2">Endereço 2</label>-->
-<!--                    <input v-model="endereco2" type="text" class="form-control" id="inputAddress2" placeholder="Endereço 2">-->
-<!--                  </div>-->
-									<div class="form-row">
-										<div class="form-group col-md-6">
-											<label for="inputCity">Cidade</label>
-											<input v-model="cidade" type="text" class="form-control" id="inputCity" placeholder="Cidade">
-										</div>
-										<div class="form-group col-md-4">
-											<label for="inputState">Estado</label>
-											<select v-model="estado" id="inputState" class="form-control">
-												<option selected>Selecionar...</option>
-												<option value="SP">SP</option>
-												<option value="MG">MG</option>
-												<option value="RJ">RJ</option>
-												<option value="RS">RS</option>
-												<option value="PE">PE</option>
-											</select>
-										</div>
-										<div class="form-group col-md-2">
-											<label for="inputZip">CEP</label>
-											<input v-model="cep" type="text" class="form-control" id="inputZip" placeholder="CEP">
-										</div>
-									</div>
-									<button type="submit" class="btn btn-primary" @click="cadastraPrestador()">Cadastrar</button>
+
+                  <div class="row col-12 justify-content-center mt-2">
+									  <button type="submit" class="btn btn-primary" @click="cadastraPrestador()">Cadastrar</button>
+                  </div>
 									<!-- </form> -->
 								</div> <!-- end card body-->
 								<!-- <input type="text" v-model="search" placeholder="Pesquisar nome">
@@ -103,16 +139,20 @@
 				name: 'ShopkeeperProvider',
 				data () {
 						return {
-								user:			JSON.parse(sessionStorage.getItem('usuario')),
-								nome:			'',
-								email:			'',
-								endereco:		'',
-								endereco2:		'',
-								cidade:			'',
-								estado:			'',
-								cep:			'',
-								prestadores:	'',
-								search:			'',
+              user:			JSON.parse(sessionStorage.getItem('usuario')),
+              nomefantasia:			'',
+              email:			'',
+              cep:			'',
+              endereco:		'',
+              bairro:		'',
+              cidade:			'',
+              estado:			'',
+              telefone:	'',
+              site:			'',
+              whatsapp:	'',
+              facebook:			'',
+              instagram:	'',
+              descricao:			'',
 						}
 				},
 				components:{
@@ -141,14 +181,20 @@
 				methods: {
 						cadastraPrestador(){
 								let data = {
-										nome					:	this.nome,
-										email					:	this.email,
-										endereco			:	this.endereco,
-										endereco2			:	this.endereco2,
-										cidade				:	this.cidade,
-										estado				:	this.estado,
-										cep						:	this.cep,
-								};
+                nomefantasia					:	this.nomefantasia,
+                email					:	this.email,
+                cep						:	this.cep,
+                endereco			:	this.endereco,
+                bairro			:	this.bairro,
+                cidade				:	this.cidade,
+                estado				:	this.estado,
+                telefone			:	this.telefone,
+                site			:	this.site,
+                whatsapp				:	this.whatsapp,
+                facebook				:	this.facebook,
+                instagram				:	this.instagram,
+                descricao				:	this.descricao,
+            };
 
 								console.log(data);
 
