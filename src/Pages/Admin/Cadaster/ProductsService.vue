@@ -288,6 +288,8 @@ export default {
         });
     },
 
+    getAnunciante() {},
+
     getProduto() {
       // axios.get('http://localhost:8000/api/produto', {
       axios
