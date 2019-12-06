@@ -1,0 +1,35 @@
+Sistema
+•	Informar quais campos são necessários para o cadastro de usuário.
+Nome*
+E-mail*
+Senha*
+Ano de Nascimento*
+Cidade que mora*
+Cidade que trabalha*
+Dia e mês de nascimento
+Sexo/gênero
+Celular
+Foto
+Os campos com ‘*’ devem ser obrigatórios
+Colocar opção fazer de login com o Facebook e com o Gmail
+Colocar também opção de convidar amigos (‘sugerir app para amigos’ em algum lugar relativamente fácil)
+Pensar em alguma forma que ‘force’ a pessoa a se cadastrar, eu estava pensando em limitar os dados que a pessoa pode ver se não estiver cadastrada.
+Colocar uma mensagem falando que ‘os seus dados estarão protegidos conosco, não divulgaremos e nem compartilharemos esses dados, eles serão usados apenas para relatórios
+
+•	Informar campos necessários ao cadastro de Lojista (parceiro)
+
+Precisarei de ajuda e dicas do que poderíamos colocar neste campo, afinal, vocês já têm um conhecimento considerável neste sentido, mas, creio que o que conversamos já está de bom tamanho.
+
+Nome Fantasia
+Endereço Completo
+Horário
+Dias de Atendimento
+Telefone
+E-mail
+Site
+WhatsApp
+Facebook
+Instagram
+Descrição do Negócio (no perfil encontrado)
+Carrossel para fotos (em média 10 fotos)
+Traçar Rota (via API).
