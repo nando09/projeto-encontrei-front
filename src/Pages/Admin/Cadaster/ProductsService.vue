@@ -24,7 +24,7 @@
                     <div class="col-12">
                       <label for>Anunciante:</label>
                       <select class="form-control" name id>
-                        <option value></option>
+                        <option value="1">Teste</option>
                       </select>
                     </div>
                   </div>
