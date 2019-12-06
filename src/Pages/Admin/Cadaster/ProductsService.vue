@@ -141,8 +141,8 @@
 
 					// console.log(data);
 
-					axios.post('http://localhost:8000/api/produto', data, {
-					// axios.post('https://service.encontrei.online/api/produto', data, {
+					// axios.post('http://localhost:8000/api/produto', data, {
+					axios.post('https://service.encontrei.online/api/produto', data, {
 						headers: {
 								'Content-Type': 'application/json',
 								Authorization: "Bearer " + this.user.token
@@ -163,8 +163,8 @@
 				},
 
 				deleteProduto(id){
-					axios.delete('http://localhost:8000/api/produto/' + id, {
-					// axios.post('https://service.encontrei.online/api/produto', data, {
+					// axios.delete('http://localhost:8000/api/produto/' + id, {
+					axios.post('https://service.encontrei.online/api/produto', data, {
 						headers: {
 								'Content-Type': 'application/json',
 								Authorization: "Bearer " + this.user.token
@@ -181,8 +181,8 @@
 				},
 
 				getProduto(){
-					axios.get('http://localhost:8000/api/produto', {
-					// axios.post('https://service.encontrei.online/api/produto', data, {
+					// axios.get('http://localhost:8000/api/produto', {
+					axios.post('https://service.encontrei.online/api/produto', data, {
 						headers: {
 								'Content-Type': 'application/json',
 								Authorization: "Bearer " + this.user.token

@@ -91,8 +91,8 @@
             if(usuarioAux){
                 this.usuario = JSON.parse(usuarioAux);
             }
-            axios.get('http://localhost:8000/api/users/'+this.usuario.id, {
-            // axios.get('https://service.encontrei.online/api/users/'+this.usuario.id, {
+            // axios.get('http://localhost:8000/api/users/'+this.usuario.id, {
+            axios.get('https://service.encontrei.online/api/users/'+this.usuario.id, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: "Bearer " + this.usuario.token
@@ -105,8 +105,8 @@
         },
         methods: {
             login() {
-                axios.post('http://localhost:8000/api/login', {
-                // axios.post('https://service.encontrei.online/api/login', {
+                // axios.post('http://localhost:8000/api/login', {
+                axios.post('https://service.encontrei.online/api/login', {
                     email: this.usuario.email,
                     password: this.password,
                 })

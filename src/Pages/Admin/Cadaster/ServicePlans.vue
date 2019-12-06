@@ -119,8 +119,8 @@
                     nome				: this.nome,
                 };
 
-                axios.post('http://localhost:8000/api/plano-servico', data, {
-                // axios.post('https://service.encontrei.online/api/plano-servico', data, {
+                // axios.post('http://localhost:8000/api/plano-servico', data, {
+                axios.post('https://service.encontrei.online/api/plano-servico', data, {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: "Bearer " + this.user.token
@@ -139,8 +139,8 @@
             },
 
             getPlanos(){
-                axios.get('http://localhost:8000/api/plano-servico', {
-                // axios.get('https://service.encontrei.online/api/plano-servico', {
+                // axios.get('http://localhost:8000/api/plano-servico', {
+                axios.get('https://service.encontrei.online/api/plano-servico', {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: "Bearer " + this.user.token

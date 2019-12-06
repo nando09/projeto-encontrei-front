@@ -129,8 +129,8 @@
 								this.$router.push('/login');
 						}
 
-						this.$http.get('http://localhost:8000/api/prestador').then(function(data){
-						// this.$http.get('https://service.encontrei.online/api/prestador').then(function(data){
+						// this.$http.get('http://localhost:8000/api/prestador').then(function(data){
+						this.$http.get('https://service.encontrei.online/api/prestador').then(function(data){
 								this.prestadores = data.body.slice(0, 10);
 						});
 						this.getPrestador();
@@ -152,8 +152,8 @@
 
 								console.log(data);
 
-								axios.post('http://localhost:8000/api/prestador', data, {
-								// axios.post('https://service.encontrei.online/api/prestador', data, {
+								// axios.post('http://localhost:8000/api/prestador', data, {
+								axios.post('https://service.encontrei.online/api/prestador', data, {
 										headers: {
 												'Content-Type': 'application/json',
 												Authorization: "Bearer " + this.user.token
@@ -171,8 +171,8 @@
 						},
 
 						getPrestador(){
-								axios.get('http://localhost:8000/api/prestador', {
-								// axios.get('https://service.encontrei.online/api/prestador', {
+								// axios.get('http://localhost:8000/api/prestador', {
+								axios.get('https://service.encontrei.online/api/prestador', {
 										headers: {
 												'Content-Type': 'application/json',
 												Authorization: "Bearer " + this.user.token
