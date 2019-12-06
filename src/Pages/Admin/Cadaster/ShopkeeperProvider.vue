@@ -196,7 +196,7 @@
 							descricao		:	this.descricao,
 						};
 
-						console.log(data);
+						// console.log(data);
 
 						// axios.post('http://localhost:8000/api/prestador', data, {
 						axios.post('https://service.encontrei.online/api/prestador', data, {
@@ -207,8 +207,50 @@
 						})
 						.then(response => {
 							console.log(response.data);
-							alert(response.data.nome + " cadastrado com sucesso!");
-							this.responsavel = response.data;
+							if (response.data.id) {
+								alert(response.data.nomefantasia + " cadastrado com sucesso!");
+								this.responsavel = response.data;
+
+								this.nomefantasia		=	'';
+								this.email				=	'';
+								this.cep				=	'';
+								this.endereco			=	'';
+								this.bairro				=	'';
+								this.cidade				=	'';
+								this.estado				=	'';
+								this.telefone			=	'';
+								this.site				=	'';
+								this.whatsapp			=	'';
+								this.facebook			=	'';
+								this.instagram			=	'';
+								this.descricao			=	'';
+
+							}else{
+								let errs = '';
+								if (response.data.nomefantasia) {
+									errs = errs + response.data.nomefantasia;
+									errs = errs + '\n';
+								}
+								if (response.data.email) {
+									errs = errs + response.data.email;
+									errs = errs + '\n';
+								}
+								if (response.data.telefone) {
+									errs = errs + response.data.telefone;
+									errs = errs + '\n';
+								}
+								if (response.data.site) {
+									errs = errs + response.data.site;
+									errs = errs + '\n';
+								}
+								if (response.data.descricao) {
+									errs = errs + response.data.descricao;
+								}
+
+								alert(errs);
+
+								console.log(errs);
+							}
 						})
 						.catch(e => {
 							console.log(e);
@@ -238,7 +280,6 @@
 						axios.get('https://viacep.com.br/ws/' + this.cep + '/json')
 							.then(response => {
 								console.log(response.data)
-								this.cep = response.data.cep;
 								this.endereco = response.data.logradouro;
 								this.bairro = response.data.bairro;
 								this.cidade = response.data.localidade;
