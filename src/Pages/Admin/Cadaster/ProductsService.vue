@@ -29,18 +29,18 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Valor:</label>
-												<input v-model='preco' type="text" class="form-control" required/>
+												<input v-model='preco' type="number" class="form-control" required/>
 											</div>
 
 										</div>
 
-										<div class="col-md-12">
+<!-- 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Foto</label>
 												<input type="file" class="form-control" required/>
 											</div>
 										</div>
-
+ -->
 										<div class="row col-md-12 justify-content-center">
 											<button @click="cadastraProduto()" class="btn btn-primary">Cadastrar</button>
 										</div>
@@ -55,9 +55,8 @@
 						<table class="table table-centered mb-0">
 							<thead>
 								<tr>
-									<th width="30%">Nome</th>
-									<th width="30%">Preço</th>
-									<th width="30%">Image</th>
+									<th width="45%">Nome</th>
+									<th width="45%">Preço</th>
 									<th>Ação</th>
 								</tr>
 							</thead>
@@ -65,26 +64,14 @@
 								<tr v-for="item in items">
 									<td>{{ item.nome }}</td>
 									<td>{{ item.preco }}</td>
-									<td>{{ item.image }}</td>
 									<td>
-
-										<b-button id="show-btn" @click="showModal">Open Modal</b-button>
-										<b-button id="toggle-btn" @click="toggleModal">Toggle Modal</b-button>
-
-										<b-modal ref="my-modal" hide-footer title="Using Component Methods">
-											<div class="d-block text-center">
-												<h3>Hello From My Modal!</h3>
-											</div>
-											<b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close Me</b-button>
-											<b-button class="mt-2" variant="outline-warning" block @click="toggleModal">Toggle Me</b-button>
-										</b-modal>
-
-<!-- 										<button class="btn btn-sm btn-info mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">
-											<i class="dripicons-document-edit"></i>
+										<button class="btn btn-sm btn-info mr-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar">
+										<i class="dripicons-document-edit"></i>
 										</button>
-										<button @click="deleteProduto(item.id)" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir">
-											<i class="dripicons-cross"></i>
-										</button> -->
+										<button @click="deleteProduto(item
+										.id)" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Excluir">
+										<i class="dripicons-cross"></i>
+										</button>
 									</td>
 								</tr>
 							</tbody>
@@ -163,26 +150,26 @@
 				},
 
 				deleteProduto(id){
+					console.log(id);
 					// axios.delete('http://localhost:8000/api/produto/' + id, {
-					axios.post('https://service.encontrei.online/api/produto', data, {
+					axios.delete('https://service.encontrei.online/api/produto/' + id, {
 						headers: {
 								'Content-Type': 'application/json',
 								Authorization: "Bearer " + this.user.token
 						}
 					})
 					.then(response => {
-						// console.log(response.data);
+						alert(response.data.nome + ' deletado com sucesso!');
 						this.getProduto();
 					})
 					.catch(e => {
-						// console.log(e);
 						alert('servidor fora de área')
 					});
 				},
 
 				getProduto(){
 					// axios.get('http://localhost:8000/api/produto', {
-					axios.post('https://service.encontrei.online/api/produto', data, {
+					axios.get('https://service.encontrei.online/api/produto', {
 						headers: {
 								'Content-Type': 'application/json',
 								Authorization: "Bearer " + this.user.token
