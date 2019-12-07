@@ -12,11 +12,11 @@
 
             <sidebar-collapse link="/cadastro/lojista-prestador" icon="dripicons-cart" title="Anunciante/Prestador de Serviços" >
 
-              <sidebar-item link="/cadastro/lojista-prestador" text="Anunciante/Prestador"/>
+              <sidebar-item link="/cadastro/lojista-prestador" text="Anunciante/Prestador" style="padding-left: 30px"/>
 <!--              <sidebar-item link="/cadastro/perfil-comercio-servicos" text="Perfil de Comércio/Serviços"/>-->
-              <sidebar-item link="/cadastro/produtos-servicos" text="Produtos/Serviços"/>
+              <sidebar-item link="/cadastro/produtos-servicos" text="Produtos/Serviços" style="padding-left: 30px"/>
             </sidebar-collapse>
-            <sidebar-item link="/cadastro/planos-servico" text="Planos de Serviço"/>
+            <sidebar-item link="/cadastro/planos-servico" text="Planos de Serviço" style="padding-left: 0px"/>
           </sidebar-collapse>
 
           <sidebar-collapse icon="dripicons-clipboard" title="RELATÓRIOS" >

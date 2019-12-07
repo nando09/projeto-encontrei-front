@@ -6,11 +6,12 @@
         <sidebar-logo logo="/static/images/logo-light.png" heigth="120"/>
         <sidebar-vue sectionName="Parceiros">
 
-          <sidebar-item icon="dripicons-meter" link="/client/" text="DASHBOARD" style="font-size: 1rem !important;"/>
-          <sidebar-item icon="dripicons-stack" link="/client/meus-dados" text="DADOS CADASTRAIS" style="font-size: 1rem !important;"/>
-          <sidebar-item icon="dripicons-view-list" link="/client/produtos" text="PRODUTOS" style="font-size: 1rem !important;"/>
-          <sidebar-item icon="dripicons-user-id" link="/client/relatorio" text="RELATÓRIO PERFIL" style="font-size: 1rem !important;"/>
-          <sidebar-item icon="dripicons-user" link="/dados-usuario" text="MEUS DADOS" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-meter" link="/usuario/" text="DASHBOARD" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-stack" link="/usuario/meus-dados" text="DADOS CADASTRAIS" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-view-list" link="/usuario/produtos" text="PRODUTOS" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-user-id" link="/usuario/relatorio/produtos" text="RELATÓRIO PRODUTOS" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-user-id" link="/usuario/relatorio" text="RELATÓRIO PERFIL" style="font-size: 1rem !important;"/>
+<!--          <sidebar-item icon="dripicons-user" link="/dados-usuario" text="MEUS DADOS" style="font-size: 1rem !important;"/>-->
 
           <div class="slimScrollBar" style="background: rgb(158, 165, 171); width: 8px; position: absolute; top: 1px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 731.378px;"></div>
           <div class="slimScrollRail" style="width: 8px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>

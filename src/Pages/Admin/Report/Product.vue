@@ -30,7 +30,7 @@
                           type="search"
                           id="filterInput"
                           placeholder="Clique para pesquisar"
-                        ></b-form-input>
+                        />
                         <b-input-group-append>
                           <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
                         </b-input-group-append>
@@ -69,7 +69,7 @@
                           id="perPageSelect"
                           size="sm"
                           :options="pageOptions"
-                        ></b-form-select>
+                        />
                       </b-form-group>
                     </b-col>
 
@@ -81,7 +81,7 @@
                         align="fill"
                         size="sm"
                         class="my-0"
-                      ></b-pagination>
+                      />
                     </b-col>
                   </b-row>
 
@@ -105,6 +105,7 @@
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
     import PageTitle from "@/components/PageTitle";
+    import axios from "axios";
 
     export default {
         name: 'Product',
@@ -124,33 +125,17 @@
         },
         data () {
             return {
+              user:			JSON.parse(sessionStorage.getItem('usuario')),
                 fields: [
-                    {
-                        key: 'nome',
-                        sortable: true,
-                    },
-                    {
-                        key: 'categoria',
-                        sortable: true,
-                    },
-                    {
-                        key: 'preco',
-                        sortable: true,
-                    },
-                    {
-                        key: 'quantidade',
-                        sortable: true,
-                    },
-                    {
-                        key: 'data',
-                        sortable: true,
-                    }
+                    { key: 'Nome', sortable: true, },
+                    { key: 'Anunciante', sortable: true, },
+                    { key: 'Valor', sortable: true, },
                 ],
-                items: [
-                    { isActive: true, nome: "%Nome%", categoria: "%Categoria%", preco: "%Preço%", quantidade: "%Quantidade%", data: "%Data%"},
-                    { isActive: true, nome: "%Nome%", categoria: "%Categoria%", preco: "%Preço%", quantidade: "%Quantidade%", data: "%Data%"},
-                    { isActive: true, nome: "%Nome%", categoria: "%Categoria%", preco: "%Preço%", quantidade: "%Quantidade%", data: "%Data%"},
-                ],
+                // items: [
+                //     { isActive: true, nome: "%Nome%", categoria: "%Categoria%", preco: "%Preço%", quantidade: "%Quantidade%", data: "%Data%"},
+                //     { isActive: true, nome: "%Nome%", categoria: "%Categoria%", preco: "%Preço%", quantidade: "%Quantidade%", data: "%Data%"},
+                //     { isActive: true, nome: "%Nome%", categoria: "%Categoria%", preco: "%Preço%", quantidade: "%Quantidade%", data: "%Data%"},
+                // ],
                 totalRows: 1,
                 currentPage: 1,
                 perPage: 5,
@@ -174,6 +159,7 @@
             }
         },
         mounted() {
+          this.getProdutos();
             // Set the initial number of items
             this.totalRows = this.items.length
         },
@@ -182,7 +168,39 @@
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
-            }
+            },
+
+          getProdutos() {
+            axios.get("https://service.encontrei.online/api/produto", {
+              // axios.get('http://localhost:8000/api/produto', {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + this.user.token
+              }
+            })
+              .then(response => {
+                this.produtos = response.data;
+                let items = [];
+                let produtos = this.produtos;
+
+                for (let produto of produtos) {
+                  let object = {
+                    Nome: produto.nome,
+                    Anunciante: produto.anunciante,
+                    Valor: produto.preco,
+                  };
+                  items.push(object);
+                  console.log(produto.nome);
+                }
+                this.items = items;
+                this.totalRows = this.items.length;
+                console.log(this.produtos);
+              })
+              .catch(e => {
+                console.log(e);
+                alert("servidor fora de área");
+              });
+          },
         }
 
     }

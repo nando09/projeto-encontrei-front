@@ -39,8 +39,8 @@
 
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Foto</label>
-                        <input type="file" class="form-control" required/>
+                        <label class="custom-file-label">Foto</label>
+                        <input type="file" class="custom-file-input" required/>
                       </div>
                     </div>
 

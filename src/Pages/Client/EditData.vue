@@ -32,28 +32,28 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Nome</label>
-                        <input v-model="username" type="text" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
+                        <input v-model="nome" type="text" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
                       </div>
                     </div>
 
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Email</label>
-                        <input v-model="username" type="text" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
+                        <input v-model="email" type="text" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
                       </div>
                     </div>
 
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>País</label>
-                        <select v-model="selectedCountry" class="form-control select2" data-toggle="select2">
+                        <select v-model="pais" class="form-control select2" data-toggle="select2">
                           <option selected>Brasil</option>
-                          <option>%Nome do País%</option>
-                          <option>%Nome do País%</option>
-                          <option>%Nome do País%</option>
-                          <option>%Nome do País%</option>
-                          <option>%Nome do País%</option>
-                          <option>%Nome do País%</option>
+                          <option>Argentina</option>
+                          <option>Uruguai</option>
+                          <option>Chile</option>
+                          <option>Bolivia</option>
+                          <option>Colombia</option>
+                          <option>Paraguai</option>
                         </select>
                       </div>
                     </div>
@@ -61,7 +61,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Tipo de Cadastro</label>
-                        <select v-model="selectedCadasterType" class="form-control">
+                        <select v-model="tipo" class="form-control">
                           <option>Pessoa Fisica</option>
                           <option>Pessoa Juridica</option>
                         </select>
@@ -74,21 +74,21 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Razão Social</label>
-                        <input v-model="corporateNumber" type="text" class="form-control">
+                        <input v-model="razao_social" type="text" class="form-control">
                       </div>
                     </div>
 
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Nome Fantasia</label>
-                        <input v-model="corporateName" type="text" class="form-control">
+                        <input v-model="nome_fantasia" type="text" class="form-control">
                       </div>
                     </div>
 
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Data Nascimento</label>
-                        <input v-model="birthDate" type="date" class="form-control"
+                        <input v-model="data_nascimento" type="date" class="form-control"
                                data-toggle="input-mask" data-mask-format="(00) 0000-0000">
                       </div>
                     </div>
@@ -96,7 +96,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>CNPJ</label>
-                        <input v-model="fantasyName" type="text" class="form-control"
+                        <input v-model="cnpj" type="text" class="form-control"
                                data-toggle="input-mask"
                                data-mask-format="00.000.000/0000-00">
                       </div>
@@ -112,7 +112,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Celular</label>
-                        <input v-model="cellphoneNumber" type="text" class="form-control"
+                        <input v-model="celular" type="text" class="form-control"
                                placeholder="+55 (xx) xxxxx-xxxx"
                                data-toggle="input-mask"
                                data-mask-format="+00 (00) 00000-0000">
@@ -123,7 +123,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Telefone</label>
-                        <input v-model="phoneNumber" type="text" class="form-control"
+                        <input v-model="telefone" type="text" class="form-control"
                                placeholder="+55 (xx) xxxx-xxxx"
                                data-toggle="input-mask" data-mask-format="(00) 0000-0000">
                         <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>
@@ -160,44 +160,44 @@
 
                   <div class="form-row">
                     <div class="form-group col-md-3">
-                      <label for="inputZip" class="col-form-label">CEP</label>
-                      <input v-model="zipcode" type="text" class="form-control" id="inputZip"
+                      <label for="cep" class="col-form-label">CEP</label>
+                      <input v-model="cep" type="text" class="form-control" id="cep"
                              data-toggle="input-mask" data-mask-format="00000-000">
                     </div>
 
                     <div class="form-group col-md-7">
-                      <label for="inputAddress99" class="col-form-label">Endereço</label>
-                      <input v-model="address" type="text" class="form-control" id="inputAddress99"
+                      <label for="endereco" class="col-form-label">Endereço</label>
+                      <input v-model="endereco" type="text" class="form-control" id="endereco"
                              placeholder="">
                     </div>
 
                     <div class="form-group col-md-2">
-                      <label for="inputAddress98" class="col-form-label">Número</label>
-                      <input v-model="addressNumber" type="text" class="form-control" id="inputAddress98"
+                      <label for="numero" class="col-form-label">Número</label>
+                      <input v-model="numero" type="text" class="form-control" id="numero"
                              data-toggle="input-mask" data-mask-format="000000">
                     </div>
 
                     <div class="form-group col-md-2">
-                      <label for="inputAddress2" class="col-form-label">Complemento</label>
-                      <input v-model="complement" type="text" class="form-control" id="inputAddress2"
+                      <label for="complemento" class="col-form-label">Complemento</label>
+                      <input v-model="complemento" type="text" class="form-control" id="complemento"
                              placeholder="">
                     </div>
 
                     <div class="form-group col-md-4">
-                      <label for="inputBlock" class="col-form-label">Bairro</label>
-                      <input v-model="district" type="text" class="form-control" id="inputBlock">
+                      <label for="bairro" class="col-form-label">Bairro</label>
+                      <input v-model="bairro" type="text" class="form-control" id="bairro">
                     </div>
                     <div class="form-group col-md-4">
-                      <label for="inputCity" class="col-form-label">Cidade</label>
-                      <input v-model="city" type="text" class="form-control" id="inputCity">
+                      <label for="cidade" class="col-form-label">Cidade</label>
+                      <input v-model="cidade" type="text" class="form-control" id="cidade">
                     </div>
                     <div class="form-group col-md-2">
-                      <label for="inputState" class="col-form-label">Estado</label>
-                      <input v-model="state" type="text" class="form-control text-uppercase" id="inputState"
+                      <label for="estado" class="col-form-label">Estado</label>
+                      <input v-model="estado" type="text" class="form-control text-uppercase" id="estado"
                              data-toggle="input-mask" data-mask-format="AA">
                     </div>
 
-                    <button type="button" class="btn btn-primary" v-on:click="update">
+                    <button type="button" class="btn btn-primary" @click="updateUsuario(this.user.id)">
                       <i class="mdi mdi-content-save-outline mr-1"></i>
                       <span>Salvar </span>
                     </button>
@@ -223,26 +223,87 @@
     import PageTitle from '@/components/PageTitle';
     import CardBody from '@/components/CardBody';
     import AreaSplineArea from '@/components/charts/AreaSplineArea';
+    import axios from "axios";
 
     export default {
-        name: 'EditData',
-        components:{
-            SidebarClient,
-            TopMenu,
-            Footer,
-            CardBody,
-            PieSimpleDonut,
-            PageTitle,
-            AreaSplineArea
-        },
-        created() {
-            let usuarioAux = sessionStorage.getItem('usuario')
-            if (usuarioAux) {
-                this.usuario = JSON.parse(usuarioAux)
-            } else {
-                this.$router.push('/login');
-            }
+      name: 'EditData',
+      data () {
+        return {
+          user:			JSON.parse(sessionStorage.getItem('usuario')),
+          nome:			'',
+          email:			'',
+          nome_responsavel:			'',
+          razao_social:			'',
+          nome_fantasia:			'',
+          cnpj:			'',
+          telefone:	'',
+          site:			'',
+          descricao:			'',
+          cep:			'',
+          endereco:		'',
+          numero:			'',
+          complemento:			'',
+          bairro:		'',
+          cidade:			'',
+          estado:			'',
+          pais: '',
+          tipo: '',
         }
+      },
+      components:{
+          SidebarClient,
+          TopMenu,
+          Footer,
+          CardBody,
+          PieSimpleDonut,
+          PageTitle,
+          AreaSplineArea
+      },
+      created() {
+          let usuarioAux = sessionStorage.getItem('usuario')
+          if (usuarioAux) {
+              this.usuario = JSON.parse(usuarioAux)
+          } else {
+              this.$router.push('/login');
+          }
+      },
+
+      updateUsuario(id) {
+        console.log(nome);
+        let data = {
+          nome: this.usuario.nome,
+          email: this.usuario.email,
+          razao_social: this.usuario.razao_social,
+          nome_fantasia: this.usuario.nome_fantasia,
+          cnpj: this.usuario.cnpj,
+          telefone: this.usuario.telefone,
+          cep: this.usuario.cep,
+          endereco: this.usuario.endereco,
+          numero: this.usuario.numero,
+          complemento: this.usuario.complemento,
+          bairro: this.usuario.bairro,
+          cidade: this.usuario.cidade,
+          estado: this.usuario.estado,
+          pais: this.usuario.pais,
+          tipo: this.usuario.tipo,
+        };
+
+        // axios.put('http://localhost:8000/api/users/'+id, data,{
+        axios.put(
+            "https://service.encontrei.online/api/users/" + id,
+            data,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + this.user.token
+              }
+            }
+          )
+          .then(response => {
+            alert("Atualizado com sucesso!");
+            console.log(response);
+          });
+      }
     }
 </script>
 

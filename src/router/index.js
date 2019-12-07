@@ -32,6 +32,7 @@ import HomeClient from '@/Pages/Client/HomeClient'
 import EditData from '@/Pages/Client/EditData'
 import Products from '@/Pages/Client/Products'
 import AccessReport from '@/Pages/Client/AccessReport'
+import RelatorioProdutosCliente from '@/Pages/Client/RelatorioProdutosCliente'
 
 
 
@@ -126,12 +127,12 @@ export default new Router({
           }
       ]},
       {
-        path: '/client',
-        name: 'client',
+        path: '/usuario',
+        name: 'usuario',
         component: EmptyViewRouter,
         children:[{
           path: '/',
-          name: 'Home Cliente',
+          name: 'Home Usuário',
           component: HomeClient
         },
         {
@@ -148,6 +149,11 @@ export default new Router({
           path: 'relatorio',
           name: 'Relatorio de Acessos',
           component: AccessReport
+        },
+        {
+          path: 'relatorio/produtos',
+          name: 'Relatorio de Produtos',
+          component: RelatorioProdutosCliente
         }
       ]}
   ]

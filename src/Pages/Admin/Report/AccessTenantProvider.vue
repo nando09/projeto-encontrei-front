@@ -105,6 +105,7 @@
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
     import PageTitle from "@/components/PageTitle";
+    import axios from "axios";
 
     export default {
         name: 'AccessTenantProvider',
@@ -124,56 +125,34 @@
         },
         data () {
             return {
+                user:			JSON.parse(sessionStorage.getItem('usuario')),
                 fields: [
-                    {
-                        key: 'data',
-                        sortable: true
-                    },
-                    {
-                        key: 'cidade',
-                        sortable: true
-                    },
-                    {
-                        key: 'estado',
-                        sortable: true,
-                    },
-                    {
-                        key: 'segmento',
-                        sortable: true,
-                    },
-                    {
-                        key: 'acessoMaior',
-                        sortable: true,
-                    },
-                    {
-                        key: 'acessoMenor',
-                        sortable: true,
-                    },
-                    {
-                        key: 'sexo',
-                        sortable: true,
-                    },
-                    {
-                        key: 'idade',
-                        sortable: true,
-                    }
+                    { key: 'Nome', sortable: true },
+                    { key: 'Nome_Fantasia', sortable: true },
+                    { key: 'CNPJ', sortable: true, },
+                    { key: 'Email', sortable: true, },
+                    { key: 'Telefone', sortable: true, },
+                    // { key: 'Ação', sortable: true, },
+                    // { key: 'acessoMenor', sortable: true, },
+                    // { key: 'sexo', sortable: true, },
+                    // { key: 'idade', sortable: true, }
                 ],
-                items: [
-                    { isActive: true, data: "%23/10/2018%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                        acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                    { isActive: true, data: "%10/06/1998%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                        acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                    { isActive: true, data: "%04/07/2015%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                        acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                    { isActive: true, data: "%13/04/1999%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                        acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                    { isActive: true, data: "%28/02/2016%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                        acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                    { isActive: true, data: "%16/10/1990%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                        acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                    { isActive: true, data: "%23/01/2017%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                        acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                ],
+                // items: [
+                //     { isActive: true, data: "%23/10/2018%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
+                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
+                //     { isActive: true, data: "%10/06/1998%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
+                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
+                //     { isActive: true, data: "%04/07/2015%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
+                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
+                //     { isActive: true, data: "%13/04/1999%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
+                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
+                //     { isActive: true, data: "%28/02/2016%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
+                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
+                //     { isActive: true, data: "%16/10/1990%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
+                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
+                //     { isActive: true, data: "%23/01/2017%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
+                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
+                // ],
                 totalRows: 1,
                 currentPage: 1,
                 perPage: 5,
@@ -197,6 +176,7 @@
             }
         },
         mounted() {
+          this.getPrestador();
             // Set the initial number of items
             this.totalRows = this.items.length
         },
@@ -205,7 +185,42 @@
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
-            }
+            },
+
+            getPrestador(){
+              // axios.get('http://localhost:8000/api/prestador', {
+              axios.get('https://service.encontrei.online/api/prestador', {
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: "Bearer " + this.user.token
+                }
+              })
+                .then(response => {
+                  this.prestadores = response.data;
+                  let items = [];
+                  let prestadores = this.prestadores;
+
+                  for (let prestador of prestadores) {
+                    let object = {
+                      Nome: prestador.nome,
+                      Nome_Fantasia: prestador.nome_fantasia,
+                      CNPJ: prestador.cnpj,
+                      Email: prestador.email,
+                      Telefone: prestador.telefone,
+                    };
+                    items.push(object);
+                    console.log(prestador.nome);
+                  }
+                  this.items = items;
+                  this.totalRows = this.items.length;
+                  console.log(this.prestadores);
+                })
+                .catch(e => {
+                  console.log(e);
+                  alert('servidor fora de área')
+                });
+            },
+
         }
 
     }

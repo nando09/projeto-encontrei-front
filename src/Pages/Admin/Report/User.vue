@@ -105,6 +105,7 @@
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
     import PageTitle from "@/components/PageTitle";
+    import axios from "axios";
 
     export default {
         name: 'User',
@@ -124,39 +125,22 @@
         },
         data () {
             return {
+                user:			JSON.parse(sessionStorage.getItem('usuario')),
                 fields: [
-                    {
-                        key: 'nome',
-                        sortable: true,
-                    },
-                    {
-                        key: 'email',
-                        sortable: true,
-                    },
-                    {
-                        key: 'sexo',
-                        sortable: true,
-                    },
-                    {
-                        key: 'dataNascimento',
-                        sortable: true,
-                    },
-                    {
-                        key: 'celular',
-                        sortable: true,
-                    },
-                    {
-                        key: 'os',
-                        sortable: true,
-                    }
+                    { key: 'nome', sortable: true, },
+                    { key: 'email', sortable: true, },
+                    { key: 'sexo', sortable: true, },
+                    { key: 'dataNascimento', sortable: true, },
+                    { key: 'celular', sortable: true, },
+                    { key: 'os', sortable: true, }
                 ],
-                items: [
-                    { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                    { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                    { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                    { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                    { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                ],
+                // items: [
+                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
+                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
+                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
+                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
+                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
+                // ],
                 totalRows: 1,
                 currentPage: 1,
                 perPage: 5,
@@ -180,6 +164,7 @@
             }
         },
         mounted() {
+          this.getUsuarios();
             // Set the initial number of items
             this.totalRows = this.items.length
         },
@@ -188,7 +173,40 @@
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
-            }
+            },
+          getUsuarios(){
+            // axios.get('http://localhost:8000/api/usuario', {
+            axios.get('https://service.encontrei.online/api/users', {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + this.user.token
+              }
+            })
+              .then(response => {
+                this.usuarios = response.data;
+                let items = [];
+                let usuarios = this.usuarios;
+
+                for (let usuario of usuarios) {
+                  let object = {
+                    Nome: usuario.nome,
+                    Email: usuario.email,
+                    Sexo: usuario.sexo,
+                    Data: usuario.nascimento,
+                    Celular: usuario.celular,
+                  };
+                  items.push(object);
+                  console.log(usuario.nome);
+                }
+                this.items = items;
+                this.totalRows = this.items.length;
+                console.log(this.usuarios);
+              })
+              .catch(e => {
+                console.log(e);
+                alert('servidor fora de área')
+              });
+          },
         }
     }
 </script>
