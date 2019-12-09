@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
 	<div class="wrapper">
 		<Sidebar title="Administração" />
 		<div class="content-page">
@@ -35,7 +35,7 @@
 										</div>
 										<div class="col-12 mt-2">
 											<label>Descrição</label>
-											<input v-model="descricao" type="text" class="form-control" />
+                      <textarea v-model="descricao" type="text" class="form-control"/>
 										</div>
 
 										<div class="col-12">

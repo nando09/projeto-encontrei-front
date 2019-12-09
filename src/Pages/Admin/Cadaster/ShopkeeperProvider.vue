@@ -41,7 +41,7 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>Email*</label>
-                        <input v-model="email" type="text" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
+                        <input v-model="email" type="email" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
                       </div>
                     </div>
 
@@ -71,7 +71,7 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>CNPJ</label>
-                        <input v-model="cnpj" type="text" class="form-control" data-toggle="input-mask" data-mask-format="00.000.000/0000-00">
+                        <input v-model="cnpj" type="text" class="form-control" data-toggle="input-mask" data-mask-format="00.000.000/0000-00" v-mask-cnpj>
                       </div>
                     </div>
                   </div>
@@ -84,9 +84,9 @@
                       <div class="form-group">
                         <label>Telefone*</label>
                         <input v-model="telefone" type="text" class="form-control"
-                               placeholder="+55 (xx) xxxx-xxxx"
-                               data-toggle="input-mask" data-mask-format="(00) 0000-0000">
-                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>
+                               placeholder="(xx) xxxx-xxxx"
+                               data-toggle="input-mask" data-mask-format="(00) 0000-0000" v-mask-phone.br>
+<!--                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>-->
                       </div>
                     </div>
 
@@ -96,8 +96,8 @@
                         <input v-model="whatsapp" type="text" class="form-control"
                                placeholder="+55 (xx) xxxxx-xxxx"
                                data-toggle="input-mask"
-                               data-mask-format="+00 (00) 00000-0000">
-                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>
+                               data-mask-format="(00) 00000-0000" v-mask-phone.br>
+<!--                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>-->
                       </div>
                     </div>
 
@@ -155,7 +155,7 @@
                     <div class="form-group col-md-3">
                       <label for="cep" class="col-form-label">CEP*</label>
                       <input v-model="cep" type="text" class="form-control" id="cep" v-on:blur="buscar()"
-                             data-toggle="input-mask" data-mask-format="00000-000">
+                             data-toggle="input-mask" data-mask-format="00000-000" v-mask-cep>
                     </div>
 
                     <div class="form-group col-md-7">

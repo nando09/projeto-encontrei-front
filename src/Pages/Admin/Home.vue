@@ -85,11 +85,11 @@
                 </div> <!-- end card body-->
               </div> <!-- end card -->
             </div><!-- end col-->
-            <div class="col-xl-8">
+<!--            <div class="col-xl-8">-->
 
-              <MyNetworkCard/>
+<!--              <MyNetworkCard/>-->
 
-            </div><!-- end col-->
+<!--            </div>&lt;!&ndash; end col&ndash;&gt;-->
           </div>
         </div> <!-- container -->
 

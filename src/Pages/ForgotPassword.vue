@@ -53,7 +53,7 @@
             class="mdi mdi-format-quote-close"></i>
           </p>
           <p>
-            Área restrita a afilados
+            Área restrita a afiliados
           </p>
         </div> <!-- end auth-user-testimonial-->
       </div>

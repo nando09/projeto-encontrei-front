@@ -39,7 +39,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Email</label>
-                        <input v-model="email" type="text" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
+                        <input v-model="email" type="email" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
                       </div>
                     </div>
 
@@ -74,7 +74,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Razão Social</label>
-                        <input v-model="razao_social" type="text" class="form-control">
+                        <input v-model="razao_social" type="text" class="form-control" >
                       </div>
                     </div>
 
@@ -89,7 +89,7 @@
                       <div class="form-group">
                         <label>Data Nascimento</label>
                         <input v-model="data_nascimento" type="date" class="form-control"
-                               data-toggle="input-mask" data-mask-format="(00) 0000-0000">
+                               data-toggle="input-mask">
                       </div>
                     </div>
 
@@ -98,7 +98,7 @@
                         <label>CNPJ</label>
                         <input v-model="cnpj" type="text" class="form-control"
                                data-toggle="input-mask"
-                               data-mask-format="00.000.000/0000-00">
+                               data-mask-format="00.000.000/0000-00" v-mask-cnpj>
                       </div>
                     </div>
 
@@ -113,10 +113,10 @@
                       <div class="form-group">
                         <label>Celular</label>
                         <input v-model="celular" type="text" class="form-control"
-                               placeholder="+55 (xx) xxxxx-xxxx"
+                               placeholder="(xx) xxxxx-xxxx"
                                data-toggle="input-mask"
-                               data-mask-format="+00 (00) 00000-0000">
-                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>
+                               data-mask-format="(00) 00000-0000" v-mask-phone.br>
+<!--                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>-->
                       </div>
                     </div>
 
@@ -124,9 +124,9 @@
                       <div class="form-group">
                         <label>Telefone</label>
                         <input v-model="telefone" type="text" class="form-control"
-                               placeholder="+55 (xx) xxxx-xxxx"
-                               data-toggle="input-mask" data-mask-format="(00) 0000-0000">
-                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>
+                               placeholder="(xx) xxxx-xxxx"
+                               data-toggle="input-mask" data-mask-format="(00) 0000-0000" v-mask-phone.br>
+<!--                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>-->
                       </div>
                     </div>
 
@@ -162,7 +162,7 @@
                     <div class="form-group col-md-3">
                       <label for="cep" class="col-form-label">CEP</label>
                       <input v-model="cep" type="text" class="form-control" id="cep"
-                             data-toggle="input-mask" data-mask-format="00000-000">
+                             data-toggle="input-mask" data-mask-format="00000-000" v-mask-cep>
                     </div>
 
                     <div class="form-group col-md-7">
@@ -226,84 +226,103 @@
     import axios from "axios";
 
     export default {
-      name: 'EditData',
-      data () {
-        return {
-          user:			JSON.parse(sessionStorage.getItem('usuario')),
-          nome:			'',
-          email:			'',
-          nome_responsavel:			'',
-          razao_social:			'',
-          nome_fantasia:			'',
-          cnpj:			'',
-          telefone:	'',
-          site:			'',
-          descricao:			'',
-          cep:			'',
-          endereco:		'',
-          numero:			'',
-          complemento:			'',
-          bairro:		'',
-          cidade:			'',
-          estado:			'',
-          pais: '',
-          tipo: '',
-        }
-      },
-      components:{
-          SidebarClient,
-          TopMenu,
-          Footer,
-          CardBody,
-          PieSimpleDonut,
-          PageTitle,
-          AreaSplineArea
-      },
-      created() {
-          let usuarioAux = sessionStorage.getItem('usuario')
-          if (usuarioAux) {
-              this.usuario = JSON.parse(usuarioAux)
-          } else {
-              this.$router.push('/login');
-          }
-      },
-
-      updateUsuario(id) {
-        console.log(nome);
-        let data = {
-          nome: this.usuario.nome,
-          email: this.usuario.email,
-          razao_social: this.usuario.razao_social,
-          nome_fantasia: this.usuario.nome_fantasia,
-          cnpj: this.usuario.cnpj,
-          telefone: this.usuario.telefone,
-          cep: this.usuario.cep,
-          endereco: this.usuario.endereco,
-          numero: this.usuario.numero,
-          complemento: this.usuario.complemento,
-          bairro: this.usuario.bairro,
-          cidade: this.usuario.cidade,
-          estado: this.usuario.estado,
-          pais: this.usuario.pais,
-          tipo: this.usuario.tipo,
-        };
-
-        // axios.put('http://localhost:8000/api/users/'+id, data,{
-        axios.put(
-            "https://service.encontrei.online/api/users/" + id,
-            data,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + this.user.token
-              }
+        name: 'EditData',
+        data () {
+            return {
+              user:			JSON.parse(sessionStorage.getItem('usuario')),
+              nome:			'',
+              email:			'',
+              nome_responsavel:			'',
+              razao_social:			'',
+              nome_fantasia:			'',
+              cnpj:			'',
+              telefone:	'',
+              site:			'',
+              descricao:			'',
+              cep:			'',
+              endereco:		'',
+              numero:			'',
+              complemento:			'',
+              bairro:		'',
+              cidade:			'',
+              estado:			'',
+              pais: '',
+              tipo: '',
             }
-          )
-          .then(response => {
-            alert("Atualizado com sucesso!");
-            console.log(response);
+        },
+        components:{
+            SidebarClient,
+            TopMenu,
+            Footer,
+            CardBody,
+            PieSimpleDonut,
+            PageTitle,
+            AreaSplineArea
+        },
+
+        mounted: function() {
+          this.$viaCep.buscar(this.cep).then(obj => {
+            console.log(obj);
           });
-      }
+        },
+
+        created() {
+            let usuarioAux = sessionStorage.getItem('usuario')
+            if (usuarioAux) {
+                this.usuario = JSON.parse(usuarioAux)
+            } else {
+                this.$router.push('/login');
+            }
+        },
+
+        updateUsuario(id) {
+            console.log(nome);
+            let data = {
+              nome: this.usuario.nome,
+              email: this.usuario.email,
+              razao_social: this.usuario.razao_social,
+              nome_fantasia: this.usuario.nome_fantasia,
+              cnpj: this.usuario.cnpj,
+              telefone: this.usuario.telefone,
+              cep: this.usuario.cep,
+              endereco: this.usuario.endereco,
+              numero: this.usuario.numero,
+              complemento: this.usuario.complemento,
+              bairro: this.usuario.bairro,
+              cidade: this.usuario.cidade,
+              estado: this.usuario.estado,
+              pais: this.usuario.pais,
+              tipo: this.usuario.tipo,
+            };
+
+            // axios.put('http://localhost:8000/api/users/'+id, data,{
+            axios.put(
+                "https://service.encontrei.online/api/users/" + id,
+                data,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + this.user.token
+                  }
+                }
+              )
+              .then(response => {
+                alert("Atualizado com sucesso!");
+                console.log(response);
+            });
+        },
+
+        buscar() {
+            axios.get('https://viacep.com.br/ws/' + this.cep + '/json')
+              .then(response => {
+              console.log(response.data)
+              this.cep = response.data.cep;
+              this.endereco = response.data.logradouro;
+              this.bairro = response.data.bairro;
+              this.cidade = response.data.localidade;
+              this.estado = response.data.uf;
+            })
+          }
     }
 </script>
 

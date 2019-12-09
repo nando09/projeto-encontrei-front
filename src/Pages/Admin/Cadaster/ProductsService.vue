@@ -38,8 +38,8 @@
 
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Valor:</label>
-												<input v-model="preco" min="0" type="number" class="form-control" required />
+												<label>Valor: (R$)</label>
+												<input v-model="preco" min="0" type="text" class="form-control" required v-mask-decimal.br="2"/>
 											</div>
 										</div>
 
