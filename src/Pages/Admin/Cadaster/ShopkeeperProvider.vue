@@ -15,18 +15,19 @@
             <div class="card-body">
 
 
-              <ul class="nav nav-tabs nav-justified nav-bordered mb-3">
+              <ul class="nav nav-tabs nav-justified nav-bordered mb-3" role="tablist">
                 <li class="nav-item">
-                  <a data-toggle="tab" aria-expanded="false"
-                     class="nav-link active">
+                  <a data-toggle="tab" aria-expanded="false" class="nav-link active" href="dados" id="dados-tab" aria-selected="true" role="tab" aria-controls="dados">
                     <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
-                    <span class="d-none d-lg-block">Dados</span>
+                    <h3 class="d-none d-lg-block">Dados</h3>
                   </a>
                 </li>
               </ul>
 
+
+
               <div class="tab-content">
-                <div class="tab-pane show active" id="acesso">
+                <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">
 
                   <h4 class="header-title text-muted">Dados Pessoais</h4>
                   <div class="form-row">
@@ -189,21 +190,103 @@
                              data-toggle="input-mask" data-mask-format="AA">
                     </div>
 
-                    <button type="button" class="btn btn-primary" v-on:click="cadastraPrestador">
-                      <i class="mdi mdi-content-save-outline mr-1"></i>
-                      <span>Salvar </span>
-                    </button>
+                    <div class="row col-12 justify-content-center">
+                      <button type="button" class="btn btn-primary" v-on:click="cadastraPrestador">
+                        <i class="mdi mdi-content-save-outline mr-1"></i>
+                        <span>Salvar </span>
+                      </button>
+                    </div>
+
                   </div>
+                </div>
+
+                <hr style="border: 1px solid #003300">
+
+                <h3 class="text-center">Anunciantes/Prestadores cadastrados</h3>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <b-col lg="6" class="my-1">
+                          <b-form-group
+                            label="Filtro"
+                            label-cols-sm="3"
+                            label-align-sm="left"
+                            label-size="sm"
+                            label-for="filterInput"
+                            class="mb-0"
+                          >
+                            <b-input-group size="sm" class="mb-2">
+                              <b-form-input
+                                v-model="filter"
+                                type="search"
+                                id="filterInput"
+                                placeholder="Clique para pesquisar"
+                              ></b-form-input>
+                              <b-input-group-append>
+                                <b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+                              </b-input-group-append>
+                            </b-input-group>
+                          </b-form-group>
+                        </b-col>
+                        <b-table
+                          show-empty
+                          small
+                          stacked="sm"
+                          :current-page="currentPage"
+                          :per-page="perPage"
+                          :filter="filter"
+                          :filterIncludedFields="filterOn"
+                          :sort-by.sync="sortBy"
+                          :sort-desc.sync="sortDesc"
+                          :sort-direction="sortDirection"
+                          @filtered="onFiltered"
+                          id="basic-datatable" class="table dt-responsive nowrap" width="100%" responsive :fields="fields" :items="items">
+
+                        </b-table>
+                        <b-row>
+                          <b-col sm="5" md="6" class="my-1">
+                            <b-form-group
+                              label="Por página"
+                              label-cols-sm="6"
+                              label-cols-md="4"
+                              label-cols-lg="3"
+                              label-align-sm="left"
+                              label-size="sm"
+                              label-for="perPageSelect"
+                              class="mb-0"
+                            >
+                              <b-form-select
+                                v-model="perPage"
+                                id="perPageSelect"
+                                size="sm"
+                                :options="pageOptions"
+                              ></b-form-select>
+                            </b-form-group>
+                          </b-col>
+
+                          <b-col sm="7" md="6" class="my-1">
+                            <b-pagination
+                              v-model="currentPage"
+                              :total-rows="totalRows"
+                              :per-page="perPage"
+                              align="fill"
+                              size="sm"
+                              class="my-0"
+                            ></b-pagination>
+                          </b-col>
+                        </b-row>
+                      </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                  </div><!-- end col-->
                 </div>
               </div>
             </div>
           </div>
-
         </div> <!-- container -->
-
       </div>
       <Footer/>
-
     </div>
   </div>
 </template>
@@ -221,6 +304,24 @@
     data () {
       return {
         user:			JSON.parse(sessionStorage.getItem('usuario')),
+        fields: [
+          { key: 'Nome', sortable: true, },
+          { key: 'Email', sortable: true, },
+          { key: 'Sexo', sortable: true, },
+          { key: 'DataNascimento', sortable: true, },
+          { key: 'Celular', sortable: true, },
+          { key: 'OS', sortable: true, }
+        ],
+        totalRows: 1,
+        currentPage: 1,
+        perPage: 5,
+        pageOptions: [5, 10, 15],
+        sortBy: '',
+        sortDesc: false,
+        sortDirection: 'asc',
+        filter: null,
+        filterOn: [],
+
         nome:			'',
         email:			'',
         nome_responsavel:			'',
@@ -242,6 +343,18 @@
         estado:			'',
       }
     },
+
+    computed: {
+      sortOptions() {
+        // Create an options list from our fields
+        return this.fields
+          .filter(f => f.sortable)
+          .map(f => {
+            return { text: f.label, value: f.key }
+          })
+      }
+    },
+
     components:{
       Sidebar,
       TopMenu,
@@ -250,6 +363,9 @@
     },
 
     mounted: function() {
+      this.getUsuarios();
+      this.totalRows = this.items.length;
+
       this.$viaCep.buscar(this.cep).then(obj => {
         console.log(obj);
       });
@@ -262,17 +378,14 @@
       } else {
         this.$router.push('/login');
       }
-
-      // // this.$http.get('http://localhost:8000/api/prestador').then(function(data){
-      // this.$http.get('https://service.encontrei.online/api/prestador').then(function(data){
-      // 		this.prestadores = data.body.slice(0, 10);
-      // });
-      // this.getPrestador();
     },
-    computed: {
 
-    },
     methods: {
+      onFiltered(filteredItems) {
+        this.totalRows = filteredItems.length
+        this.currentPage = 1
+      },
+
       cadastraPrestador(){
         let data = {
           nome:	this.nome,
@@ -357,6 +470,40 @@
 
               console.log(errs);
             }
+          })
+          .catch(e => {
+            console.log(e);
+            alert('servidor fora de área')
+          });
+      },
+
+      getUsuarios(){
+        // axios.get('http://localhost:8000/api/usuario', {
+        axios.get('https://service.encontrei.online/api/users', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + this.user.token
+          }
+        })
+          .then(response => {
+            this.usuarios = response.data;
+            let items = [];
+            let usuarios = this.usuarios;
+
+            for (let usuario of usuarios) {
+              let object = {
+                Nome: usuario.nome,
+                Email: usuario.email,
+                Sexo: usuario.sexo,
+                DataNascimento: usuario.nascimento,
+                Celular: usuario.celular,
+              };
+              items.push(object);
+              console.log(usuario.nome);
+            }
+            this.items = items;
+            this.totalRows = this.items.length;
+            console.log(this.usuarios);
           })
           .catch(e => {
             console.log(e);

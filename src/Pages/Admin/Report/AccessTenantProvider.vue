@@ -199,11 +199,12 @@
                   this.prestadores = response.data;
                   let items = [];
                   let prestadores = this.prestadores;
+                  console.log(prestadores);
 
                   for (let prestador of prestadores) {
                     let object = {
                       Nome: prestador.nome,
-                      Nome_Fantasia: prestador.nome_fantasia,
+                      Nome_Fantasia: prestador.nomefantasia,
                       CNPJ: prestador.cnpj,
                       Email: prestador.email,
                       Telefone: prestador.telefone,

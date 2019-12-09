@@ -105,6 +105,7 @@
     import TopMenu from '@/components/TopMenu'
     import Footer from '@/components/Footer'
     import PageTitle from "@/components/PageTitle";
+    import axios from "axios";
 
     export default {
         name: 'AccessProductsServices',
@@ -125,37 +126,19 @@
         data () {
             return {
                 fields: [
-                    {
-                        key: 'produto',
-                        sortable: true
-                    },
-                    {
-                        key: 'codigo',
-                        sortable: true
-                    },
-                    {
-                        key: 'servico',
-                        sortable: true,
-                    },
-                    {
-                        key: 'segmento',
-                        sortable: true,
-                    },
-                    {
-                        key: 'valor',
-                        sortable: true,
-                    },
-                    {
-                        key: 'data',
-                        sortable: true,
-                    }
+                    { key: 'Produto', sortable: true },
+                    { key: 'Código', sortable: true },
+                    { key: 'Serviço', sortable: true, },
+                    { key: 'Segmento', sortable: true, },
+                    { key: 'Valor', sortable: true, },
+                    { key: 'Data', sortable: true, }
                 ],
-                items: [
-                    { isActive: true, produto: "%Produto143%", codigo: "%Código68%", servico: "%Serviço%", segmento: "%Segmento%", valor: "%Valor%", data: "%Data%" },
-                    { isActive: true, produto: "%Produto124%", codigo: "%Código54%", servico: "%Serviço%", segmento: "%Segmento%", valor: "%Valor%", data: "%Data%" },
-                    { isActive: true, produto: "%Produto13%", codigo: "%Código098%", servico: "%Serviço%", segmento: "%Segmento%", valor: "%Valor%", data: "%Data%" },
-                    { isActive: true, produto: "%Produto432%", codigo: "%Código54%", servico: "%Serviço%", segmento: "%Segmento%", valor: "%Valor%", data: "%Data%" },
-                ],
+                // items: [
+                //     { isActive: true, produto: "%Produto143%", codigo: "%Código68%", servico: "%Serviço%", segmento: "%Segmento%", valor: "%Valor%", data: "%Data%" },
+                //     { isActive: true, produto: "%Produto124%", codigo: "%Código54%", servico: "%Serviço%", segmento: "%Segmento%", valor: "%Valor%", data: "%Data%" },
+                //     { isActive: true, produto: "%Produto13%", codigo: "%Código098%", servico: "%Serviço%", segmento: "%Segmento%", valor: "%Valor%", data: "%Data%" },
+                //     { isActive: true, produto: "%Produto432%", codigo: "%Código54%", servico: "%Serviço%", segmento: "%Segmento%", valor: "%Valor%", data: "%Data%" },
+                // ],
                 totalRows: 1,
                 currentPage: 1,
                 perPage: 5,

@@ -39,7 +39,7 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Valor:</label>
-												<input v-model="preco" type="number" class="form-control" required />
+												<input v-model="preco" min="0" type="number" class="form-control" required />
 											</div>
 										</div>
 
@@ -62,100 +62,108 @@
 						</div>
 						<!-- end col -->
 					</div>
-					<div class="table-responsive-sm">
-						<table class="table table-centered mb-0">
-							<thead>
-								<tr>
-									<th width="45%">Nome</th>
-									<th width="45%">Preço</th>
-									<th>Ação</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="item in items">
-									<td>{{ item.nome }}</td>
-									<td>{{ item.preco }}</td>
-									<td>
-										<button
-											@click="editarProduto(item.id)"
-											class="btn btn-sm btn-info mr-2"
-											data-toggle="modal"
-											data-placement="top"
-											title
-											data-original-title="Editar"
-											type="button"
-											data-target="#modalEdit"
-										>
-											<i class="dripicons-document-edit"></i>
-										</button>
-										<button
-											@click="deleteProduto(item.id)"
-											class="btn btn-sm btn-danger"
-											data-toggle="tooltip"
-											data-placement="top"
-											title
-											data-original-title="Excluir"
-										>
-											<i class="dripicons-cross"></i>
-										</button>
-									</td>
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive-sm">
+                    <table class="table table-centered mb-0">
+                      <thead>
+                        <tr>
+                          <th width="45%">Nome</th>
+                          <th width="45%">Preço</th>
+                          <th>Ação</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in items">
+                          <td>{{ item.nome }}</td>
+                          <td>{{ item.preco }}</td>
+                          <td>
+                            <button
+                              @click="editarProduto(item.id)"
+                              class="btn btn-sm btn-info mr-2"
+                              data-toggle="modal"
+                              data-placement="top"
+                              title
+                              data-original-title="Editar"
+                              type="button"
+                              data-target="#modalEdit"
+                            >
+                              <i class="dripicons-document-edit"></i>
+                            </button>
+                            <button
+                              @click="deleteProduto(item.id)"
+                              class="btn btn-sm btn-danger"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title
+                              data-original-title="Excluir"
+                            >
+                              <i class="dripicons-cross"></i>
+                            </button>
+                          </td>
 
-									<div
-										class="modal fade"
-										id="modalEdit"
-										tabindex="-1"
-										role="dialog"
-										aria-labelledby="exampleModalLabel"
-										aria-hidden="true"
-									>
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLabel">Editar Produto</h5>
-													<button
-														type="button"
-														class="close"
-														data-dismiss="modal"
-														aria-label="Fechar"
-													>
-														<span aria-hidden="true">&times;</span>
-													</button>
-												</div>
-												<div class="modal-body">
-													<form action class="form-group">
-														<div class="col-12 d-inline-flex">
-															<div class="col-6">
-																<label for>Nome</label>
-																<input type="text" class="form-control" v-model="updateNome" />
-															</div>
-															<input type="hidden" v-model="updateId" />
-															<div class="col-6">
-																<label for>Preço</label>
-																<input type="number" class="form-control" v-model="updatePreco" />
-															</div>
-														</div>
-													</form>
-												</div>
-												<div class="modal-footer">
-													<button
-														type="button"
-														class="btn btn-secondary"
-														data-dismiss="modal"
-													>Fechar</button>
-													<button
-														type="button"
-														class="btn btn-primary"
-														data-dismiss="modal"
-														@click="updateProduto()"
-													>Salvar mudanças</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+                          <div
+                            class="modal fade"
+                            id="modalEdit"
+                            tabindex="-1"
+                            role="dialog"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true"
+                          >
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Editar Produto</h5>
+                                  <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Fechar"
+                                  >
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <form action class="form-group">
+                                    <div class="col-12 d-inline-flex">
+                                      <div class="col-6">
+                                        <label for>Nome</label>
+                                        <input type="text" class="form-control" v-model="updateNome" />
+                                      </div>
+                                      <input type="hidden" v-model="updateId" />
+                                      <div class="col-6">
+                                        <label for>Preço</label>
+                                        <input type="number" class="form-control" v-model="updatePreco" />
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-dismiss="modal"
+                                  >Fechar</button>
+                                  <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    data-dismiss="modal"
+                                    @click="updateProduto()"
+                                  >Salvar mudanças</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 				</div>
 				<!-- container -->
 			</div>

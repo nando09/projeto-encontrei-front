@@ -9,8 +9,8 @@
 					<PageTitle
 						home="Início"
 						category="Cadastro"
-						sub-category="Produtos/Serviços"
-						titulo="Cadastro de Produtos/Serviços"
+						sub-category="Planos de Serviço"
+						titulo="Cadastro de Planos de Serviço"
 					/>
 					<!-- end page title -->
 
@@ -46,7 +46,7 @@
 												@click="cadastraPlano()"
 											>
 												<i class="mdi mdi-content-save-outline mr-1"></i>
-												<span>Salvar</span>
+												<span>Cadastrar</span>
 											</button>
 										</div>
 									</form>

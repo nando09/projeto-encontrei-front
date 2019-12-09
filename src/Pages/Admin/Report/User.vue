@@ -127,12 +127,12 @@
             return {
                 user:			JSON.parse(sessionStorage.getItem('usuario')),
                 fields: [
-                    { key: 'nome', sortable: true, },
-                    { key: 'email', sortable: true, },
-                    { key: 'sexo', sortable: true, },
-                    { key: 'dataNascimento', sortable: true, },
-                    { key: 'celular', sortable: true, },
-                    { key: 'os', sortable: true, }
+                    { key: 'Nome', sortable: true, },
+                    { key: 'Email', sortable: true, },
+                    { key: 'Sexo', sortable: true, },
+                    { key: 'DataNascimento', sortable: true, },
+                    { key: 'Celular', sortable: true, },
+                    { key: 'OS', sortable: true, }
                 ],
                 // items: [
                 //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
@@ -170,7 +170,6 @@
         },
         methods: {
             onFiltered(filteredItems) {
-                // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
             },
@@ -192,7 +191,7 @@
                     Nome: usuario.nome,
                     Email: usuario.email,
                     Sexo: usuario.sexo,
-                    Data: usuario.nascimento,
+                    DataNascimento: usuario.nascimento,
                     Celular: usuario.celular,
                   };
                   items.push(object);
