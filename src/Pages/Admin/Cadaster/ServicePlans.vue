@@ -29,13 +29,13 @@
 												<input v-model="nome" type="text" class="form-control" />
 											</div>
 											<div class="col-6">
-												<label>Plano</label>
-												<input v-model="plano" type="text" class="form-control" />
+												<label>Preço</label>
+												<input v-model="plano" type="text" class="form-control" v-mask-decimal.br="2"/>
 											</div>
 										</div>
 										<div class="col-12 mt-2">
 											<label>Descrição</label>
-                      <textarea v-model="descricao" type="text" class="form-control"/>
+											<textarea v-model="descricao" type="text" class="form-control"/>
 										</div>
 
 										<div class="col-12">
@@ -71,13 +71,15 @@
 										<table class="table table-centered mb-0">
 											<thead>
 												<tr>
-													<th width="80%">Nome do Plano de Serviço</th>
+													<th width="50%">Nome do Plano de Serviço</th>
+													<th width="30%">Preço</th>
 													<th>Ação</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr v-for="plano in planos">
 													<td>{{ plano.nome }}</td>
+													<td>{{ formatPrice(plano.preco) }}</td>
 													<td>
 														<button
 															@click="editarPlano(plano.id)"
@@ -141,21 +143,18 @@
 																			</div>
 																			<input type="hidden" v-model="updateId" />
 																			<div class="col-6">
-																				<label for>Plano</label>
+																				<label for>Preço</label>
 																				<input
-																					type="number"
+																					type="text"
 																					class="form-control"
 																					v-model="updatePlanoServico"
+																					v-mask-decimal.br="2"
 																				/>
 																			</div>
 																		</div>
 																		<div class="col-12 mt-2">
 																			<label for>Descrição</label>
-																			<input
-																				type="text"
-																				class="form-control"
-																				v-model="updateDescricao"
-																			/>
+																			<textarea v-model="updateDescricao" type="text" class="form-control"/>
 																		</div>
 																	</form>
 																</div>
@@ -169,7 +168,7 @@
 																		type="button"
 																		class="btn btn-primary"
 																		data-dismiss="modal"
-																		@click="updateProduto()"
+																		@click="updatePlan()"
 																	>Salvar mudanças</button>
 																</div>
 															</div>
@@ -219,7 +218,8 @@ export default {
 			descricao: "",
 			updatePlano: "",
 			updatePlanoServico: "",
-			updateDescricao: ""
+			updateDescricao: "",
+			updateId: "",
 		};
 	},
 	created() {
@@ -283,12 +283,12 @@ export default {
 
 		editarPlano(id) {
 			this.loading = true;
-			this.updatePlano						=	'';
+			this.updatePlano				=	'';
 			this.updatePlanoServico			=	'';
-			this.updateDescricao				=	'';
+			this.updateDescricao			=	'';
+			this.updateId					=	'';
 
-			axios
-				.get("https://service.encontrei.online/api/plano-servico/" + id, {
+			axios.get("https://service.encontrei.online/api/plano-servico/" + id, {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: "Bearer " + this.user.token
@@ -296,9 +296,11 @@ export default {
 				})
 				.then(response => {
 					//   this.items = response.data;
-					this.updatePlano						=	response.data.nome;
+					this.updatePlano				=	response.data.nome;
 					this.updatePlanoServico			=	response.data.preco;
-					this.updateDescricao				=	response.data.id;
+					this.updateDescricao			=	response.data.descricao;
+					this.updateId					=	response.data.id;
+
 					console.log(response.data);
 					this.loading = false;
 				})
@@ -325,6 +327,33 @@ export default {
 					console.log(e);
 					alert("servidor fora de área");
 				});
+		},
+
+		formatPrice(value) {
+			let val = (value/1).toFixed(2).replace('.', ',')
+			return 'R$ ' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+		},
+
+		updatePlan(){
+			let data = {
+				nome: this.updatePlano,
+				preco: this.updatePlanoServico,
+				descricao: this.updateDescricao
+			};
+
+			axios.put("https://service.encontrei.online/api/plano-servico/" + this.updateId, data, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + this.user.token
+				}
+			})
+			.then(response => {
+				this.getPlanos();
+				this.loading = false;
+			})
+			.catch(e => {
+				alert("servidor fora de área");
+			});
 		}
 	}
 };
