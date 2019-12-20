@@ -1,5 +1,10 @@
 <template>
   <div class="wrapper">
+    <div v-if="loading" class="lds-facebook">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <Sidebar title="Administração"/>
     <div class="content-page">
 
@@ -41,6 +46,7 @@
                     show-empty
                     small
                     stacked="sm"
+                    empty-text="Não encontramos nenhum prestador cadastrado!"
                     :current-page="currentPage"
                     :per-page="perPage"
                     :filter="filter"
@@ -132,27 +138,7 @@
                     { key: 'CNPJ', sortable: true, },
                     { key: 'Email', sortable: true, },
                     { key: 'Telefone', sortable: true, },
-                    // { key: 'Ação', sortable: true, },
-                    // { key: 'acessoMenor', sortable: true, },
-                    // { key: 'sexo', sortable: true, },
-                    // { key: 'idade', sortable: true, }
                 ],
-                // items: [
-                //     { isActive: true, data: "%23/10/2018%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                //     { isActive: true, data: "%10/06/1998%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                //     { isActive: true, data: "%04/07/2015%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                //     { isActive: true, data: "%13/04/1999%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                //     { isActive: true, data: "%28/02/2016%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                //     { isActive: true, data: "%16/10/1990%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                //     { isActive: true, data: "%23/01/2017%", cidade: "%Cidade%", estado: "%Estado%", segmento: "%Segmento%", acessoMaior: "%Acesso maior%",
-                //         acessoMenor: "%Acesso menor%", sexo: "%Sexo%", idade: "%Idade%"},
-                // ],
                 totalRows: 1,
                 currentPage: 1,
                 perPage: 5,
@@ -162,7 +148,7 @@
                 sortDirection: 'asc',
                 filter: null,
                 filterOn: [],
-
+                loading: false,
             }
         },
         computed: {
@@ -188,6 +174,7 @@
             },
 
             getPrestador(){
+              this.loading = true;
               // axios.get('http://localhost:8000/api/prestador', {
               axios.get('https://service.encontrei.online/api/prestador', {
                 headers: {
@@ -204,16 +191,17 @@
                   for (let prestador of prestadores) {
                     let object = {
                       Nome: prestador.nome,
-                      Nome_Fantasia: prestador.nomefantasia,
+                      Nome_Fantasia: prestador.nome_fantasia,
                       CNPJ: prestador.cnpj,
                       Email: prestador.email,
                       Telefone: prestador.telefone,
                     };
                     items.push(object);
-                    console.log(prestador.nome);
+                    console.log(object);
                   }
                   this.items = items;
-                  this.totalRows = this.items.length;
+                  this.totalRows = this.items.length + 1;
+                  this.loading = false;
                   console.log(this.prestadores);
                 })
                 .catch(e => {
@@ -224,9 +212,65 @@
 
         }
 
-    }
+    };
 </script>
 
 <style>
+  .swal2-popup.swal2-toast .swal2-title {
+    color: white;
+  }
 
+  .swal2-popup.swal2-toast.swal2-show {
+    /*background: #73b730;*/
+  }
+
+  .lds-facebook {
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 9999;
+    background: rgba(40, 167, 69, 0.1);
+    left: 0;
+  }
+
+  .lds-facebook div {
+    display: inline-block;
+    position: fixed;
+    left: 8px;
+    width: 16px;
+    background-color: rgba(0, 128, 0, 1);
+    -webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 40vh;
+  }
+
+  .lds-facebook div:nth-child(1) {
+    right: 8px;
+    animation-delay: -0.24s;
+  }
+
+  .lds-facebook div:nth-child(2) {
+    right: 50px;
+    animation-delay: -0.12s;
+  }
+
+  .lds-facebook div:nth-child(3) {
+    right: 95px;
+    animation-delay: 0;
+  }
+
+  @keyframes lds-facebook {
+    0% {
+      top: 8px;
+      height: 64px;
+    }
+    50%, 100% {
+      top: 24px;
+      height: 32px;
+    }
+  }
 </style>

@@ -1,12 +1,9 @@
 <template>
 	<div class="wrapper">
-		<div id="loading" v-if="loading">
-			<div class="lds-ring">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
+		<div v-if="loadingPage" class="lds-facebook">
+			<div></div>
+			<div></div>
+			<div></div>
 		</div>
 		<Sidebar title="Administração"/>
 		<div class="content-page">
@@ -42,21 +39,21 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Nome</label>
-												<input v-model="nome" type="text" class="form-control" data-toggle="input-mask">
+												<input v-model="nome" type="text" class="form-control" data-toggle="input-mask" disabled>
 											</div>
 										</div>
 
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Email*</label>
-												<input v-model="email" type="email" class="form-control" data-toggle="input-mask">
+												<input v-model="email" type="email" class="form-control" data-toggle="input-mask" disabled>
 											</div>
 										</div>
 
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Nome Responsável*</label>
-												<input v-model="nome_responsavel" type="text" class="form-control">
+												<input v-model="nome_responsavel" type="text" class="form-control" disabled>
 											</div>
 										</div>
 
@@ -64,7 +61,7 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Razão Social*</label>
-												<input v-model="razao_social" type="text" class="form-control">
+												<input v-model="razao_social" type="text" class="form-control" disabled>
 											</div>
 										</div>
 
@@ -72,14 +69,14 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Nome Fantasia*</label>
-												<input v-model="nome_fantasia" type="text" class="form-control">
+												<input v-model="nome_fantasia" type="text" class="form-control" disabled>
 											</div>
 										</div>
 
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>CNPJ</label>
-												<input v-model="cnpj" type="text" class="form-control" data-toggle="input-mask" data-mask-format="00.000.000/0000-00" v-mask-cnpj>
+												<input v-model="cnpj" type="text" class="form-control" data-toggle="input-mask" data-mask-format="00.000.000/0000-00" v-mask-cnpj disabled>
 											</div>
 										</div>
 									</div>
@@ -92,8 +89,7 @@
 											<div class="form-group">
 												<label>Telefone*</label>
 												<input v-model="telefone" type="text" class="form-control"
-															 placeholder="(xx) xxxx-xxxx"
-															 data-toggle="input-mask" data-mask-format="(00) 0000-0000" v-mask-phone.br>
+															 data-toggle="input-mask" data-mask-format="(00) 0000-0000" v-mask-phone.br disabled>
 <!--                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>-->
 											</div>
 										</div>
@@ -102,9 +98,8 @@
 											<div class="form-group">
 												<label>WhatsApp</label>
 												<input v-model="whatsapp" type="text" class="form-control"
-															 placeholder="+55 (xx) xxxxx-xxxx"
 															 data-toggle="input-mask"
-															 data-mask-format="(00) 00000-0000" v-mask-phone.br>
+															 data-mask-format="(00) 00000-0000" v-mask-phone.br disabled>
 <!--                        <span class="help-block"><small>Insira o código de país, Ex: +55.</small></span>-->
 											</div>
 										</div>
@@ -120,7 +115,7 @@
 											<div class="form-group">
 												<label>Facebook</label>
 												<input v-model="facebook" type="text" class="form-control"
-															 placeholder="ex.: https://facebook.com/seuusuario">
+															 disabled>
 											</div>
 										</div>
 
@@ -128,7 +123,7 @@
 											<div class="form-group">
 												<label>Instagram</label>
 												<input v-model="instagram" type="text" class="form-control"
-															 placeholder="ex.: https://instagram.com/seuusuario">
+															 disabled>
 											</div>
 										</div>
 
@@ -136,7 +131,7 @@
 											<div class="form-group">
 												<label>Site</label>
 												<input v-model="site" type="text" class="form-control"
-															 placeholder="ex.: https://www.seusite.com">
+															 disabled>
 											</div>
 										</div>
 									</div>
@@ -149,7 +144,7 @@
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Descrição*</label>
-												<textarea v-model="descricao" type="text" class="form-control"/>
+												<textarea v-model="descricao" type="text" class="form-control" disabled/>
 											</div>
 										</div>
 									</div>
@@ -163,48 +158,40 @@
 										<div class="form-group col-md-3">
 											<label for="cep" class="col-form-label">CEP*</label>
 											<input v-model="cep" type="text" class="form-control" id="cep" v-on:blur="buscar()"
-														 data-toggle="input-mask" data-mask-format="00000-000">
+														 data-toggle="input-mask" data-mask-format="00000-000" disabled>
 										</div>
 
 										<div class="form-group col-md-7">
 											<label for="endereco" class="col-form-label">Endereço</label>
 											<input v-model="endereco" type="text" class="form-control" id="endereco"
-														 placeholder="">
+														 disabled>
 										</div>
 
 										<div class="form-group col-md-2">
 											<label for="numero" class="col-form-label">Número</label>
 											<input v-model="numero" type="text" class="form-control" id="numero"
-														 data-toggle="input-mask" data-mask-format="000000">
+														 data-toggle="input-mask" data-mask-format="000000" disabled>
 										</div>
 
 										<div class="form-group col-md-2">
 											<label for="complemento" class="col-form-label">Complemento</label>
 											<input v-model="complemento" type="text" class="form-control" id="complemento"
-														 placeholder="">
+														 disabled>
 										</div>
 
 										<div class="form-group col-md-4">
 											<label for="bairro" class="col-form-label">Bairro</label>
-											<input v-model="bairro" type="text" class="form-control" id="bairro">
+											<input v-model="bairro" type="text" class="form-control" id="bairro" disabled>
 										</div>
 										<div class="form-group col-md-4">
 											<label for="cidade" class="col-form-label">Cidade</label>
-											<input v-model="cidade" type="text" class="form-control" id="cidade">
+											<input v-model="cidade" type="text" class="form-control" id="cidade" disabled>
 										</div>
 										<div class="form-group col-md-2">
 											<label for="estado" class="col-form-label">Estado</label>
 											<input v-model="estado" type="text" class="form-control text-uppercase" id="estado"
-														 data-toggle="input-mask" data-mask-format="AA">
+														 data-toggle="input-mask" data-mask-format="AA" disabled>
 										</div>
-
-										<div class="row col-12 justify-content-center">
-											<button type="button" class="btn btn-primary" v-on:click="cadastraPrestador">
-												<i class="mdi mdi-content-save-outline mr-1"></i>
-												<span>Salvar </span>
-											</button>
-										</div>
-
 									</div>
 								</div>
 
@@ -252,8 +239,8 @@
 													@filtered="onFiltered"
 													id="basic-datatable" class="table dt-responsive nowrap" width="100%" responsive :fields="fields" :items="items">
 													<template v-slot:cell(Ação)="data">
-														<button @click="editarPrestador(data.value)" class="btn btn-sm btn-info mr-2" data-toggle="modal" data-target="#modalEdit" data-placement="top" title data-original-title="Editar">
-															<i class="dripicons-document-edit"></i>
+														<button @click="viewPrestador(data.value)" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title data-original-title="Excluir">
+															<i class="dripicons-preview"></i>
 														</button>
 														<button @click="deletePrestador(data.value)" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title data-original-title="Excluir">
 															<i class="dripicons-cross"></i>
@@ -355,7 +342,9 @@
 				bairro:		'',
 				cidade:			'',
 				estado:			'',
-				loading:	true,
+				loadingPage:	true,
+				password:	'',
+				password_confirmation:	'',
 			}
 		},
 
@@ -401,146 +390,150 @@
 				this.currentPage = 1
 			},
 
-			cadastraPrestador(){
-				this.loading = true;
-				let data = {
-					nome:								this.nome,
-					email:							this.email,
-					nome_responsavel:		this.nome_responsavel,
-					razao_social:				this.razao_social,
-					nome_fantasia:			this.nome_fantasia,
-					cnpj:								this.cnpj,
-					telefone:						this.telefone,
-					whatsapp:						this.whatsapp,
-					facebook:						this.facebook,
-					instagram:					this.instagram,
-					site:								this.site,
-					descricao:					this.descricao,
-					cep:								this.cep,
-					endereco:						this.endereco,
-					numero:							this.numero,
-					complemento:				this.complemento,
-					bairro:							this.bairro,
-					cidade:							this.cidade,
-					estado:							this.estado,
-				};
+			// cadastraPrestador(){
+			// 	this.loadingPage = true;
+			// 	let data = {
+			// 		name:					this.nome,
+			// 		email:					this.email,
+			// 		nome_responsavel:		this.nome_responsavel,
+			// 		razao_social:			this.razao_social,
+			// 		nome_fantasia:			this.nome_fantasia,
+			// 		cnpj:					this.cnpj,
+			// 		telefone:				this.telefone,
+			// 		whatsapp:				this.whatsapp,
+			// 		facebook:				this.facebook,
+			// 		instagram:				this.instagram,
+			// 		site:					this.site,
+			// 		descricao:				this.descricao,
+			// 		cep:					this.cep,
+			// 		endereco:				this.endereco,
+			// 		numero:					this.numero,
+			// 		complemento:			this.complemento,
+			// 		bairro:					this.bairro,
+			// 		cidade:					this.cidade,
+			// 		estado:					this.estado,
+			// 		password:				this.password,
+			// 		password_confirmation:	this.password_confirmation,
+			// 	};
 
-				console.log(data);
+			// 	// console.log(data);
 
-				// axios.post('http://localhost:8000/api/prestador', data, {
-				axios.post('https://service.encontrei.online/api/prestador', data, {
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: "Bearer " + this.user.token
-					}
-				})
-					.then(response => {
-						// console.log(response.data);
-						if (response.data.id) {
-							alert(response.data.nome_fantasia + " cadastrado com sucesso!");
-							this.prestador = response.data;
+			// 	// axios.post('http://localhost:8000/api/prestador', data, {
+			// 	axios.post('https://service.encontrei.online/api/prestador', data, {
+			// 		headers: {
+			// 			'Content-Type': 'application/json',
+			// 			Authorization: "Bearer " + this.user.token
+			// 		}
+			// 	})
+			// 		.then(response => {
+			// 			// console.log(response.data);
+			// 			if (response.data.id) {
+			// 				alert(response.data.nome_fantasia + " cadastrado com sucesso!");
+			// 				this.prestador = response.data;
 
-							this.nome=			'',
-							this.email=			'',
-							this.nome_responsavel=			'',
-							this.razao_social=			'',
-							this.nome_fantasia=			'',
-							this.cnpj=			'',
-							this.telefone=	'',
-							this.whatsapp=	'',
-							this.facebook=			'',
-							this.instagram=	'',
-							this.site=			'',
-							this.descricao=			'',
-							this.cep=			'',
-							this.endereco=		'',
-							this.numero=			'',
-							this.complemento=		'',
-							this.bairro=		'',
-							this.cidade=			'',
-							this.estado=			''
+			// 				this.nome						=	'';
+			// 				this.email						=	'';
+			// 				this.nome_responsavel			=	'';
+			// 				this.razao_social				=	'';
+			// 				this.nome_fantasia				=	'';
+			// 				this.cnpj						=	'';
+			// 				this.telefone					=	'';
+			// 				this.whatsapp					=	'';
+			// 				this.facebook					=	'';
+			// 				this.instagram					=	'';
+			// 				this.site						=	'';
+			// 				this.descricao					=	'';
+			// 				this.cep						=	'';
+			// 				this.endereco					=	'';
+			// 				this.numero						=	'';
+			// 				this.complemento				=	'';
+			// 				this.bairro						=	'';
+			// 				this.cidade						=	'';
+			// 				this.estado						=	'';
+			// 				this.password					=	'';
+			// 				this.password_confirmation		=	'';
 
-							this.getPrestadores();
+			// 				this.getPrestadores();
 
-						}else{
-							let errs = '';
+			// 			}else{
+			// 				let errs = '';
 
-							if(response.data.email){
-								errs = errs + response.data.email;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.email){
+			// 					errs = errs + response.data.email;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.nome_responsavel){
-								errs = errs + response.data.nome_responsavel;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.nome_responsavel){
+			// 					errs = errs + response.data.nome_responsavel;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.razao_social){
-								errs = errs + response.data.razao_social;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.razao_social){
+			// 					errs = errs + response.data.razao_social;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.nome_fantasia){
-								errs = errs + response.data.nome_fantasia;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.nome_fantasia){
+			// 					errs = errs + response.data.nome_fantasia;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.telefone){
-								errs = errs + response.data.telefone;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.telefone){
+			// 					errs = errs + response.data.telefone;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.descricao){
-								errs = errs + response.data.descricao;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.descricao){
+			// 					errs = errs + response.data.descricao;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.cep){
-								errs = errs + response.data.cep;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.cep){
+			// 					errs = errs + response.data.cep;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.endereco){
-								errs = errs + response.data.endereco;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.endereco){
+			// 					errs = errs + response.data.endereco;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.numero){
-								errs = errs + response.data.numero;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.numero){
+			// 					errs = errs + response.data.numero;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.bairro){
-								errs = errs + response.data.bairro;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.bairro){
+			// 					errs = errs + response.data.bairro;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.cidade){
-								errs = errs + response.data.cidade;
-								errs = errs + '\n';
-							}
+			// 				if(response.data.cidade){
+			// 					errs = errs + response.data.cidade;
+			// 					errs = errs + '\n';
+			// 				}
 
-							if(response.data.estado){
-								errs = errs + response.data.estado;
-								errs = errs + '\n';
-							} 
+			// 				if(response.data.estado){
+			// 					errs = errs + response.data.estado;
+			// 					errs = errs + '\n';
+			// 				} 
 						 
 
-							alert(errs);
+			// 				alert(errs);
 
-							// console.log(errs);
-						}
+			// 				// console.log(errs);
+			// 			}
 
-						this.loading = false;
-					})
-					.catch(e => {
-						// console.log(e);
-						alert('servidor fora de área')
-					});
-			},
+			// 			this.loadingPage = false;
+			// 		})
+			// 		.catch(e => {
+			// 			// console.log(e);
+			// 			alert('servidor fora de área')
+			// 		});
+			// },
 
 			getPrestadores(){
-				this.loading = true;
+				this.loadingPage = true;
 				// axios.get('http://localhost:8000/api/prestador', {
 				axios.get('https://service.encontrei.online/api/prestador', {
 					headers: {
@@ -559,7 +552,7 @@
 							RazãoSocial: usuario.razao_social,
 							Email: usuario.email,
 							Telefone: usuario.telefone,
-							Ação: usuario.id,
+							Ação: usuario,
 						};
 						items.push(object);
 						// console.log(usuario.nome);
@@ -567,7 +560,7 @@
 					this.items = items;
 					this.totalRows = this.items.length;
 					// console.log(this.usuarios);
-					this.loading = false;
+					this.loadingPage = false;
 				})
 				.catch(e => {
 					// console.log(e);
@@ -576,7 +569,7 @@
 			},
 
 			getPrestador(){
-				this.loading = true;
+				this.loadingPage = true;
 				// axios.get('http://localhost:8000/api/prestador', {
 				axios.get('https://service.encontrei.online/api/prestador', {
 					headers: {
@@ -587,7 +580,7 @@
 					.then(response => {
 						// console.log(response.data);
 						this.prestadores = response.data;
-						this.loading = false;
+						this.loadingPage = false;
 					})
 					.catch(e => {
 						// console.log(e);
@@ -611,79 +604,142 @@
 					})
 			},
 
-			editarPrestador(id){
-				alert(id);
-			},
-
-			deletePrestador(id){
-				this.loading = true;
-				// alert(id);
-				// axios.delete('http://localhost:8000/api/prestador/' + id, {
-				axios.delete('https://service.encontrei.online/api/prestador/' + id, {
+			viewPrestador(id){
+				this.loadingPage = true;
+				// axios.get('http://localhost:8000/api/prestador', {
+				axios.get('https://service.encontrei.online/api/prestador/' + id.id, {
 					headers: {
 						'Content-Type': 'application/json',
 						Authorization: "Bearer " + this.user.token
 					}
 				})
-				.then(response => {
-					// console.log(response.data);
-					this.getPrestadores();
-					this.prestadores = response.data;
-					this.loading = false;
+					.then(response => {
+						this.nome						=	response.data.nome;
+						this.email						=	response.data.email;
+						this.nome_responsavel			=	response.data.nome_responsavel;
+						this.razao_social				=	response.data.razao_social;
+						this.nome_fantasia				=	response.data.nome_fantasia;
+						this.cnpj						=	response.data.cnpj;
+						this.telefone					=	response.data.telefone;
+						this.whatsapp					=	response.data.whatsapp;
+						this.facebook					=	response.data.facebook;
+						this.instagram					=	response.data.instagram;
+						this.site						=	response.data.site;
+						this.descricao					=	response.data.descricao;
+						this.cep						=	response.data.cep;
+						this.endereco					=	response.data.endereco;
+						this.numero						=	response.data.numero;
+						this.complemento				=	response.data.complemento;
+						this.bairro						=	response.data.bairro;
+						this.cidade						=	response.data.cidade;
+						this.estado						=	response.data.estado;
+						this.password					=	response.data.password;
+						this.password_confirmation		=	response.data.password_confirmation;
+
+						console.log(response.data);
+						this.loadingPage = false;
+					})
+					.catch(e => {
+						// console.log(e);
+						alert('servidor fora de área')
+					});
+			},
+
+			deletePrestador(prestador){
+				// console.log(prestador);
+				this.$swal.fire({
+					title: 'Você tem certeza que deseja excluir '+ prestador.nome +'?',
+					text: "Você não poderá reverter isso!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Sim, apague!',
+					cancelButtonText: 'Cancelar'
+				}).then((result) => {
+					if (result.value) {
+						axios.delete('https://service.encontrei.online/api/prestador/' + prestador.id, {
+							headers: {
+								'Content-Type': 'application/json',
+								Authorization: "Bearer " + this.user.token
+							}
+						})
+						.then(response => {
+							this.$swal.fire(
+								'Excluída!',
+								'Prestador ' + response.data.name + ' foi deletado.',
+								'success'
+							).then(ok => {
+								this.getPrestadores();
+							});
+
+						})
+						.catch(e => {
+							alert("servidor fora de área");
+						});
+					}
 				})
-				.catch(e => {
-					// console.log(e);
-					alert('servidor fora de área')
-				});
 			}
 		}
 	};
 </script>
 
 <style>
-	#loading{
-		position: fixed;
-		background: rgba(40, 167, 69, 0.3);
-		width: 100%;
-		height: 100%;
-		z-index: 9999;
+	.swal2-popup.swal2-toast .swal2-title {
+		color: white;
 	}
 
-	.lds-ring {
+	.swal2-popup.swal2-toast.swal2-show {
+		background: #73b730;
+	}
+
+	.lds-facebook {
 		display: inline-block;
-		position: fixed;
+		position: absolute;
 		width: 100%;
 		height: 100%;
+		top: 0;
+		z-index: 9999;
+		background: rgba(40, 167, 69, 0.1);
+		left: 0;
 	}
-	.lds-ring div {
-		box-sizing: border-box;
-		display: block;
-		position: absolute;
-		width: 64px;
-		height: 64px;
-		margin: 8px;
-		border: 8px solid #fff;
-		border-radius: 50%;
-		animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-		border-color: #178a31 transparent transparent transparent;
-		left: 50vw;
-		top: 40%;
+
+	.lds-facebook div {
+		display: inline-block;
+		position: fixed;
+		left: 8px;
+		width: 16px;
+		background-color: rgba(0, 128, 0, 1);
+		-webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+		animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+		text-align: center;
+		margin: 0 auto;
+		margin-top: 40vh;
 	}
-	.lds-ring div:nth-child(1) {
-		animation-delay: -0.45s;
+
+	.lds-facebook div:nth-child(1) {
+		right: 8px;
+		animation-delay: -0.24s;
 	}
-	.lds-ring div:nth-child(2) {
-		animation-delay: -0.3s;
+
+	.lds-facebook div:nth-child(2) {
+		right: 50px;
+		animation-delay: -0.12s;
 	}
-	.lds-ring div:nth-child(3) {
-		animation-delay: -0.15s;
+
+	.lds-facebook div:nth-child(3) {
+		right: 95px;
+		animation-delay: 0;
 	}
-	@keyframes lds-ring {
+
+	@keyframes lds-facebook {
 		0% {
-			transform: rotate(0deg);
+			top: 8px;
+			height: 64px;
 		}
-		100% {
-			transform: rotate(360deg);
+		50%, 100% {
+			top: 24px;
+			height: 32px;
 		}
 	}
 </style>

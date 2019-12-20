@@ -1,5 +1,10 @@
 <template>
   <div class="wrapper">
+    <div v-if="loading" class="lds-facebook">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <Sidebar title="Administração"/>
     <div class="content-page">
 
@@ -41,6 +46,7 @@
                     show-empty
                     small
                     stacked="sm"
+                    empty-text="Não encontramos nenhum usuario cadastrado!"
                     :current-page="currentPage"
                     :per-page="perPage"
                     :filter="filter"
@@ -113,7 +119,7 @@
             Sidebar,
             TopMenu,
             Footer,
-            PageTitle
+            PageTitle,
         },
         created() {
             let usuarioAux = sessionStorage.getItem('usuario')
@@ -129,18 +135,7 @@
                 fields: [
                     { key: 'Nome', sortable: true, },
                     { key: 'Email', sortable: true, },
-                    { key: 'Sexo', sortable: true, },
-                    { key: 'DataNascimento', sortable: true, },
-                    { key: 'Celular', sortable: true, },
-                    { key: 'OS', sortable: true, }
                 ],
-                // items: [
-                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                //     { isActive: true, nome: "%Nome%", email: "%Email%", sexo: "%Sexo%", dataNascimento: "%Data Nascimento%", celular: "%Celular%", os: "%OS%"},
-                // ],
                 totalRows: 1,
                 currentPage: 1,
                 perPage: 5,
@@ -150,7 +145,7 @@
                 sortDirection: 'asc',
                 filter: null,
                 filterOn: [],
-
+                loading: false,
             }
         },
         computed: {
@@ -173,43 +168,99 @@
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
             },
-          getUsuarios(){
-            // axios.get('http://localhost:8000/api/usuario', {
-            axios.get('https://service.encontrei.online/api/users', {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: "Bearer " + this.user.token
-              }
-            })
-              .then(response => {
-                this.usuarios = response.data;
-                let items = [];
-                let usuarios = this.usuarios;
-
-                for (let usuario of usuarios) {
-                  let object = {
-                    Nome: usuario.nome,
-                    Email: usuario.email,
-                    Sexo: usuario.sexo,
-                    DataNascimento: usuario.nascimento,
-                    Celular: usuario.celular,
-                  };
-                  items.push(object);
-                  console.log(usuario.nome);
+            getUsuarios(){
+              this.loading = true;
+              // axios.get('http://localhost:8000/api/usuario', {
+              axios.get('https://service.encontrei.online/api/users', {
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: "Bearer " + this.user.token
                 }
-                this.items = items;
-                this.totalRows = this.items.length;
-                console.log(this.usuarios);
               })
-              .catch(e => {
-                console.log(e);
-                alert('servidor fora de área')
-              });
-          },
+                .then(response => {
+                  // console.log(response.data);
+                  this.usuarios = response.data;
+                  let items = [];
+                  let usuarios = this.usuarios;
+
+                  for (let usuario of usuarios) {
+                    let object = {
+                      Nome: usuario.name,
+                      Email: usuario.email,
+                    };
+                    items.push(object);
+                    // console.log(usuario.nome);
+                  }
+                  this.items = items;
+                  this.totalRows = this.items.length;
+                  this.loading = false;
+                  // console.log(this.usuarios);
+                })
+                .catch(e => {
+                  console.log(e);
+                  alert('Servidor fora de área!')
+                });
+            },
         }
-    }
+    };
 </script>
 
 <style>
+  .swal2-popup.swal2-toast .swal2-title {
+    color: white;
+  }
 
+  .swal2-popup.swal2-toast.swal2-show {
+    /*background: #73b730;*/
+  }
+
+  .lds-facebook {
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 9999;
+    background: rgba(40, 167, 69, 0.1);
+    left: 0;
+  }
+
+  .lds-facebook div {
+    display: inline-block;
+    position: fixed;
+    left: 8px;
+    width: 16px;
+    background-color: rgba(0, 128, 0, 1);
+    -webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 40vh;
+  }
+
+  .lds-facebook div:nth-child(1) {
+    right: 8px;
+    animation-delay: -0.24s;
+  }
+
+  .lds-facebook div:nth-child(2) {
+    right: 50px;
+    animation-delay: -0.12s;
+  }
+
+  .lds-facebook div:nth-child(3) {
+    right: 95px;
+    animation-delay: 0;
+  }
+
+  @keyframes lds-facebook {
+    0% {
+      top: 8px;
+      height: 64px;
+    }
+    50%, 100% {
+      top: 24px;
+      height: 32px;
+    }
+  }
 </style>

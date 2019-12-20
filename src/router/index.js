@@ -80,57 +80,62 @@ export default new Router({
       path: '/dados-usuario',
       component: Usuario
     },
-      {
-          path: '/relatorio',
-          name: 'Relatório',
-          component: EmptyViewRouter,
-          children: [{
-            path: 'usuario',
-            component: User
-          },
-          {
-            path: 'parceiro',
-            component: Partners
-          },
-          {
-            path: 'produto',
-            component: Product
-          },
-          {
-            path: 'acesso-lojista-prestador',
-            component: AccessTenantProvider
-          },
-          {
-            path: 'acesso-produto-servico',
-            component: AccessProductsServices
-          }
-      ]},
-      {
-          path: '/cadastro',
-          name: 'Cadastro',
-          component: EmptyViewRouter,
-          children: [{
-            path: 'lojista-prestador',
-            component: ShopkeeperProvider
-          },
-          {
-            path: 'produtos-servicos',
-            component: ProductsService
-          },
-          {
-            path: 'perfil-comercio-servicos',
-            component: ProfileTradeServices
-          },
-          {
-            path: 'planos-servico',
-            component: ServicePlans
-          }
-      ]},
-      {
-        path: '/usuario',
-        name: 'usuario',
-        component: EmptyViewRouter,
-        children:[{
+    {
+      path: '/relatorio',
+      name: 'Relatório',
+      component: EmptyViewRouter,
+      children: [
+        {
+          path: 'usuario',
+          component: User
+        },
+        {
+          path: 'parceiro',
+          component: Partners
+        },
+        {
+          path: 'produto',
+          component: Product
+        },
+        {
+          path: 'acesso-lojista-prestador',
+          component: AccessTenantProvider
+        },
+        {
+          path: 'acesso-produto-servico',
+          component: AccessProductsServices
+        }
+      ]
+    },
+    {
+      path: '/cadastro',
+      name: 'Cadastro',
+      component: EmptyViewRouter,
+      children: [
+        {
+          path: 'lojista-prestador',
+          component: ShopkeeperProvider
+        },
+        {
+          path: 'produtos-servicos',
+          component: ProductsService
+        },
+        {
+          path: 'perfil-comercio-servicos',
+          component: ProfileTradeServices
+        },
+        {
+          path: 'planos-servico',
+          component: ServicePlans
+        }
+      ]
+    },
+    {
+      path: '/usuario',
+      name: 'usuario',
+      component: EmptyViewRouter,
+      children:[
+        {
           path: '/',
           name: 'Home Usuário',
           component: HomeClient
@@ -155,7 +160,8 @@ export default new Router({
           name: 'Relatorio de Produtos',
           component: RelatorioProdutosCliente
         }
-      ]}
+      ]
+    }
   ]
 })
 

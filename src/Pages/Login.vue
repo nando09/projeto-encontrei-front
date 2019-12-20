@@ -1,5 +1,10 @@
 <template>
   <div class="auth-fluid-pages cadasterPage pb-0">
+    <div v-if="loadingPage" class="lds-facebook">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <div class="auth-fluid">
       <!--Auth fluid left content -->
       <div class="auth-fluid-form-box">
@@ -111,39 +116,54 @@
             return {
                 email: '',
                 password: '',
+                loadingPage: false
             }
         },
         components: {},
         methods: {
             login() {
-                // axios.post('http://localhost:8000/api/login', {
-                axios.post('https://service.encontrei.online/api/login', {
+              this.loadingPage = true;
+                // axios.post('http://localhost:8000/api/login_web', {
+                axios.post('https://service.encontrei.online/api/login_web', {
                     email: this.email,
                     password: this.password,
                 })
                     .then(response => {
-                        console.log(response)
                         if (response.data.token) {
-                            console.log('login com succeso')
                             sessionStorage.setItem('usuario', JSON.stringify(response.data))
-                            this.$router.push('/');
-                        } else if (response.data.status === false) {
-                            console.log('dados invalidos')
-                            alert('Login inválido!')
-                        } else {
-                            console.log('validação')
-                            let erros = ''
-                            for (let erro of Object.values(response.data)) {
-                                erros += erro + " "
-                            }
-                            alert(erros)
+                            this.$router.push('/usuario');
+                            this.toast('Logado com sucessso!', '#73b730');
+                        }else{
+                            this.toast('Login inválido!', '#ec293c');
                         }
+
+                        this.loadingPage = false;
                     })
                     .catch(e => {
-                        console.log(e);
                         alert('servidor fora de área')
                     });
             },
+
+            toast(nome, cor){
+              const Toast = this.$swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                background: cor,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                  toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                }
+              });
+
+              Toast.fire({
+                icon: 'success',
+                title: nome
+              });
+            },
+
             formCadaster(){
                 this.$router.push('/cadastro-usuario')
             }
@@ -156,9 +176,65 @@
             }
         }
 
-    }
+    };
 </script>
 
 <style>
+  .swal2-popup.swal2-toast .swal2-title {
+    color: white;
+  }
 
+  .swal2-popup.swal2-toast.swal2-show {
+    /*background: #73b730;*/
+  }
+
+  .lds-facebook {
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 9999;
+    background: rgba(40, 167, 69, 0.1);
+    left: 0;
+  }
+
+  .lds-facebook div {
+    display: inline-block;
+    position: fixed;
+    left: 8px;
+    width: 16px;
+    background-color: rgba(0, 128, 0, 1);
+    -webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 40vh;
+  }
+
+  .lds-facebook div:nth-child(1) {
+    right: 8px;
+    animation-delay: -0.24s;
+  }
+
+  .lds-facebook div:nth-child(2) {
+    right: 50px;
+    animation-delay: -0.12s;
+  }
+
+  .lds-facebook div:nth-child(3) {
+    right: 95px;
+    animation-delay: 0;
+  }
+
+  @keyframes lds-facebook {
+    0% {
+      top: 8px;
+      height: 64px;
+    }
+    50%, 100% {
+      top: 24px;
+      height: 32px;
+    }
+  }
 </style>

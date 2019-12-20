@@ -109,33 +109,33 @@
                     password_confirmation: this.password_confirmation
                 }
                 // axios.post('http://localhost:8000/api/register', data,{
-                axios.post('https://service.encontrei.online/api/register', data,{
-                }).then(response => {
+                // axios.post('https://service.encontrei.online/api/register', data,{
+                // }).then(response => {
 
-                    console.log(response);
-                    if (response.data.token) {
-                        alert('Cadastrado com sucesso!');
-                        this.$router.push('/login')
-                    } else {
-                        console.log("erros de validação");
-                        let erros = '';
-                        for (let erro of Object.values(response.data)) {
-                            erros += erro + "\n";
-                        }
-                        alert(erros);
-                    }
+                //     console.log(response);
+                //     if (response.data.token) {
+                //         alert('Cadastrado com sucesso!');
+                //         this.$router.push('/login')
+                //     } else {
+                //         console.log("erros de validação");
+                //         let erros = '';
+                //         for (let erro of Object.values(response.data)) {
+                //             erros += erro + "\n";
+                //         }
+                //         alert(erros);
+                //     }
 
-                    // if (response.data.name) {
-                    //     this.name_error = JSON.stringify(response.data.name).replace(/[\[\]/'"]+/g, '');
-                    // }
-                    // if (response.data.email) {
-                    //     this.email_error = JSON.stringify(response.data.email).replace(/[\[\]/'"]+/g, '')
-                    // }
-                    // if (response.data.password) {
-                    //     this.password_error = JSON.stringify(response.data.password).replace(/[\[\]/'"]+/g, '')
-                    // }
-                    // this.postloading = false
-                })
+                //     // if (response.data.name) {
+                //     //     this.name_error = JSON.stringify(response.data.name).replace(/[\[\]/'"]+/g, '');
+                //     // }
+                //     // if (response.data.email) {
+                //     //     this.email_error = JSON.stringify(response.data.email).replace(/[\[\]/'"]+/g, '')
+                //     // }
+                //     // if (response.data.password) {
+                //     //     this.password_error = JSON.stringify(response.data.password).replace(/[\[\]/'"]+/g, '')
+                //     // }
+                //     // this.postloading = false
+                // })
 
                 // .catch(e => {
                 //     this.push(e)
@@ -143,7 +143,7 @@
 
             }
         }
-    }
+    };
 </script>
 
 <style>

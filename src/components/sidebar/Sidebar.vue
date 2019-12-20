@@ -22,7 +22,6 @@
           <sidebar-collapse icon="dripicons-clipboard" title="RELATÓRIOS" >
             <sidebar-item link="/relatorio/usuario" text="Usuário"/>
 <!--            <sidebar-item link="/relatorio/parceiro" text="Lojista"/>-->
-            <sidebar-item link="/relatorio/produto" text="Produto"/>
             <sidebar-item link="/relatorio/acesso-lojista-prestador" text="Acesso a lojista/prestador"/>
             <sidebar-item link="/relatorio/acesso-produto-servico" text="Acesso a produtos/serviços"/>
           </sidebar-collapse>
@@ -63,7 +62,39 @@
             SidebarCollapse,
             SidebarCollapseItem
         },
-    }
+        data() {
+          return {
+            user: JSON.parse(sessionStorage.getItem("usuario")),
+            nome: "",
+            planos: "",
+            plano: "",
+            loading: false,
+            loadingPage: false,
+            descricao: "",
+            updatePlano: "",
+            updatePlanoServico: "",
+            updateDescricao: "",
+            updateId: "",
+          };
+        },
+        created() {
+          let usuarioAux = sessionStorage.getItem("usuario");
+          if (usuarioAux) {
+            this.usuario = JSON.parse(usuarioAux);
+            this.autorizacao();
+          } else {
+            this.$router.push("/login");
+          }
+          this.getPlanos();
+        },
+        methods: {
+          autorizacao(){
+            if (this.usuario.type != 'admin') {
+              this.$router.push("/usuario");
+            }
+          },
+        },
+    };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

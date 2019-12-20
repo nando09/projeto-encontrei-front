@@ -1,5 +1,10 @@
 <template xmlns="http://www.w3.org/1999/html">
 	<div class="wrapper">
+		<div v-if="loading" class="lds-facebook">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
 		<Sidebar title="Administração" />
 		<div class="content-page">
 			<div class="content">
@@ -28,9 +33,13 @@
 												<label>Plano de Serviço</label>
 												<input v-model="nome" type="text" class="form-control" />
 											</div>
-											<div class="col-6">
+											<div class="col-3">
 												<label>Preço</label>
 												<input v-model="plano" type="text" class="form-control" v-mask-decimal.br="2"/>
+											</div>
+											<div class="col-3">
+												<label>Quantidade de produto</label>
+												<input v-model="quantidade" type="number" class="form-control"/>
 											</div>
 										</div>
 										<div class="col-12 mt-2">
@@ -58,11 +67,6 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-body">
-									<div v-if="loadingPage" class="lds-facebook">
-										<div></div>
-										<div></div>
-										<div></div>
-									</div>
 									<h4 class="header-title">Edição de Plano de Serviço</h4>
 									<!-- p class="text-muted font-14 mb-3">
 											Paragrafo pos titulo.
@@ -72,7 +76,8 @@
 											<thead>
 												<tr>
 													<th width="50%">Nome do Plano de Serviço</th>
-													<th width="30%">Preço</th>
+													<th width="15%">Preço</th>
+													<th width="15%">Quantidade</th>
 													<th>Ação</th>
 												</tr>
 											</thead>
@@ -80,6 +85,7 @@
 												<tr v-for="plano in planos">
 													<td>{{ plano.nome }}</td>
 													<td>{{ formatPrice(plano.preco) }}</td>
+													<td>{{ plano.quantidade }}</td>
 													<td>
 														<button
 															@click="editarPlano(plano.id)"
@@ -94,8 +100,7 @@
 														</button>
 
 														<button
-															@click="deletePlano(plano
-										.id)"
+															@click="deletePlano(plano)"
 															class="btn btn-sm btn-danger"
 															data-toggle="tooltip"
 															data-placement="top"
@@ -116,9 +121,6 @@
 													>
 														<div class="modal-dialog" role="document">
 															<div class="modal-content">
-																<div v-if="loading" id="loading">
-																	<img src="/static/images/loading/load.gif">
-																</div>
 																<div class="modal-header">
 																	<h5 class="modal-title" id="exampleModalLabel">Editar Plano</h5>
 																	<button
@@ -142,13 +144,21 @@
 																				/>
 																			</div>
 																			<input type="hidden" v-model="updateId" />
-																			<div class="col-6">
+																			<div class="col-3">
 																				<label for>Preço</label>
 																				<input
 																					type="text"
 																					class="form-control"
-																					v-model="updatePlanoServico"
+																					v-model="updatePreco"
 																					v-mask-decimal.br="2"
+																				/>
+																			</div>
+																			<div class="col-3">
+																				<label for>Quantidade</label>
+																				<input
+																					type="number"
+																					class="form-control"
+																					v-model="updateQuantidade"
 																				/>
 																			</div>
 																		</div>
@@ -214,11 +224,12 @@ export default {
 			planos: "",
 			plano: "",
 			loading: false,
-			loadingPage: false,
+			quantidade: "",
 			descricao: "",
 			updatePlano: "",
-			updatePlanoServico: "",
+			updatePreco: "",
 			updateDescricao: "",
+			updateQuantidade:	"",
 			updateId: "",
 		};
 	},
@@ -233,11 +244,12 @@ export default {
 	},
 	methods: {
 		cadastraPlano() {
-			this.loadingPage = true;
+			// this.loading = true;
 			let data = {
 				nome: this.nome,
 				preco: this.plano,
-				descricao: this.descricao
+				descricao: this.descricao,
+				quantidade: this.quantidade
 			};
 
 			// axios.post('http://localhost:8000/api/plano-servico', data, {
@@ -249,11 +261,18 @@ export default {
 					}
 				})
 				.then(response => {
-					console.log(response.data);
-					// alert(response.data.nome + " cadastrado com sucesso!");
-					this.getPlanos();
-					this.loadingPage = false;
-					// this.responsavel = response.data;
+					if (response.data.id) {
+						this.toast('Cadastro do plano ' + response.data.nome, '#73b730');
+						this.getPlanos();
+					}else{
+						if(response.data.nome){
+							this.toast(response.data.nome[0], '#ec293c');
+						}else if(response.data.preco){
+							this.toast(response.data.preco[0], '#ec293c');
+						}else if(response.data.quantidade){
+							this.toast(response.data.quantidade[0], '#ec293c');
+						}
+					}
 				})
 				.catch(e => {
 					console.log(e);
@@ -263,30 +282,46 @@ export default {
 
 		deletePlano(id) {
 			// axios.delete('http://localhost:8000/api/plano-servico/' + id, {
-			this.loadingPage = true;
-			axios
-				.delete("https://service.encontrei.online/api/plano-servico/" + id, {
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: "Bearer " + this.user.token
-					}
-				})
-				.then(response => {
-					// alert(response.data.nome + " deletado com sucesso!");
-					this.getPlanos();
-					this.loadingPage = false;
-				})
-				.catch(e => {
-					alert("servidor fora de área");
-				});
+			this.$swal.fire({
+				title: 'Você tem certeza que deseja excluir '+ id.nome +'?',
+				text: "Você não poderá reverter isso!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Sim, apague!',
+				cancelButtonText: 'Cancelar'
+			}).then((result) => {
+				if (result.value) {
+					axios.delete("https://service.encontrei.online/api/plano-servico/" + id.id, {
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + this.user.token
+						}
+					})
+					.then(response => {
+						this.$swal.fire(
+							'Excluída!',
+							'Seu produto ' + response.data.nome + ' foi deletado.',
+							'success'
+						).then(response => {
+							this.getPlanos();
+						});
+					})
+					.catch(e => {
+						alert("servidor fora de área");
+					});
+				}
+			});
 		},
 
 		editarPlano(id) {
 			this.loading = true;
 			this.updatePlano				=	'';
-			this.updatePlanoServico			=	'';
+			this.updatePreco				=	'';
 			this.updateDescricao			=	'';
 			this.updateId					=	'';
+			this.updateQuantidade			=	'';
 
 			axios.get("https://service.encontrei.online/api/plano-servico/" + id, {
 					headers: {
@@ -297,9 +332,10 @@ export default {
 				.then(response => {
 					//   this.items = response.data;
 					this.updatePlano				=	response.data.nome;
-					this.updatePlanoServico			=	response.data.preco;
+					this.updatePreco				=	response.data.preco;
 					this.updateDescricao			=	response.data.descricao;
 					this.updateId					=	response.data.id;
+					this.updateQuantidade			=	response.data.quantidade;
 
 					console.log(response.data);
 					this.loading = false;
@@ -311,7 +347,7 @@ export default {
 
 		getPlanos() {
 			// axios.get('http://localhost:8000/api/plano-servico', {
-			this.loadingPage = true;
+			this.loading = true;
 			axios
 				.get("https://service.encontrei.online/api/plano-servico", {
 					headers: {
@@ -321,7 +357,7 @@ export default {
 				})
 				.then(response => {
 					this.planos = response.data;
-					this.loadingPage = false;
+					this.loading = false;
 				})
 				.catch(e => {
 					console.log(e);
@@ -337,8 +373,9 @@ export default {
 		updatePlan(){
 			let data = {
 				nome: this.updatePlano,
-				preco: this.updatePlanoServico,
-				descricao: this.updateDescricao
+				preco: this.updatePreco,
+				descricao: this.updateDescricao,
+				quantidade: this.updateQuantidade
 			};
 
 			axios.put("https://service.encontrei.online/api/plano-servico/" + this.updateId, data, {
@@ -348,32 +385,56 @@ export default {
 				}
 			})
 			.then(response => {
-				this.getPlanos();
-				this.loading = false;
+				if (response.data.id) {
+					this.toast('Plano ' + response.data.nome + ' atualizado!', '#73b730');
+					this.getPlanos();
+				}else{
+					if(response.data.nome){
+						this.toast(response.data.nome[0], '#ec293c');
+					}else if(response.data.preco){
+						this.toast(response.data.preco[0], '#ec293c');
+					}else if(response.data.quantidade){
+						this.toast(response.data.quantidade[0], '#ec293c');
+					}
+				}
 			})
 			.catch(e => {
 				alert("servidor fora de área");
 			});
-		}
+		},
+
+		toast(nome, cor){
+			console.log('Entreou ');
+			const Toast = this.$swal.mixin({
+				toast: true,
+				position: 'top-end',
+				background: cor,
+				showConfirmButton: false,
+				timer: 3000,
+				timerProgressBar: true,
+				onOpen: (toast) => {
+					toast.addEventListener('mouseenter', this.$swal.stopTimer)
+					toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+				}
+			});
+
+			Toast.fire({
+				icon: 'success',
+				title: nome
+			});
+		},
+
 	}
 };
 </script>
 
 <style>
-	#loading{
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 128, 0, 0.2);
-		z-index: 1;
+	.swal2-popup.swal2-toast .swal2-title {
+		color: white;
 	}
 
-	#loading img{
-		width: 80px;
-		height: 80px;
-		margin: 0 auto;
-		display: block;
-		margin-top: 25%;
+	.swal2-popup.swal2-toast.swal2-show {
+		/*background: #73b730;*/
 	}
 
 	.lds-facebook {
@@ -382,33 +443,39 @@ export default {
 		width: 100%;
 		height: 100%;
 		top: 0;
-		z-index: 1;
+		z-index: 9999;
 		background: rgba(40, 167, 69, 0.1);
 		left: 0;
 	}
+
 	.lds-facebook div {
-    display: inline-block;
-    position: absolute;
-    left: 8px;
-    width: 16px;
-    background-color: rgba(0, 128, 0, 1);
-    -webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-    text-align: center;
-    margin: 0 auto;
+		display: inline-block;
+		position: fixed;
+		left: 8px;
+		width: 16px;
+		background-color: rgba(0, 128, 0, 1);
+		-webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+		animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+		text-align: center;
+		margin: 0 auto;
+		margin-top: 40vh;
 	}
+
 	.lds-facebook div:nth-child(1) {
 		right: 8px;
 		animation-delay: -0.24s;
 	}
+
 	.lds-facebook div:nth-child(2) {
 		right: 50px;
 		animation-delay: -0.12s;
 	}
+
 	.lds-facebook div:nth-child(3) {
 		right: 95px;
 		animation-delay: 0;
 	}
+
 	@keyframes lds-facebook {
 		0% {
 			top: 8px;

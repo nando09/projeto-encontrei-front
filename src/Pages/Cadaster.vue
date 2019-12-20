@@ -1,5 +1,10 @@
 <template>
   <div class="auth-fluid-pages cadasterPage pb-0">
+    <div v-if="loadingPage" class="lds-facebook">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <div class="auth-fluid">
       <!--Auth fluid left content -->
       <div class="auth-fluid-form-box">
@@ -97,6 +102,7 @@
                 email: '',
                 password: '',
                 password_confirmation: '',
+                loadingPage: false,
             }
         },
         components:{
@@ -104,50 +110,108 @@
         },
         methods: {
             register() {
+                this.loadingPage = true;
                 let data = {
                     name: this.name,
                     email: this.email,
                     password: this.password,
                     password_confirmation: this.password_confirmation
                 }
-                // axios.post('http://localhost:8000/api/register', data,{
-                axios.post('https://service.encontrei.online/api/register', data,{
+                // axios.post('http://localhost:8000/api/register_web', data,{
+                axios.post('https://service.encontrei.online/api/register_web', data,{
                 }).then(response => {
 
-                    console.log(response);
                     if (response.data.token) {
-                        alert('Cadastrado com sucesso!');
-                        this.$router.push('/login')
-                    } else {
-                        console.log("erros de validação");
-                        let erros = '';
-                        for (let erro of Object.values(response.data)) {
-                            erros += erro + "\n";
-                        }
-                        alert(erros);
+                        this.toast('Cadastrado com sucesso!', '#73b730');
+                        this.$router.push('/login');
+                    } else if (response.data.email == 'O campo email já está sendo utilizado.') {
+                        this.toast('Email já esta sendo utilizado!', '#ec293c');
+                    }else{
+                        this.toast('Preencher todos os campos corretamente!', '#ec293c');
                     }
-
-                    // if (response.data.name) {
-                    //     this.name_error = JSON.stringify(response.data.name).replace(/[\[\]/'"]+/g, '');
-                    // }
-                    // if (response.data.email) {
-                    //     this.email_error = JSON.stringify(response.data.email).replace(/[\[\]/'"]+/g, '')
-                    // }
-                    // if (response.data.password) {
-                    //     this.password_error = JSON.stringify(response.data.password).replace(/[\[\]/'"]+/g, '')
-                    // }
-                    // this.postloading = false
+                    this.loadingPage = false;
                 })
+            },
 
-                // .catch(e => {
-                //     this.push(e)
-                // })
+            toast(nome, cor){
+              const Toast = this.$swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                background: cor,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                  toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                }
+              });
 
-            }
+              Toast.fire({
+                icon: 'success',
+                title: nome
+              });
+            },
         }
-    }
+    };
 </script>
 
 <style>
+  .swal2-popup.swal2-toast .swal2-title {
+    color: white;
+  }
 
+  .swal2-popup.swal2-toast.swal2-show {
+    /*background: #73b730;*/
+  }
+
+  .lds-facebook {
+    display: inline-block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 9999;
+    background: rgba(40, 167, 69, 0.1);
+    left: 0;
+  }
+
+  .lds-facebook div {
+    display: inline-block;
+    position: fixed;
+    left: 8px;
+    width: 16px;
+    background-color: rgba(0, 128, 0, 1);
+    -webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 40vh;
+  }
+
+  .lds-facebook div:nth-child(1) {
+    right: 8px;
+    animation-delay: -0.24s;
+  }
+
+  .lds-facebook div:nth-child(2) {
+    right: 50px;
+    animation-delay: -0.12s;
+  }
+
+  .lds-facebook div:nth-child(3) {
+    right: 95px;
+    animation-delay: 0;
+  }
+
+  @keyframes lds-facebook {
+    0% {
+      top: 8px;
+      height: 64px;
+    }
+    50%, 100% {
+      top: 24px;
+      height: 32px;
+    }
+  }
 </style>

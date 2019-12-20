@@ -1,12 +1,9 @@
 <template>
 	<div class="wrapper">
-		<div id="loading" v-if="loading">
-			<div class="lds-ring">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
+		<div v-if="loading" class="lds-facebook">
+			<div></div>
+			<div></div>
+			<div></div>
 		</div>
 		<Sidebar title="Administração" />
 		<div class="content-page">
@@ -32,34 +29,8 @@
 										<div class="col-12">
 											<label for>Anunciante:</label>
 											<select @change="changeProduct()"  class="form-control" name id v-model="id">
-												<option v-bind:value="prestadore.id" v-for="prestadore in prestadores">{{ prestadore.nome_fantasia }}</option>
+												<option v-bind:value="prestadore.id" v-for="prestadore in prestadores">{{ prestadore.nome_fantasia || prestadore.nome }}</option>
 											</select>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Nome do Produto:</label>
-												<input v-model="nome" type="text" class="form-control" required />
-											</div>
-										</div>
-
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Valor: (R$)</label>
-												<input v-model="preco" min="0" type="text" class="form-control" required v-mask-decimal.br="2"/>
-											</div>
-										</div>
-
-										<!-- 										<div class="col-md-12">
-											<div class="form-group">
-												<label>Foto</label>
-												<input type="file" class="form-control" required/>
-											</div>
-										</div>
-										-->
-										<div class="row col-md-12 justify-content-center">
-											<button @click="cadastraProduto()" class="btn btn-primary">Cadastrar</button>
 										</div>
 									</div>
 									<!-- end row-->
@@ -79,29 +50,19 @@
 										<thead>
 										<tr>
 											<th width="40%">Nome</th>
-											<th width="40%">Preço</th>
+											<th width="40%">Imagem</th>
 											<th>Ação</th>
 										</tr>
 										</thead>
 										<tbody>
 										<tr v-for="item in items">
 											<td>{{ item.nome }}</td>
-											<td>{{ formatPrice(item.preco) }}</td>
+											<td>
+												<img v-bind:src="urlPhoto + item.images[0].image" alt="contact-img" title="contact-img" class="rounded mr-3" height="48"/>
+											</td>
 											<td>
 											<button
-												@click="editarProduto(item.id)"
-												class="btn btn-sm btn-info mr-2"
-												data-toggle="modal"
-												data-placement="top"
-												title
-												data-original-title="Editar"
-												type="button"
-												data-target="#modalEdit"
-											>
-												<i class="dripicons-document-edit"></i>
-											</button>
-											<button
-												@click="deleteProduto(item.id)"
+												@click="deleteProduto(item)"
 												class="btn btn-sm btn-danger"
 												data-toggle="tooltip"
 												data-placement="top"
@@ -120,49 +81,6 @@
 											aria-labelledby="exampleModalLabel"
 											aria-hidden="true"
 											>
-											<div class="modal-dialog" role="document">
-												<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLabel">Editar Produto</h5>
-													<button
-													type="button"
-													class="close"
-													data-dismiss="modal"
-													aria-label="Fechar"
-													>
-													<span aria-hidden="true">&times;</span>
-													</button>
-												</div>
-												<div class="modal-body">
-													<form action class="form-group">
-													<div class="col-12 d-inline-flex">
-														<div class="col-6">
-														<label for>Nome</label>
-														<input type="text" class="form-control" v-model="updateNome" />
-														</div>
-														<input type="hidden" v-model="updateId" />
-														<div class="col-6">
-														<label for>Preço</label>
-														<input type="text" class="form-control" v-model="updatePreco" v-mask-decimal.br="2"/>
-														</div>
-													</div>
-													</form>
-												</div>
-												<div class="modal-footer">
-													<button
-													type="button"
-													class="btn btn-secondary"
-													data-dismiss="modal"
-													>Fechar</button>
-													<button
-													type="button"
-													class="btn btn-primary"
-													data-dismiss="modal"
-													@click="updateProduto()"
-													>Salvar mudanças</button>
-												</div>
-												</div>
-											</div>
 											</div>
 										</tr>
 										</tbody>
@@ -206,7 +124,8 @@ export default {
 			updateId: "",
 			prestadores: "",
 			loading: false,
-			items: []
+			items: [],
+			urlPhoto: 'https://image.service.encontrei.online/',
 		};
 	},
 	created() {
@@ -219,38 +138,6 @@ export default {
 		}
 	},
 	methods: {
-		cadastraProduto() {
-			let data = {
-				nome:			this.nome,
-				preco:			this.preco,
-				provider_id:	this.id,
-			};
-
-			axios.post("https://service.encontrei.online/api/produto", data, {
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: "Bearer " + this.user.token
-					}
-				})
-				.then(response => {
-					if (response.data.id){
-						this.toast(response.data.nome + ' cadastrado com sucesso!');
-					}else{
-						this.toast('Preecher todos os campos!');
-					}
-
-					// this.responsavel = response.data;
-					this.changeProduct();
-
-					this.nome = "";
-					this.preco = "";
-				})
-				.catch(e => {
-					// console.log(e);
-					alert("servidor fora de área");
-				});
-		},
-
 		toast(nome){
 			const Toast = this.$swal.mixin({
 				toast: true,
@@ -274,16 +161,17 @@ export default {
 			// axios.delete('http://localhost:8000/api/produto/' + id, {
 
 			this.$swal.fire({
-				title: 'Você tem certeza?',
+				title: 'Você tem certeza que deseja excluir '+ id.nome +'?',
 				text: "Você não poderá reverter isso!",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
 				cancelButtonColor: '#d33',
-				confirmButtonText: 'Sim, apague!'
+				confirmButtonText: 'Sim, apague!',
+				cancelButtonText: 'Cancelar'
 			}).then((result) => {
 				if (result.value) {
-					axios.delete("https://service.encontrei.online/api/produto/" + id, {
+					axios.delete("https://service.encontrei.online/api/produto/" + id.id, {
 						headers: {
 							"Content-Type": "application/json",
 							Authorization: "Bearer " + this.user.token
@@ -294,9 +182,9 @@ export default {
 							'Excluída!',
 							'Seu produto ' + response.data.nome + ' foi deletado.',
 							'success'
-						);
-
-						this.changeProduct();
+						).then(response => {
+							this.changeProduct();
+						});
 					})
 					.catch(e => {
 						alert("servidor fora de área");
@@ -372,26 +260,6 @@ export default {
 			});
 		},
 
-		// getProduto() {
-		// 	this.loading = true;
-		// 	// axios.get('http://localhost:8000/api/produto', {
-		// 	axios.get("https://service.encontrei.online/api/produto", {
-		// 			headers: {
-		// 				"Content-Type": "application/json",
-		// 				Authorization: "Bearer " + this.user.token
-		// 			}
-		// 		})
-		// 		.then(response => {
-		// 			// console.log(response.data);
-		// 			this.items = response.data;
-		// 			this.loading = false;
-		// 		})
-		// 		.catch(e => {
-		// 			// console.log(e);
-		// 			alert("servidor fora de área");
-		// 		});
-		// },
-
 		showModal() {
 			this.$refs["my-modal"].show();
 		},
@@ -458,48 +326,61 @@ export default {
 </script>
 
 <style>
-	#loading{
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		z-index: 9999;
+	.swal2-popup.swal2-toast .swal2-title {
+		color: white;
 	}
 
-	.lds-ring {
+	.swal2-popup.swal2-toast.swal2-show {
+		background: #73b730;
+	}
+
+	.lds-facebook {
 		display: inline-block;
-		position: fixed;
+		position: absolute;
 		width: 100%;
 		height: 100%;
+		top: 0;
+		z-index: 9999;
+		background: rgba(40, 167, 69, 0.1);
+		left: 0;
 	}
-	.lds-ring div {
-		box-sizing: border-box;
-		display: block;
-		position: absolute;
-		width: 25px;
-		height: 25px;
-		margin: 8px;
-		border: 4px solid #fff;
-		border-radius: 50%;
-		animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-		border-color: #178a31 transparent transparent transparent;
-		left: 50vw;
-		/*top: 40%;*/
+
+	.lds-facebook div {
+		display: inline-block;
+		position: fixed;
+		left: 8px;
+		width: 16px;
+		background-color: rgba(0, 128, 0, 1);
+		-webkit-animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+		animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+		text-align: center;
+		margin: 0 auto;
+		margin-top: 40vh;
 	}
-	.lds-ring div:nth-child(1) {
-		animation-delay: -0.45s;
+
+	.lds-facebook div:nth-child(1) {
+		right: 8px;
+		animation-delay: -0.24s;
 	}
-	.lds-ring div:nth-child(2) {
-		animation-delay: -0.3s;
+
+	.lds-facebook div:nth-child(2) {
+		right: 50px;
+		animation-delay: -0.12s;
 	}
-	.lds-ring div:nth-child(3) {
-		animation-delay: -0.15s;
+
+	.lds-facebook div:nth-child(3) {
+		right: 95px;
+		animation-delay: 0;
 	}
-	@keyframes lds-ring {
+
+	@keyframes lds-facebook {
 		0% {
-			transform: rotate(0deg);
+			top: 8px;
+			height: 64px;
 		}
-		100% {
-			transform: rotate(360deg);
+		50%, 100% {
+			top: 24px;
+			height: 32px;
 		}
 	}
 </style>
