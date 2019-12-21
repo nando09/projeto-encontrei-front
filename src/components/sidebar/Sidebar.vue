@@ -8,16 +8,27 @@
 
           <sidebar-item icon="dripicons-meter" link="/" text="DASHBOARD" style="font-size: 1rem !important;"/>
 
-          <sidebar-collapse icon="dripicons-view-list-large" title="CADASTRO" >
 
-            <sidebar-collapse link="/cadastro/lojista-prestador" icon="dripicons-cart" title="Anunciante/Prestador de Serviços" >
 
-              <sidebar-item link="/cadastro/lojista-prestador" text="Anunciante/Prestador" style="padding-left: 30px"/>
-<!--              <sidebar-item link="/cadastro/perfil-comercio-servicos" text="Perfil de Comércio/Serviços"/>-->
-              <sidebar-item link="/cadastro/produtos-servicos" text="Produtos/Serviços" style="padding-left: 30px"/>
-            </sidebar-collapse>
-            <sidebar-item link="/cadastro/planos-servico" text="Planos de Serviço" style="padding-left: 0px"/>
-          </sidebar-collapse>
+          <sidebar-item icon="dripicons-user-group" link="/cadastro/lojista-prestador" text="Anunciante/Prestador" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-shopping-bag" link="/cadastro/produtos-servicos" text="Produtos/Serviços" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-document-edit" link="/cadastro/planos-servico" text="Planos de Serviço" style="font-size: 1rem !important;"/>
+
+
+
+<!--          <sidebar-collapse icon="dripicons-view-list-large" title="CADASTRO" >-->
+
+<!--            <sidebar-collapse link="/cadastro/lojista-prestador" icon="dripicons-cart" title="Anunciante/Prestador de Serviços" >-->
+
+<!--              <sidebar-item link="/cadastro/lojista-prestador" text="Anunciante/Prestador" style="padding-left: 30px"/>-->
+<!--&lt;!&ndash;              <sidebar-item link="/cadastro/perfil-comercio-servicos" text="Perfil de Comércio/Serviços"/>&ndash;&gt;-->
+<!--              <sidebar-item link="/cadastro/produtos-servicos" text="Produtos/Serviços" style="padding-left: 30px"/>-->
+<!--            </sidebar-collapse>-->
+<!--            <sidebar-item link="/cadastro/planos-servico" text="Planos de Serviço" style="padding-left: 0px"/>-->
+<!--          </sidebar-collapse>-->
+
+
+
 
           <sidebar-collapse icon="dripicons-clipboard" title="RELATÓRIOS" >
             <sidebar-item link="/relatorio/usuario" text="Usuário"/>
