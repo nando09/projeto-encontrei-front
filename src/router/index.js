@@ -33,6 +33,7 @@ import EditData from '@/Pages/Client/EditData'
 import Products from '@/Pages/Client/Products'
 import AccessReport from '@/Pages/Client/AccessReport'
 import RelatorioProdutosCliente from '@/Pages/Client/RelatorioProdutosCliente'
+import MercadoPago from '@/Pages/Client/MercadoPago'
 
 
 
@@ -159,6 +160,11 @@ export default new Router({
           path: 'relatorio/produtos',
           name: 'Relatorio de Produtos',
           component: RelatorioProdutosCliente
+        },
+        {
+          path: 'pagamento',
+          name: 'pagamento',
+          component: MercadoPago
         }
       ]
     }
