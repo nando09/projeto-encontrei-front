@@ -1,4 +1,4 @@
-window.Mercadopago.setPublishableKey("TEST-026ae7c3-3cff-43df-8557-11582630dd75");
+window.Mercadopago.setPublishableKey("TEST-7db79f99-1ecb-4498-a37e-28ebbc2a36ff");
 window.Mercadopago.getIdentificationTypes();
 
 function addEvent(to, type, fn){

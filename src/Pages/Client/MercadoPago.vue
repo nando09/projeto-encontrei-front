@@ -54,10 +54,10 @@
 									<select id="installments" class="form-control" name="installments"></select>
 								</li>
 							</ul>
-							<input v-model="transaction_amount" type="hidden" name="amount" id="amount"/>
-							<input v-model="payment_method_id" type="hidden" name="paymentMethodId" />
-							<input type="hidden" name="description"/>
-							<input @change="teste()" id="token_mercado" name="token_mercado" type="hidden" v-model="token_mercado"/>
+							<input v-model="transaction_amount" type="" name="amount" id="amount"/>
+							<input v-model="payment_method_id" type="" name="paymentMethodId" />
+							<input type="" name="description"/>
+							<input id="token_mercado" name="token_mercado" type="" v-model="token_mercado"/>
 							<input type="submit" value="Pay!" />
 						</fieldset>
 					</form>
@@ -100,7 +100,7 @@
 				doSubmit: false,
 				email: '',
 				token_mercado: '',
-				transaction_amount: '',
+				transaction_amount: 100.00,
 				payment_method_id: '',
 			}
 		},
@@ -129,28 +129,22 @@
 			},
 
 			onSubmit(){
-				// this.loadingPage = true;
 				console.log("Entrou!");
-
 				let loopToken = setInterval(function(){
+					let data = {
+						email:					this.email,
+						transaction_amount:		this.transaction_amount,
+						payment_method_id:		this.payment_method_id,
+						token_mercado:			this.token_mercado,
+					};
+
 					console.log(data.token_mercado.value);
+
 					if (data.token_mercado.value) {
-						console.log(this.loadingPage);
-						this.getValida();
+						console.log(data);
 						clearInterval(loopToken);
-
-						// axios.get('http://localhost:8000/api/mercadoPago', {
-						// }).then(response => {
-						// 	console.log("Passou!");
-						// 	this.loadingPage = false;
-						// })
-
 					}
 				}, 500);
-			},
-
-			getValida(){
-				console.log("Valida em valida!");
 			},
 
 			toast(nome){
