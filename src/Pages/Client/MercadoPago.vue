@@ -51,13 +51,13 @@
 								</li>
 								<li>
 									<label for="installments">Installments:</label>
-									<select id="installments" class="form-control" name="installments"></select>
+									<select v-model="installments" id="installments" class="form-control" name="installments"></select>
 								</li>
 							</ul>
-							<input v-model="transaction_amount" type="" name="amount" id="amount"/>
-							<input v-model="payment_method_id" type="" name="paymentMethodId" />
-							<input type="" name="description"/>
-							<input id="token_mercado" name="token_mercado" type="" v-model="token_mercado"/>
+							<input v-model="transaction_amount" name="amount" id="amount"/>
+							<input v-model="payment_method_id" name="paymentMethodId" />
+							<input name="description"/>
+							<input id="token_mercado" name="token_mercado" value="1" v-model="token_mercado"/>
 							<input type="submit" value="Pay!" />
 						</fieldset>
 					</form>
@@ -102,12 +102,15 @@
 				token_mercado: '',
 				transaction_amount: 100.00,
 				payment_method_id: '',
+				installments: '',
 			}
 		},
 		created() {
 			let usuarioAux = sessionStorage.getItem('usuario')
 			if (usuarioAux) {
 				this.usuario = JSON.parse(usuarioAux)
+				this.transaction_amount		=	1;
+				this.payment_method_id		=	'master';
 				this.email = this.usuario.email;
 			} else {
 				this.$router.push('/login');
@@ -129,22 +132,88 @@
 			},
 
 			onSubmit(){
-				console.log("Entrou!");
+				this.loadingPage = true;
+				console.log(this.payment_method_id);
+				var email				=	this.email;
+				var transaction_amount	=	this.transaction_amount;
+				var payment_method_id	=	this.payment_method_id;
+				var Installments		=	this.installments;
+
 				let loopToken = setInterval(function(){
-					let data = {
-						email:					this.email,
-						transaction_amount:		this.transaction_amount,
-						payment_method_id:		this.payment_method_id,
-						token_mercado:			this.token_mercado,
-					};
+					var token_mercado		=	this.token_mercado.value;
+					this.loadingPage = false;
 
-					console.log(data.token_mercado.value);
+					if (token_mercado) {
+						let data = {
+							email:					email,
+							transaction_amount:		transaction_amount,
+							payment_method_id:		payment_method_id,
+							token:					token_mercado,
+							installments:			installments.value,
+						};
 
-					if (data.token_mercado.value) {
+						// this.teste(true);
+
 						console.log(data);
 						clearInterval(loopToken);
+						// axios.post('http://localhost:8000/api/register_web', data,{
+						axios.post('http://localhost:8000/api/mercadoPago', data,{
+						}).then(response => {
+							load = false;
+						})
+
 					}
-				}, 500);
+				}, 1000);
+
+				// function teste(){
+				// 	var token_mercado		=	this.token_mercado.value;
+				// 	this.loadingPage = false;
+
+				// 	if (token_mercado) {
+				// 		let data = {
+				// 			email:					email,
+				// 			transaction_amount:		transaction_amount,
+				// 			payment_method_id:		payment_method_id,
+				// 			token:					token_mercado,
+				// 		};
+
+				// 		// this.teste(true);
+
+				// 		console.log(data);
+				// 		clearInterval(loopToken);
+				// 		// // axios.post('http://localhost:8000/api/register_web', data,{
+				// 		// axios.post('http://localhost:8000/api/mercadoPago', data,{
+				// 		// }).then(response => {
+				// 		// 	load = false;
+				// 		// })
+
+				// 	}
+				// }
+			},
+
+			teste(){
+				var token_mercado		=	this.token_mercado.value;
+				this.loadingPage = false;
+
+				if (token_mercado) {
+					let data = {
+						email:					email,
+						transaction_amount:		transaction_amount,
+						payment_method_id:		payment_method_id,
+						token:					token_mercado,
+					};
+
+					// this.teste(true);
+
+					console.log(data);
+					clearInterval(loopToken);
+					// // axios.post('http://localhost:8000/api/register_web', data,{
+					// axios.post('http://localhost:8000/api/mercadoPago', data,{
+					// }).then(response => {
+					// 	load = false;
+					// })
+
+				}
 			},
 
 			toast(nome){

@@ -12,8 +12,8 @@
           <div class="card-body">
             <!-- Logo -->
             <div class="auth-brand text-center text-lg-left">
-              <a href="#">
-                <span><img src="/static/images/logo-light.jpg" alt="" height="100"></span>
+              <a href="/">
+                <span><img src="/static/images/logo-light.jpg" alt="" height="50"></span>
               </a>
             </div>
 
@@ -21,40 +21,39 @@
             <h4 class="mt-0">Cadastre-se agora!</h4>
             <p class="text-muted mb-4">Crie sua conta em 1 minuto.</p>
 
-
             <!-- form -->
-            <div class="formulario" v-on:keyup.enter="register">
-              <div class="form-group">
-                <label for="fullname" required>Nome Completo</label>
-                <input v-model="name" class="form-control" type="text" id="fullname" placeholder="" required>
+            <!--          <form action="#">-->
+            <div class="form-group">
+              <label for="fullname" required>Nome Completo</label>
+              <input v-model="name" class="form-control" type="text" id="fullname" placeholder="" required>
+            </div>
+            <div class="form-group">
+              <label for="emailaddress">Email</label>
+              <input v-model="email" class="form-control" type="email" id="emailaddress" placeholder="" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Senha</label>
+              <input v-model="password" class="form-control" type="password" required id="password"
+                     placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="password_confirmation">Confirme a senha</label>
+              <input v-model="password_confirmation" class="form-control" type="password" required
+                     id="password_confirmation"
+                     placeholder="">
+            </div>
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="checkbox-signup" required>
+                <label class="custom-control-label" for="checkbox-signup">Eu lí <a
+                  href="javascript: void(0);" class="text-muted"> e concordo com termos e politicas do
+                  site.</a></label>
               </div>
-              <div class="form-group">
-                <label for="emailaddress">Email</label>
-                <input v-model="email" class="form-control" type="email" id="emailaddress" placeholder="" required>
-              </div>
-              <div class="form-group">
-                <label for="password">Senha</label>
-                <input v-model="password" class="form-control" type="password" required id="password"
-                       placeholder="">
-              </div>
-              <div class="form-group">
-                <label for="password_confirmation">Confirme a senha</label>
-                <input v-model="password_confirmation" class="form-control" type="password" required
-                       id="password_confirmation"
-                       placeholder="">
-              </div>
-              <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="checkbox-signup" required>
-                  <label class="custom-control-label" for="checkbox-signup">Eu lí <a
-                    href="javascript: void(0);" class="text-muted"> e concordo com termos e politicas do site.</a></label>
-                </div>
-              </div>
-              <div class="form-group mb-0 text-center">
-                <button class="btn btn-primary btn-block" v-on:click="register"><i class="mdi mdi-account-circle"></i>
-                  Cadastre-se
-                </button>
-              </div>
+            </div>
+            <div class="form-group mb-0 text-center">
+              <button class="btn btn-primary btn-block" v-on:click="register"><i class="mdi mdi-account-circle"></i>
+                Cadastre-se
+              </button>
             </div>
 
 
@@ -121,7 +120,6 @@
                 // axios.post('http://localhost:8000/api/register_web', data,{
                 axios.post('https://service.encontrei.online/api/register_web', data,{
                 }).then(response => {
-
                     if (response.data.token) {
                         this.toast('Cadastrado com sucesso!', '#73b730');
                         this.$router.push('/login');
