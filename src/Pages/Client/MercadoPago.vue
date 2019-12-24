@@ -19,7 +19,7 @@
 							<ul>
 								<li>
 									<label for="email">Email</label>
-									<input type="email" id="email" name="email" value="test_user_19653727@testuser.com"  placeholder="your email"/>
+									<input v-model="email" type="email" id="email" name="email" value="test_user_19653727@testuser.com"  placeholder="your email"/>
 								</li>
 								<li>
 									<label for="cardNumber">Credit card number:</label>
@@ -54,9 +54,10 @@
 									<select id="installments" class="form-control" name="installments"></select>
 								</li>
 							</ul>
-							<input type="hidden" name="amount" id="amount"/>
+							<input v-model="transaction_amount" type="hidden" name="amount" id="amount"/>
+							<input v-model="payment_method_id" type="hidden" name="paymentMethodId" />
 							<input type="hidden" name="description"/>
-							<input type="hidden" name="paymentMethodId" />
+							<input @change="teste()" id="token_mercado" name="token_mercado" type="hidden" v-model="token_mercado"/>
 							<input type="submit" value="Pay!" />
 						</fieldset>
 					</form>
@@ -70,104 +71,6 @@
 		</div>
 	</div>
 </template>
-<script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
-<script type="text/javascript">
-	window.Mercadopago.setPublishableKey("TEST-026ae7c3-3cff-43df-8557-11582630dd75");
-	window.Mercadopago.getIdentificationTypes();
-
-	// function addEvent(to, type, fn){
-	// 	if(document.addEventListener){
-	// 		to.addEventListener(type, fn, false);
-	// 	} else if(document.attachEvent){
-	// 		to.attachEvent('on'+type, fn);
-	// 	} else {
-	// 		to['on'+type] = fn;
-	// 	}
-	// };
-
-	addEvent(document.querySelector('#cardNumber'), 'keyup', guessingPaymentMethod);
-	addEvent(document.querySelector('#cardNumber'), 'change', guessingPaymentMethod);
-
-	// function getBin() {
-	// 	const cardnumber = document.getElementById("cardNumber");
-	// 	return cardnumber.value.substring(0,6);
-	// };
-
-	// function guessingPaymentMethod(event) {
-	// 	var bin = getBin();
-
-	// 	if (event.type == "keyup") {
-	// 		if (bin.length >= 6) {
-	// 			window.Mercadopago.getPaymentMethod({
-	// 				"bin": bin
-	// 			}, setPaymentMethodInfo);
-	// 		}
-	// 	} else {
-	// 		setTimeout(function() {
-	// 			if (bin.length >= 6) {
-	// 				window.Mercadopago.getPaymentMethod({
-	// 					"bin": bin
-	// 				}, setPaymentMethodInfo);
-	// 			}
-	// 		}, 100);
-	// 	}
-	// };
-
-	// function setPaymentMethodInfo(status, response) {
-	// 	if (status == 200) {
-	// 		const paymentMethodElement = document.querySelector('input[name=paymentMethodId]');
-
-	// 		if (paymentMethodElement) {
-	// 			paymentMethodElement.value = response[0].id;
-	// 		} else {
-	// 			const input = document.createElement('input');
-	// 			input.setAttribute('name', 'paymentMethodId');
-	// 			input.setAttribute('type', 'hidden');
-	// 			input.setAttribute('value', response[0].id);     
-
-	// 			form.appendChild(input);
-	// 		}
-
-	// 		Mercadopago.getInstallments({
-	// 			"bin": getBin(),
-	// 			"amount": parseFloat(document.querySelector('#amount').value),
-	// 		}, setInstallmentInfo);
-
-	// 	} else {
-	// 		alert(`payment method info error: ${response}`);  
-	// 	}
-	// };
-
-	// doSubmit = false;
-	// addEvent(document.querySelector('#pay'), 'submit', doPay);
-	// function doPay(event){
-	// 	alert("Entrou!");
-	// 	event.preventDefault();
-	// 	if(!doSubmit){
-	// 		var $form = document.querySelector('#pay');
-
-	// 		window.Mercadopago.createToken($form, sdkResponseHandler); // The function "sdkResponseHandler" is defined below
-
-	// 		return false;
-	// 	}
-	// };
-
-	// function sdkResponseHandler(status, response) {
-	// 	if (status != 200 && status != 201) {
-	// 		alert("verify filled data");
-	// 	}else{
-	// 		var form = document.querySelector('#pay');
-	// 		var card = document.createElement('input');
-	// 		card.setAttribute('name', 'token');
-	// 		card.setAttribute('type', 'hidden');
-	// 		card.setAttribute('value', response.id);
-	// 		form.appendChild(card);
-	// 		console.log(card);
-	// 		// doSubmit=true;
-	// 		// form.submit();
-	// 	}
-	// };
-</script>
 <script>
 
 	import TopMenu from '@/components/TopMenu'
@@ -195,12 +98,17 @@
 				user:	JSON.parse(sessionStorage.getItem('usuario')),
 				loadingPage: false,
 				doSubmit: false,
+				email: '',
+				token_mercado: '',
+				transaction_amount: '',
+				payment_method_id: '',
 			}
 		},
 		created() {
 			let usuarioAux = sessionStorage.getItem('usuario')
 			if (usuarioAux) {
 				this.usuario = JSON.parse(usuarioAux)
+				this.email = this.usuario.email;
 			} else {
 				this.$router.push('/login');
 			}
@@ -213,29 +121,36 @@
 					.map(f => {
 						return { text: f.label, value: f.key }
 					})
-			}
+			},
 		},
-		// mounted() {
-		// 	// Set the initial number of items
-		// 	this.totalRows = this.items.length
-		// },
 		methods: {
-			// onFiltered(filteredItems) {
-			// 	// Trigger pagination to update the number of buttons/pages due to filtering
-			// 	this.totalRows = filteredItems.length
-			// 	this.currentPage = 1
-			// },
+			teste(){
+				console.log(this.token_mercado);
+			},
 
 			onSubmit(){
-				alert("Apertou!");
-				event.preventDefault();
-				if(!doSubmit){
-					var $form = document.querySelector('#pay');
+				// this.loadingPage = true;
+				console.log("Entrou!");
 
-					window.Mercadopago.createToken($form, sdkResponseHandler); // The function "sdkResponseHandler" is defined below
+				let loopToken = setInterval(function(){
+					console.log(data.token_mercado.value);
+					if (data.token_mercado.value) {
+						console.log(this.loadingPage);
+						this.getValida();
+						clearInterval(loopToken);
 
-					return false;
-				}
+						// axios.get('http://localhost:8000/api/mercadoPago', {
+						// }).then(response => {
+						// 	console.log("Passou!");
+						// 	this.loadingPage = false;
+						// })
+
+					}
+				}, 500);
+			},
+
+			getValida(){
+				console.log("Valida em valida!");
 			},
 
 			toast(nome){
@@ -256,101 +171,6 @@
 					title: nome
 				});
 			},
-
-
-			addEvent(to, type, fn){
-				if(document.addEventListener){
-					to.addEventListener(type, fn, false);
-				} else if(document.attachEvent){
-					to.attachEvent('on'+type, fn);
-				} else {
-					to['on'+type] = fn;
-				}
-			},
-
-			// addEvent(document.querySelector('#cardNumber'), 'keyup', guessingPaymentMethod);
-			// addEvent(document.querySelector('#cardNumber'), 'change', guessingPaymentMethod);
-
-			getBin() {
-				const cardnumber = document.getElementById("cardNumber");
-				return cardnumber.value.substring(0,6);
-			},
-
-			guessingPaymentMethod(event) {
-				var bin = getBin();
-
-				if (event.type == "keyup") {
-					if (bin.length >= 6) {
-						window.Mercadopago.getPaymentMethod({
-							"bin": bin
-						}, setPaymentMethodInfo);
-					}
-				} else {
-					setTimeout(function() {
-						if (bin.length >= 6) {
-							window.Mercadopago.getPaymentMethod({
-								"bin": bin
-							}, setPaymentMethodInfo);
-						}
-					}, 100);
-				}
-			},
-
-			setPaymentMethodInfo(status, response) {
-				if (status == 200) {
-					const paymentMethodElement = document.querySelector('input[name=paymentMethodId]');
-
-					if (paymentMethodElement) {
-						paymentMethodElement.value = response[0].id;
-					} else {
-						const input = document.createElement('input');
-						input.setAttribute('name', 'paymentMethodId');
-						input.setAttribute('type', 'hidden');
-						input.setAttribute('value', response[0].id);     
-
-						form.appendChild(input);
-					}
-
-					Mercadopago.getInstallments({
-						"bin": getBin(),
-						"amount": parseFloat(document.querySelector('#amount').value),
-					}, setInstallmentInfo);
-
-				} else {
-					alert(`payment method info error: ${response}`);  
-				}
-			},
-
-			// doSubmit = false;
-			// addEvent(document.querySelector('#pay'), 'submit', doPay);
-			doPay(event){
-				alert("Entrou!");
-				event.preventDefault();
-				if(!doSubmit){
-					var $form = document.querySelector('#pay');
-
-					window.Mercadopago.createToken($form, sdkResponseHandler); // The function "sdkResponseHandler" is defined below
-
-					return false;
-				}
-			},
-
-			sdkResponseHandler(status, response) {
-				if (status != 200 && status != 201) {
-					alert("verify filled data");
-				}else{
-					var form = document.querySelector('#pay');
-					var card = document.createElement('input');
-					card.setAttribute('name', 'token');
-					card.setAttribute('type', 'hidden');
-					card.setAttribute('value', response.id);
-					form.appendChild(card);
-					console.log(card);
-					// doSubmit=true;
-					// form.submit();
-				}
-			},
-
 		}
 
 	};
