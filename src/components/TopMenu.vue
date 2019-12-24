@@ -143,10 +143,10 @@
 <!--            <span class="align-middle">Dados Cadastrais</span>-->
 <!--          </router-link>-->
 
-          <router-link to="/bloquear-tela" class="dropdown-item notify-item">
-            <i class="mdi mdi-lock-outline mr-1"></i>
-            <span class="align-middle">Bloquear Tela</span>
-          </router-link>
+<!--          <router-link to="/bloquear-tela" class="dropdown-item notify-item">-->
+<!--            <i class="mdi mdi-lock-outline mr-1"></i>-->
+<!--            <span class="align-middle">Bloquear Tela</span>-->
+<!--          </router-link>-->
 
           <!-- item-->
           <button v-on:click="logout" class="dropdown-item notify-item">

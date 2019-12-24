@@ -3,14 +3,14 @@
     <div class="slimscroll-menu" id="left-side-menu-container">
 
       <b-navbar-nav id="accordion" class="left-side-menu overflow-auto">
-        <sidebar-logo logo="/static/images/logo-light.png" heigth="120"/>
+        <sidebar-logo logo="/static/images/logo-white-vertical.svg" heigth="120"/>
         <sidebar-vue sectionName="Parceiros">
 
-          <sidebar-item icon="dripicons-meter" link="/usuario/" text="DASHBOARD" style="font-size: 1rem !important;"/>
-          <sidebar-item icon="dripicons-stack" link="/usuario/meus-dados" text="DADOS CADASTRAIS" style="font-size: 1rem !important;"/>
-          <sidebar-item icon="dripicons-view-list" link="/usuario/produtos" text="PRODUTOS" style="font-size: 1rem !important;"/>
-          <sidebar-item icon="dripicons-user-id" link="/usuario/relatorio/produtos" text="RELATÓRIO PRODUTOS" style="font-size: 1rem !important;"/>
-          <sidebar-item icon="dripicons-user-id" link="/usuario/relatorio" text="RELATÓRIO PERFIL" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-meter" link="/usuario/" text="Dashboard" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-stack" link="/usuario/meus-dados" text="Dados Cadastrais" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-view-list" link="/usuario/produtos" text="Produtos" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-user-id" link="/usuario/relatorio/produtos" text="Relatório Produtos" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-user-id" link="/usuario/relatorio" text="Relatório Perfil" style="font-size: 1rem !important;"/>
 <!--          <sidebar-item icon="dripicons-user" link="/dados-usuario" text="MEUS DADOS" style="font-size: 1rem !important;"/>-->
 
           <div class="slimScrollBar" style="background: rgb(158, 165, 171); width: 8px; position: absolute; top: 1px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 731.378px;"></div>
