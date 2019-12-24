@@ -23,55 +23,33 @@
             <p class="text-muted mb-4">Insira seu email e senha para acessar sua área de negócios</p>
 
             <!-- form -->
-            <!--          <form action="#">-->
-            <div class="form-group">
-              <label for="emailaddress">Email</label>
-              <input v-model="email" class="form-control" type="email" id="emailaddress" required=""
-                     placeholder="Seu email">
-            </div>
-            <div class="form-group">
-
-              <Link link="/esqueceu-senha" classe="text-muted float-right" text="Esqueceu sua senha?"/>
-              <!--              <a href="limkr-esqueceu-senha.html" class="text-muted float-right"><small>Esqueceu sua senha?</small></a>-->
-              <label for="password">Senha</label>
-              <input v-model="password" class="form-control" type="password" required="" id="password"
-                     placeholder="Sua senha">
-            </div>
-            <div class="form-group mb-3">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="checkbox-signin">
-                <label class="custom-control-label" for="checkbox-signin">Lembrar-me</label>
+            <div class="formulario" v-on:keyup.enter="login">
+              <div class="form-group">
+                <label for="emailaddress">Email</label>
+                <input v-model="email" class="form-control" type="email" id="emailaddress" required=""
+                       placeholder="Seu email">
               </div>
+              <div class="form-group">
+
+                <Link link="/esqueceu-senha" classe="text-muted float-right" text="Esqueceu sua senha?"/>
+                <!--              <a href="limkr-esqueceu-senha.html" class="text-muted float-right"><small>Esqueceu sua senha?</small></a>-->
+                <label for="password">Senha</label>
+                <input v-model="password" class="form-control" type="password" required="" id="password"
+                       placeholder="Sua senha">
+              </div>
+              <div class="form-group mb-3">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="checkbox-signin">
+                  <label class="custom-control-label" for="checkbox-signin">Lembrar-me</label>
+                </div>
+              </div>
+              <div class="form-group mb-0 text-center">
+                <button class="btn btn-primary btn-block" v-on:click="login"><i class="mdi mdi-login"></i> Entrar
+                </button>
+              </div>
+              <!-- end form-->
             </div>
-            <div class="form-group mb-0 text-center">
-              <button class="btn btn-primary btn-block" v-on:click="login"><i class="mdi mdi-login"></i> Entrar
-              </button>
-            </div>
-            <!-- social
-            <div class="text-center mt-4">
-                <p class="text-muted font-16">Entrar com</p>
-                <ul class="social-list list-inline mt-3">
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i
-                                class="mdi mdi-facebook"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i
-                                class="mdi mdi-google"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-info text-info"><i
-                                class="mdi mdi-twitter"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i
-                                class="mdi mdi-github-circle"></i></a>
-                    </li>
-                </ul>
-            </div>
-            -->
-            <!--          </form>-->
-            <!-- end form-->
+
 
             <!-- Footer-->
             <footer class="footer footer-alt">

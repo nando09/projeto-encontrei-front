@@ -3,10 +3,10 @@
     <div class="slimscroll-menu" id="left-side-menu-container">
 
       <b-navbar-nav id="accordion" class="left-side-menu overflow-auto">
-        <sidebar-logo logo="/static/images/logo-light.png" heigth="120"/>
+        <sidebar-logo logo="/static/images/logo-white-vertical.svg" heigth="120"/>
         <sidebar-vue sectionName="Administração">
 
-          <sidebar-item icon="dripicons-meter" link="/" text="DASHBOARD" style="font-size: 1rem !important;"/>
+          <sidebar-item icon="dripicons-meter" link="/" text="Dashboard" style="font-size: 1rem !important;"/>
 
 
 
@@ -30,7 +30,7 @@
 
 
 
-          <sidebar-collapse icon="dripicons-clipboard" title="RELATÓRIOS" >
+          <sidebar-collapse icon="dripicons-clipboard" title="Relatórios" >
             <sidebar-item link="/relatorio/usuario" text="Usuário"/>
 <!--            <sidebar-item link="/relatorio/parceiro" text="Lojista"/>-->
             <sidebar-item link="/relatorio/acesso-lojista-prestador" text="Acesso a lojista/prestador"/>
