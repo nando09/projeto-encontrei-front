@@ -5,6 +5,9 @@
 			<div></div>
 			<div></div>
 		</div>
+		<div id="loadAguarde">
+			<p>Aguarde...</p>
+		</div>
 		<SidebarClient title="Área do Usuário"/>
 		<div class="content-page">
 
@@ -23,7 +26,7 @@
 								</li>
 								<li>
 									<label for="cardNumber">Credit card number:</label>
-									<input type="text" id="cardNumber" data-checkout="cardNumber" placeholder="4509 9535 6623 3704" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+									<input v-model="number_card" type="text" id="cardNumber" data-checkout="cardNumber" placeholder="4509 9535 6623 3704" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
 								</li>
 								<li>
 									<label for="securityCode">Security code:</label>
@@ -55,7 +58,7 @@
 								</li>
 							</ul>
 							<input v-model="transaction_amount" name="amount" id="amount"/>
-							<input v-model="payment_method_id" name="paymentMethodId" />
+							<input v-model="payment_method_id" id="paymentMethodId" name="paymentMethodId" />
 							<input name="description"/>
 							<input id="token_mercado" name="token_mercado" value="1" v-model="token_mercado"/>
 							<input type="submit" value="Pay!" />
@@ -103,14 +106,20 @@
 				transaction_amount: 100.00,
 				payment_method_id: '',
 				installments: '',
+				number_card: '',
+				tipo_card: '',
 			}
+		},
+		watch: {
+			number_card: function (val) {
+				console.log(document.getElementById("paymentMethodId").value);
+				this.tipo_card = document.getElementById("paymentMethodId").value;
+			},
 		},
 		created() {
 			let usuarioAux = sessionStorage.getItem('usuario')
 			if (usuarioAux) {
 				this.usuario = JSON.parse(usuarioAux)
-				this.transaction_amount		=	1;
-				this.payment_method_id		=	'master';
 				this.email = this.usuario.email;
 			} else {
 				this.$router.push('/login');
@@ -127,17 +136,14 @@
 			},
 		},
 		methods: {
-			teste(){
-				console.log(this.token_mercado);
-			},
-
 			onSubmit(){
-				this.loadingPage = true;
-				console.log(this.payment_method_id);
+				document.getElementById("loadAguarde").style.display = "inline-block";
+				console.log(this.tipo_card);
 				var email				=	this.email;
 				var transaction_amount	=	this.transaction_amount;
-				var payment_method_id	=	this.payment_method_id;
+				var payment_method_id	=	this.tipo_card;
 				var Installments		=	this.installments;
+				var usuario				=	this.usuario.token;
 
 				let loopToken = setInterval(function(){
 					var token_mercado		=	this.token_mercado.value;
@@ -152,68 +158,62 @@
 							installments:			installments.value,
 						};
 
-						// this.teste(true);
-
-						console.log(data);
+						console.log(usuario);
 						clearInterval(loopToken);
-						// axios.post('http://localhost:8000/api/register_web', data,{
-						axios.post('http://localhost:8000/api/mercadoPago', data,{
-						}).then(response => {
-							load = false;
+				        axios.post("https://service.encontrei.online/api/mercadoPago",
+						// axios.post('http://localhost:8000/api/mercadoPago',
+							data,
+							{
+								headers: {
+									"Content-Type": "application/json",
+									Authorization: "Bearer " + usuario
+								}
+							}
+						).then(response => {
+							document.getElementById("loadAguarde").style.display = "none";
+
+							if (response.data.status == 'approved') {
+								if (response.data.detail == 'accredited')
+									alert('Pronto, seu pagamento foi aprovado!');
+							}else if(response.data.status == 'in_process'){
+								if (response.data.detail == 'pending_contingency')
+									alert('Estamos processando o pagamento. Em até 2 dias úteis informaremos por e-mail o resultado.');
+								else if(response.data.detail == 'pending_review_manual')
+									alert('Estamos processando o pagamento. Em até 2 dias úteis informaremos por e-mail se foi aprovado ou se precisamos de mais informações.');
+							}else{
+								if(response.data.detail == 'cc_rejected_bad_filled_card_number')
+									alert('Confira o número do cartão.');
+								else if(response.data.detail == 'cc_rejected_bad_filled_date')
+									alert('Confira a data de validade.');
+								else if(response.data.detail == 'cc_rejected_bad_filled_other')
+									alert('Confira os dados.');
+								else if(response.data.detail == 'cc_rejected_bad_filled_security_code')
+									alert('Confira o código de segurança.');
+								else if(response.data.detail == 'cc_rejected_blacklist')
+									alert('Não conseguimos processar seu pagamento.');
+								else if(response.data.detail == 'cc_rejected_call_for_authorize')
+									alert('Você deve autorizar ao '+ data.payment_method_id +' o pagamento do valor ao Mercado Pago.');
+								else if(response.data.detail == 'cc_rejected_card_disabled')
+									alert('Ligue para o '+ data.payment_method_id +' para ativar seu cartão. O telefone está no verso do seu cartão.');
+								else if(response.data.detail == 'cc_rejected_card_error')
+									alert('Não conseguimos processar seu pagamento.');
+								else if(response.data.detail == 'cc_rejected_duplicated_payment')
+									alert('Você já efetuou um pagamento com esse valor. Caso precise pagar novamente, utilize outro cartão ou outra forma de pagamento.');
+								else if(response.data.detail == 'cc_rejected_high_risk')
+									alert('Seu pagamento foi recusado. Escolha outra forma de pagamento. Recomendamos meios de pagamento em dinheiro.');
+								else if(response.data.detail == 'cc_rejected_insufficient_amount')
+									alert('O '+ data.payment_method_id +' possui saldo insuficiente.');
+								else if(response.data.detail == 'cc_rejected_invalid_installments')
+									alert('O '+ data.payment_method_id +' não processa pagamentos parcelados.');
+								else if(response.data.detail == 'cc_rejected_max_attempts')
+									alert('Você atingiu o limite de tentativas permitido. Escolha outro cartão ou outra forma de pagamento.');
+								else if(response.data.detail == 'cc_rejected_other_reason')
+									alert('O '+ data.payment_method_id +' não processou seu pagamento.');
+							}
 						})
 
 					}
 				}, 1000);
-
-				// function teste(){
-				// 	var token_mercado		=	this.token_mercado.value;
-				// 	this.loadingPage = false;
-
-				// 	if (token_mercado) {
-				// 		let data = {
-				// 			email:					email,
-				// 			transaction_amount:		transaction_amount,
-				// 			payment_method_id:		payment_method_id,
-				// 			token:					token_mercado,
-				// 		};
-
-				// 		// this.teste(true);
-
-				// 		console.log(data);
-				// 		clearInterval(loopToken);
-				// 		// // axios.post('http://localhost:8000/api/register_web', data,{
-				// 		// axios.post('http://localhost:8000/api/mercadoPago', data,{
-				// 		// }).then(response => {
-				// 		// 	load = false;
-				// 		// })
-
-				// 	}
-				// }
-			},
-
-			teste(){
-				var token_mercado		=	this.token_mercado.value;
-				this.loadingPage = false;
-
-				if (token_mercado) {
-					let data = {
-						email:					email,
-						transaction_amount:		transaction_amount,
-						payment_method_id:		payment_method_id,
-						token:					token_mercado,
-					};
-
-					// this.teste(true);
-
-					console.log(data);
-					clearInterval(loopToken);
-					// // axios.post('http://localhost:8000/api/register_web', data,{
-					// axios.post('http://localhost:8000/api/mercadoPago', data,{
-					// }).then(response => {
-					// 	load = false;
-					// })
-
-				}
 			},
 
 			toast(nome){
@@ -240,6 +240,24 @@
 </script>
 
 <style>
+	#loadAguarde{
+		/*display: inline-block;*/
+		display: none;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 9999;
+		text-align: center;
+		background: rgba(40, 167, 69, 0.1);
+	}
+
+	#loadAguarde p{
+		display: inline-block;
+		margin-top: 40vh;
+		font-size: 30px;
+		font-weight: bold;
+	}
+
 	.swal2-popup.swal2-toast .swal2-title {
 		color: white;
 	}

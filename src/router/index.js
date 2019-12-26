@@ -34,6 +34,7 @@ import Products from '@/Pages/Client/Products'
 import AccessReport from '@/Pages/Client/AccessReport'
 import RelatorioProdutosCliente from '@/Pages/Client/RelatorioProdutosCliente'
 import MercadoPago from '@/Pages/Client/MercadoPago'
+import PagSeguro from '@/Pages/Client/PagSeguro'
 
 
 
@@ -165,6 +166,11 @@ export default new Router({
           path: 'pagamento',
           name: 'pagamento',
           component: MercadoPago
+        },
+        {
+          path: 'pagSeguro',
+          name: 'pagSeguro',
+          component: PagSeguro
         }
       ]
     }
