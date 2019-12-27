@@ -19,11 +19,28 @@
 					<PageTitle home="Início" category="Relatórios" sub-category="Produtos" titulo="Pagamento"/>
 					<!-- end page title -->
 					<!-- <button @click="pagamento()">Pagar</button> -->
-
+					<input type="text" id="bandeira">
+					<span id="msg"></span>
 					<form v-on:submit.prevent="onSubmit">
 						<label>Numero do cartão</label>
 						<input v-model="cartao" type="text" name="numCartao" id="numCartao">
+						<select @change="valorParcelaSelect" v-if="select_parcelas" name="qntParcelas" id="qntParcelas" class="select-qnt-parcelas">
+							<option value="">Selecione</option>
+						</select>
+
+						<label>Valor Parcelas</label>
+						<input type="text" name="valorParcelas" id="valorParcelas"><br>
+						
+						<label>Token do cartão</label>
+						<input type="text" name="tokenCartao" id="tokenCartao">
+
+						<label>Identificador com os dados do comprador </label>
+						<input type="text" name="hashCartao" id="hashCartao">
+
+						<input type="submit" name="btnComprar" id="btnComprar" value="Comprar">
 					</form>
+
+					<div class="bandeira-cartao"></div>
 
 					<div class="meio-pag">
 					</div>
@@ -62,7 +79,9 @@
 				user:	JSON.parse(sessionStorage.getItem('usuario')),
 				loadingPage: false,
 				cartoes: '',
-				cartao: ''
+				cartao: '',
+				amount: 1600.00,
+				select_parcelas: false,
 			}
 		},
 		watch: {
@@ -92,6 +111,13 @@
 		},
 		methods: {
 			onSubmit(){
+				PagSeguroDirectPayment.onSenderHashReady(function (retorno) {
+					/*if (response.status == 'error') {
+						console.log(response.message);
+						return false;
+					}*/
+					$("#hashCartao").val(retorno.senderHash);
+				});
 			},
 
 			pagamento(){
@@ -112,7 +138,7 @@
 
 			listaPag(){
 				PagSeguroDirectPayment.getPaymentMethods({
-					amount: 500.00,
+					amount: this.amount,
 					success: function(retorno) {
 						$('.meio-pag').append("<div>Cartão de Crédito</div>");
 						$.each(retorno.paymentMethods.CREDIT_CARD.options, function(i, obj){
@@ -142,6 +168,7 @@
 						// Callback para todas chamadas.
 					}
 				});
+				this.recupTokemCartao();
 			},
 
 			toast(nome){
@@ -166,6 +193,7 @@
 			bandeira(val){
 				var numCartao = val;
 				var qntNumero = numCartao.length;
+				var imgBand = $("#bandeira").val();
 
 				if (qntNumero == 6) {
 					PagSeguroDirectPayment.getBrand({
@@ -173,20 +201,84 @@
 						success: function (retorno) {
 							//console.log(retorno);
 							$('#msg').empty();
-							var imgBand = retorno.brand.name;
+							$("#bandeira").val(retorno.brand.name);
+							imgBand = retorno.brand.name;
 							$('.bandeira-cartao').html("<img src='https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/42x20/" + imgBand + ".png'>");
 						},
 						error: function (retorno) {
 							$('.bandeira-cartao').empty();
+							$("#bandeira").val('');
 							$('#msg').html("Cartão inválido");
 						},
 						complete: function (retorno) {
 							//tratamento comum para todas chamadas
 						}
 					});
+
+				}else if (imgBand && qntNumero == 8){
+					this.recupParcelas();
+					this.select_parcelas = true;
+				}else if (!imgBand) {
+					this.select_parcelas = false;
 				}
+			},
+
+			recupParcelas(){
+				var bandeira = $("#bandeira").val();
+				console.log(bandeira);
+				var amount = this.amount;
+				PagSeguroDirectPayment.getInstallments({
+					amount: amount,
+					maxInstallmentNoInterest: 3,
+					brand: bandeira,
+					success: function (retorno) {
+						console.log(retorno)
+						$.each(retorno.installments, function (ia, obja) {
+							$.each(obja, function (ib, objb) {
+								var valorParcela = objb.installmentAmount.toFixed(2).replace(".", ",");
+								// $('#qntParcelas').show().append("<option value='" + objb.installmentAmount + "'>" + objb.quantity + " parcelas de R$ " + valorParcela + "</option>");
+								$('#qntParcelas').show().append("<option value='" + objb.quantity + "' data-parcelas='" + objb.installmentAmount + "'>" + objb.quantity + " parcelas de R$ " + valorParcela + "</option>");
+							});
+						});
+					},
+					error: function (retorno) {
+						console.log(retorno);
+						// callback para chamadas que falharam.
+					},
+					complete: function (retorno) {
+						console.log(retorno);
+						// Callback para todas chamadas.
+					}
+				});
+			},
+
+			recupTokemCartao: function() {
+				console.log("Entrou!");
+				PagSeguroDirectPayment.createCardToken({
+					cardNumber: '4111111111111111', // Número do cartão de crédito
+					brand: 'visa', // Bandeira do cartão
+					cvv: '123', // CVV do cartão
+					expirationMonth: '12', // Mês da expiração do cartão
+					expirationYear: '2030', // Ano da expiração do cartão, é necessário os 4 dígitos.
+					success: function (retorno) {
+						console.log(retorno)
+						$('#tokenCartao').val(retorno.card.token);
+					},
+					error: function (retorno) {
+						// Callback para chamadas que falharam.
+					},
+					complete: function (retorno) {
+						// Callback para todas chamadas.
+					}
+				});
+			},
+
+			valorParcelaSelect(){
+				console.log("valorParcela");
+				$('#valorParcelas').val($('#qntParcelas').find(':selected').attr('data-parcelas'));
 			}
-		}
+		},
+
 
 	};
 </script>
@@ -266,5 +358,8 @@
 			top: 24px;
 			height: 32px;
 		}
+	}
+	#bandeira{
+		display: none;
 	}
 </style>
