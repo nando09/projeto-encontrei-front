@@ -370,3 +370,8 @@ a.text-primary:hover, a.text-primary:focus {
 
 /*#73B730*/
 /*#508022*/
+
+#msg{
+  color: red;
+  font-weight: bold;
+}
