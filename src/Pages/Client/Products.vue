@@ -27,14 +27,14 @@
                   <h4 class="header-title mb-3">Novo Produto</h4>
 
                   <div class="row">
-                    <div class="col-md-12">
+<!--                     <div class="col-md-12">
                       <input
                         @change="uploadExcel"
                         type="file"
                         class="custom-file-input"
                         ref="files"
                         accept="image">
-                    </div>
+                    </div> -->
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Nome do Produto:</label>
@@ -57,7 +57,6 @@
                           <input
                             @change="uploadImage"
                             type="file"
-                            multiple
                             class="custom-file-input"
                             id="inputGroupFile04"
                             ref="files"
