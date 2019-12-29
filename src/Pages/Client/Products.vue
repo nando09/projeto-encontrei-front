@@ -24,17 +24,32 @@
               <div class="card">
                 <div class="card-body" v-on:keyup.enter="cadastrarProduto()">
 
+
                   <h4 class="header-title mb-3">Novo Produto</h4>
 
+                  <label>Excel</label>
                   <div class="row">
-<!--                     <div class="col-md-12">
-                      <input
-                        @change="uploadExcel"
-                        type="file"
-                        class="custom-file-input"
-                        ref="files"
-                        accept="image">
-                    </div> -->
+                    <div class="col-md-5">
+                      <div class="input-group">
+                        <div class="custom-file">
+                          <input
+                            @change="uploadExcel"
+                            type="file"
+                            ref="arquivo"
+                            accept="excelFileArq"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <button class="btn btn-primary" @click="cadastrarProdutoPorExcel()">Subir Excel</button>
+                    </div>
+                  </div>
+                  <br>
+
+                  <hr>
+
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Nome do Produto:</label>
@@ -118,6 +133,7 @@
         nome: '',
         preco: '',
         photo: "",
+        excel: '',
         loadingPage: false,
       };
     },
@@ -214,6 +230,7 @@
     methods: {
       cadastrarProduto(){
         this.loadingPage = true;
+          console.log(this.image);
 
         let formData = new FormData();
         formData.append("nome", this.nome);
@@ -249,6 +266,44 @@
           });
       },
 
+      cadastrarProdutoPorExcel(){
+        this.loadingPage = true;
+
+        if (!this.excel == "") {
+          let formData = new FormData();
+          for (var i = 0; i < this.excelFileArq.length; i++) {
+            formData.append('file[]', this.excelFileArq[i]);
+            console.log(this.excelFileArq[i]);
+          }
+
+          console.log(formData);
+          console.log(this.excelFileArq);
+
+          // this.loadingPage = false;
+          axios.post("https://service.encontrei.online/api/excel_product", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: "Bearer " + this.user.token
+            }
+          })
+            .then(response => {
+              this.excel  =   "";
+              this.nome   =   "";
+              this.preco  =   "";
+              this.excelFileArq  =   "";
+              this.photo  =   "";
+              this.loadingPage = false;
+            })
+            .catch(e => {
+              // console.log(e);
+              alert("servidor fora de área");
+            });
+        }else{
+          console.log("Teste!");
+        }
+
+      },
+
       uploadImage(event) {
         let input = event.target;
         if (input.files && input.files[0]) {
@@ -264,20 +319,20 @@
         this.image = this.$refs.files.files;
       },
 
-      uploadExcel(event){
+      uploadExcel(event) {
         let input = event.target;
-        console.log(input);
-        // if (input.files && input.files[0]) {
-        //   let reader = new FileReader();
-        //   reader.onload = e => {
-        // 	this.photo = e.target.result;
-        // 	console.log(e.target.result);
-        //   };
-        //   reader.readAsDataURL(input.files[0]);
-        //   console.log(input.files);
-        // }
+        if (input.arquivo && input.arquivo[0]) {
+          let reader = new FileReader();
+          reader.onload = e => {
+            this.excel = e.target.result;
+            console.log(e.target.result);
+          };
+          reader.readAsDataURL(input.arquivo[0]);
+          console.log(input.arquivo);
+        }
 
-        // this.image = this.$refs.files.files;
+        this.excelFileArq = this.$refs.arquivo.files;
+        this.excel = 123;
       },
 
       toast(nome, cor){
